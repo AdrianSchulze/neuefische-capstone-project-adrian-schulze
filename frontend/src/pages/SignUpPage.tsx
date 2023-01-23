@@ -14,8 +14,8 @@ import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 export default function SignUpPage() {
 
-    const [name, setName] = useState<String>("");
-    const [password, setPassword] = useState<String>("")
+    // const [name, setName] = useState<String>("");
+    // const [password, setPassword] = useState<String>("")
 
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);

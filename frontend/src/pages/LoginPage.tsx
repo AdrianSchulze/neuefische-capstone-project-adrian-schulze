@@ -24,14 +24,14 @@ export default function LoginPage() {
         event.preventDefault();
     };
 
-    const [error, setError] = useState("");
+    //const [error, setError] = useState("");
 
     const navigate = useNavigate();
 
     const login = useCallback(async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        setError("");
+        // setError("");
 
         try {
             await axios.post("/api/users/login", null, {
@@ -44,7 +44,8 @@ export default function LoginPage() {
 
             navigate("/");
         } catch (e) {
-            setError("Invalid username or password");
+            // setError("Invalid username or password");
+            console.log(e);
         }
     }, [navigate, password, username]);
 
