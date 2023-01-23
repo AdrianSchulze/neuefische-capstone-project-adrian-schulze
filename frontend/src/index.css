@@ -4,20 +4,10 @@ html, body {
 }
 
 .login-container {
-  min-height: 100vh;
+  height:100vh;
   display:flex;
 }
 
-.login {
-  margin:auto;
-  width: 40%;
-  height: 350px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
-  border-radius: 5px;
-  border: 1px solid lightgrey;
-  background-color: white;
-}
+/*.login-wrapper {*/
+/*  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;*/
+/*}*/
