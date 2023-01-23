@@ -1,11 +1,10 @@
 package de.neuefische.backend;
 
-import de.neuefische.backend.model.AppUser;
-import de.neuefische.backend.service.AppUserService;
-import lombok.AllArgsConstructor;
+import de.neuefische.backend.appuser.AppUser;
+import de.neuefische.backend.appuser.AppUserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,43 +13,38 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.Optional;
 
-@AllArgsConstructor
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final AppUserService appUserService;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
+
         return http
                 .csrf().disable()
-                .httpBasic().and()
+                .httpBasic().and    ()
                 .authorizeHttpRequests()
-                .antMatchers(
-                        HttpMethod.POST,
-                        "/api/users"
-                ).permitAll()
+                .antMatchers().permitAll()
                 .anyRequest()
-                .authenticated()
+                .permitAll()
                 .and()
                 .build();
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        return username -> {
-            Optional<AppUser> user = appUserService.findByUsername(username);
-
-            if (user.isEmpty()) {
+    public UserDetailsService userDetailsService(){
+        return username -> {            //ToDo
+            Optional<AppUser> myUser  = appUserService.findByUsername(username);
+            if(myUser.isEmpty()){
                 throw new UsernameNotFoundException(username);
             }
-
-            AppUser appUser = user.get();
-
+            AppUser appUser = myUser.get();
             return User.builder()
                     .username(appUser.getUsername())
                     .password(appUser.getPassword())
-                    .roles("BASIC")
+                    .roles(appUser.getRole())
                     .build();
         };
     }

@@ -1,7 +1,8 @@
-package de.neuefische.backend.repo;
+package de.neuefische.backend.channel;
 
-import de.neuefische.backend.model.Channel;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ChannelRepository extends MongoRepository<Channel, String> {
 }

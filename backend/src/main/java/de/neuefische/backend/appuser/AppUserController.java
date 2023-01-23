@@ -1,7 +1,5 @@
-package de.neuefische.backend.controller;
+package de.neuefische.backend.appuser;
 
-import de.neuefische.backend.model.AppUser;
-import de.neuefische.backend.service.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;

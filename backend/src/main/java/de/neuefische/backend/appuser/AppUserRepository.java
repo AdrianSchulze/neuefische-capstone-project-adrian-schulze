@@ -1,10 +1,11 @@
-package de.neuefische.backend.repo;
+package de.neuefische.backend.appuser;
 
-import de.neuefische.backend.model.AppUser;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface AppUserRepository extends MongoRepository<AppUser, String> {
     Optional<AppUser> findByUsername(String username);
 }

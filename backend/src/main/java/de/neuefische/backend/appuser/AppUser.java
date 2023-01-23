@@ -1,4 +1,4 @@
-package de.neuefische.backend.model;
+package de.neuefische.backend.appuser;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

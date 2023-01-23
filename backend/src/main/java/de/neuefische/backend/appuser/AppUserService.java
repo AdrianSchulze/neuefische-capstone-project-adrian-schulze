@@ -1,7 +1,5 @@
-package de.neuefische.backend.service;
+package de.neuefische.backend.appuser;
 
-import de.neuefische.backend.model.AppUser;
-import de.neuefische.backend.repo.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;

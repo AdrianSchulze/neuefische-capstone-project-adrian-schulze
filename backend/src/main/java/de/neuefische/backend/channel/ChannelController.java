@@ -1,4 +1,4 @@
-package de.neuefische.backend.controller;
+package de.neuefische.backend.channel;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
