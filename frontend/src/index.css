@@ -3,6 +3,11 @@ html, body {
   font-family: "Roboto", "Arial", serif;
 }
 
+.navbar {
+  width: 10vw;
+  height: 100vh;
+}
+
 .login-container {
   height:100vh;
   display:flex;

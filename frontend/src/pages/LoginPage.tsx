@@ -1,28 +1,19 @@
 import React, {FormEvent, useCallback, useState} from "react";
 import {
-    Button,
-    FormControl,
+    Avatar,
+    Box,
+    Button, Container, CssBaseline,
     Grid,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    TextField
+    TextField, Typography
 } from "@mui/material";
-import {Visibility, VisibilityOff} from "@mui/icons-material";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import axios from "axios";
 
 export default function LoginPage() {
 
     const [username, setUsername] = useState<String>("");
     const [password, setPassword] = useState<String>("")
-
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-    };
 
     //const [error, setError] = useState("");
 
@@ -41,7 +32,6 @@ export default function LoginPage() {
                     )
                 }
             });
-
             navigate("/");
         } catch (e) {
             // setError("Invalid username or password");
@@ -50,58 +40,67 @@ export default function LoginPage() {
     }, [navigate, password, username]);
 
     return (
-        <div>
-                <form onSubmit={login} className={"login-container"}>
-                    <Grid
-                        container
-                        className={"login-wrapper"}
-                        spacing={0}
-                        direction="column"
-                        alignItems="center"
-                        justifyContent="center"
-                        sx={{my: 'auto'}}
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box
+                sx={{
+                    marginTop: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                <Avatar sx={{ m: 1, background: '#2E3B55'}}>
+                    <LockOutlinedIcon/>
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Sign in
+                </Typography>
+                <Box component="form" onSubmit={login} noValidate sx={{ mt: 1 }}>
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="username"
+                        label="Username"
+                        name="username"
+                        autoComplete="username"
+                        autoFocus
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                        sx={{mb: 0}}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                        color="success"
                     >
-                        <h2>Login</h2>
-                        <TextField sx={{width: '25ch'}}
-                                   label="Username"
-                                   id="outlined-size-small"
-                                   size="small"
-                                   value={username}
-                                   onChange={e => setUsername(e.target.value)}
-                        />
-                        <FormControl sx={{mt: 1, mx: 'auto', width: '25ch'}} variant="outlined">
-                            <InputLabel
-                                htmlFor="outlined-adornment-password"
-                                size={"small"}
-                            >
-                                Password
-                            </InputLabel>
-                            <OutlinedInput
-                                id="outlined-adornment-password"
-                                type={showPassword ? 'text' : 'password'}
-                                value={password}
-                                onChange={e => setPassword(e.target.value)}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                            edge="end"
-                                        >
-                                            {showPassword ? <VisibilityOff/> : <Visibility/>}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                                label="Password"
-                                size="small"
-                            />
-                        </FormControl>
-                        <Button sx={{mt: 2, width: '28.5ch'}} variant="contained" color="success">Login</Button>
-                        {/*<Button sx={{mt: 1, mb: 2}} href="/signup" size="small">Sign Up</Button>*/}
+                        Sign In
+                    </Button>
+                    <Grid container>
+                        <Grid item
+                              sx={{m:"auto"}}>
+                            <Link to={"#"}>
+                                Don't have an account? Sign Up
+                            </Link>
+                        </Grid>
                     </Grid>
-                </form>
-
-        </div>
+                </Box>
+            </Box>
+        </Container>
     );
 }
