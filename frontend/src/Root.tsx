@@ -14,13 +14,32 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import {Button} from "@mui/material";
+import {useState} from "react";
 
 const drawerWidth = 240;
 
 export default function Root() {
-    
+
+    const [show, setShow] = useState(false);
+
+    const toggleShow = () => {
+        setShow(!show)
+    }
 
     return (
+        <>
+            {/* Display Dialog with dark background if clicked on "add channel" */}
+            {show && (<div className={"dialog"}>
+                <div className={"overlay"}>
+                    <div className={"dialog-content"}>
+                        <h2>Halli hallo</h2>
+                        <p>
+                            Hier kommt die Form
+                        </p>
+                        <p className={"close-dialog"} onClick={toggleShow}>X</p>
+                    </div>
+                </div>
+            </div>)}
         <Box sx={{display: 'flex'}}>
             <CssBaseline/>
             <AppBar position="fixed" sx={{zIndex: (theme) => theme.zIndex.drawer + 1, background: '#2e7d32'}}>
@@ -41,6 +60,8 @@ export default function Root() {
                 <Toolbar/>
                 <Box sx={{overflow: 'auto'}}>
                     <List>
+                        {/*Display all channels in the sidebar that the user added*/}
+                        {/*CURRENTLY NO FUNCTION*/}
                         {['Home'].map((text, index) => (
                             <ListItem key={text} disablePadding>
                                 <ListItemButton>
@@ -54,10 +75,11 @@ export default function Root() {
                     </List>
                     <Divider/>
                     <Box textAlign='center'>
-                        <Button variant="outlined" sx={{mt: 5}}>Add Channel</Button>
+                        <Button variant="outlined" sx={{mt: 5}} onClick={toggleShow}>Add Channel</Button>
                     </Box>
                 </Box>
             </Drawer>
+            {/*MAIN CONTENT*/}
             <Box component="main" sx={{flexGrow: 1, p: 3}}>
                 <Toolbar/>
                 <Typography paragraph>
@@ -70,5 +92,6 @@ export default function Root() {
                 </Typography>
             </Box>
         </Box>
+        </>
     );
 }
