@@ -1,20 +1,13 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import AppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import {Button, Dialog} from "@mui/material";
 import DialogAddForm from "./components/DialogAddForm";
+import NavBar from './components/NavBar';
+import SideBar from './components/SideBar';
 
 const drawerWidth = 240;
 
@@ -41,13 +34,7 @@ export default function Root() {
 
             <Box sx={{display: 'flex'}}>
                 <CssBaseline/>
-                <AppBar position="fixed" sx={{zIndex: (theme) => theme.zIndex.drawer + 1, background: '#2e7d32'}}>
-                    <Toolbar>
-                        <Typography variant="h6" noWrap component="div">
-                            Analytics
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
+                <NavBar/>
                 <Drawer
                     variant="permanent"
                     sx={{
@@ -58,21 +45,7 @@ export default function Root() {
                 >
                     <Toolbar/>
                     <Box sx={{overflow: 'auto'}}>
-                        <List>
-                            {/*Display all channels in the sidebar that the user added*/}
-                            {/*CURRENTLY NO FUNCTION*/}
-                            {['Home'].map((text, index) => (
-                                <ListItem key={text} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
-                                        </ListItemIcon>
-                                        <ListItemText primary={text}/>
-                                    </ListItemButton>
-                                </ListItem>
-                            ))}
-                        </List>
-                        <Divider/>
+                        <SideBar/>
                         <Box textAlign='center'>
                             <Button variant="outlined" sx={{mt: 5}} onClick={handleClickOpen}>Add Channel</Button>
                         </Box>
