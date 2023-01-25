@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import * as React from "react";
 
-const settings = ['Profile', 'Dashboard', 'Logout'];
+const settings = ['Home', 'Profile', 'Logout'];
 
 export default function ProfilePicture() {
 

@@ -7,39 +7,67 @@ import {
     TextField
 } from "@mui/material";
 import * as React from "react";
-import {FormEvent, useCallback, useState} from "react";
 import Box from "@mui/material/Box";
-import {FcGoogle} from "react-icons/fc";
-import {BsFacebook} from "react-icons/bs";
-import {FaTiktok} from "react-icons/fa";
+import Channel from "../model/Channel";
 
 
 export default function DialogAddForm(
     {
+        channel,
         open,
-        onClose
+        onClose,
+        onChange,
+        onSubmit
     }: {
+        channel: Channel
         open: boolean,
-        onClose: () => void
+        onClose: () => void,
+        onChange: (channel: Channel) => void,
+        onSubmit: (channel: Channel) => void
     }) {
 
-    const [channel, setChannel] = useState<string>("");
-    const [channelName, setChannelName] = useState<string>("");
+    // <FcGoogle/>{'\u00A0'} - {'\u00A0'}
+    // <BsFacebook/>{'\u00A0'} - {'\u00A0'}
+    // <FaTiktok/>{'\u00A0'} - {'\u00A0'}
 
-    const handleChangeChannel = (event: SelectChangeEvent) => {
-        setChannel(event.target.value);
-    };
+    const options = [
+        {
+            key: 1,
+            label: "Google Ads",
+            name: "google"
+        },
+        {
+            key: 2,
+            label: "Facebook Ads",
+            name: "facebook"
+        },
+        {
+            key: 3,
+            label: "TikTok Ads",
+            name: "tiktok"
+        },
+    ]
 
-    const handleSubmit = useCallback(async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log(channel);
-        console.log(channelName);
+    const handleInput = (e:  React.ChangeEvent<HTMLInputElement>) => {
+        onChange({
+            ...channel,
+            name: e.currentTarget.value
+        });
+    }
 
-    },[channel, channelName])
+    const handleSelect = (e: SelectChangeEvent) => {
+        onChange({
+            ...channel,
+            channel: e.target.value
+        });
+    }
 
     return (
         <>
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{width: '400px'}}>
+            <Box component="form" noValidate sx={{width: '400px'}} onSubmit={e => {
+                e.preventDefault();
+                onSubmit(channel);
+            }}>
                 <DialogTitle>Add a new channel</DialogTitle>
                 <DialogContent>
                     <FormControl sx={{mt: 1, width: 1}}>
@@ -47,15 +75,12 @@ export default function DialogAddForm(
                         <Select
                             labelId="demo-simple-select-helper-label"
                             id="demo-simple-select-helper"
-                            value={channel}
                             label="Channel"
                             fullWidth
                             required
-                            onChange={handleChangeChannel}
+                            onChange={handleSelect}
                         >
-                            <MenuItem value={"google"}><FcGoogle/>{'\u00A0'} - {'\u00A0'}Google Ads</MenuItem>
-                            <MenuItem value={"facebook"}><BsFacebook/>{'\u00A0'} - {'\u00A0'}Facebook Ads</MenuItem>
-                            <MenuItem value={"tiktok"}><FaTiktok/>{'\u00A0'} - {'\u00A0'}TikTok Ads</MenuItem>
+                            {options.map(option => <MenuItem key={option.name} value={option.name}>{option.label}</MenuItem>)}
                         </Select>
                     </FormControl>
                     <TextField
@@ -66,8 +91,8 @@ export default function DialogAddForm(
                         label="Channel name"
                         name="channelname"
                         autoFocus
-                        value={channelName}
-                        onChange={e => setChannelName(e.target.value)}
+                        value={channel.name}
+                        onChange={handleInput}
                         sx={{mb: 0}}
                     />
                 </DialogContent>

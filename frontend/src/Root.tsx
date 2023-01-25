@@ -3,15 +3,23 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import {Button, Dialog} from "@mui/material";
 import DialogAddForm from "./components/DialogAddForm";
 import NavBar from './components/NavBar';
 import SideBar from './components/SideBar';
+import useChannel from "./hooks/useChannel";
+import ChannelTables from './components/ChannelTables';
 
 const drawerWidth = 240;
 
 export default function Root() {
+
+    const {
+        channel,
+        channels,
+        postChannel,
+        setChannel
+    } = useChannel();
 
     const [open, setOpen] = React.useState(false);
 
@@ -27,8 +35,17 @@ export default function Root() {
         <>
 
             <div>
-                <Dialog open={open} onClose={handleClose}>
-                    <DialogAddForm open={open} onClose={handleClose}/>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                >
+                    <DialogAddForm
+                        channel={channel}
+                        open={open}
+                        onClose={handleClose}
+                        onChange={setChannel}
+                        onSubmit={postChannel}
+                    />
                 </Dialog>
             </div>
 
@@ -45,7 +62,7 @@ export default function Root() {
                 >
                     <Toolbar/>
                     <Box sx={{overflow: 'auto'}}>
-                        <SideBar/>
+                        <SideBar channels={channels}/>
                         <Box textAlign='center'>
                             <Button variant="outlined" sx={{mt: 5}} onClick={handleClickOpen}>Add Channel</Button>
                         </Box>
@@ -54,14 +71,7 @@ export default function Root() {
                 {/*MAIN CONTENT*/}
                 <Box component="main" sx={{flexGrow: 1, p: 3}}>
                     <Toolbar/>
-                    <Typography paragraph>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-                        enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-                        imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-                        Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-                        Odio morbi quis commodo odio aenean sed adipiscing.
-                    </Typography>
+                    <ChannelTables/>
                 </Box>
             </Box>
         </>

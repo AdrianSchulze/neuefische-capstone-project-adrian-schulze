@@ -5,12 +5,12 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import Box from "@mui/material/Box";
 import * as React from "react";
+import ChannelSideBar from "./ChannelSideBar";
+import Channel from "../model/Channel";
 
-export default function SideBar  () {
+export default function SideBar  ({channels} : {channels: Channel[]}) {
 
     return (
         <Box sx={{overflow: 'auto'}}>
@@ -26,18 +26,7 @@ export default function SideBar  () {
             </List>
             <Divider/>
             <List>
-                {/*Display all channels in the sidebar that the user added*/}
-                {/*CURRENTLY NO FUNCTION*/}
-                {['Home','Test','Test2','Test3'].map((text, index) => (
-                    <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
-                            </ListItemIcon>
-                            <ListItemText primary={text}/>
-                        </ListItemButton>
-                    </ListItem>
-                ))}
+                <ChannelSideBar channels={channels}/>
             </List>
             <Divider/>
         </Box>

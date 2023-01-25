@@ -1,11 +1,31 @@
 package de.neuefische.backend.channel;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/channels")
 @RequiredArgsConstructor
 public class ChannelController {
+
+    private final ChannelService channelService;
+
+
+    @GetMapping
+    public List<Channel> getAllChannels() {
+        return channelService.getAllChannels();
+    }
+
+    @PostMapping
+    public Channel create(@RequestBody Channel channel) {
+        return channelService.create(channel);
+    }
+
+//    @DeleteMapping
+//    public String delete(@RequestBody Channel channel) {
+//        return channelService.delete(channel);
+//    }
+
 }
