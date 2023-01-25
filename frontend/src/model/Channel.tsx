@@ -1,6 +1,8 @@
-export type Channel = {
- chId : string,
- userId : string,
- chName : string,
- chImage : string
+type Channel = {
+    channel: string;
+    name: string;
+    createdBy: string;
 }
+
+export default Channel;
+

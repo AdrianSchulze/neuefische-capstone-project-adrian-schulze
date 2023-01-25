@@ -35,7 +35,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        return username -> {            //ToDo
+        return username -> {
             Optional<AppUser> myUser  = appUserService.findByUsername(username);
             if(myUser.isEmpty()){
                 throw new UsernameNotFoundException(username);
