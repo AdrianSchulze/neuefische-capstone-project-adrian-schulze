@@ -1,27 +1,13 @@
 import React from 'react';
 import './App.css';
-import LoginPage from "./pages/LoginPage";
-import {Route, Routes} from "react-router-dom";
-import SignUpPage from "./pages/SignUpPage";
+import {BrowserRouter} from "react-router-dom";
 import Root from "./Root";
-import Auth from "./components/Auth";
 
 function App() {
     return (
-        <Routes>
-            <Route path={"/login"} element={<LoginPage/>}/>
-            <Route path={"/signup"} element={<SignUpPage/>}/>
-            <Route path={"/profile/:id"} element={
-                <Auth>
-                    {}
-                </Auth>}
-            />
-            <Route path={"/"} element={
-                <Auth>
-                    <Root/>
-                </Auth>
-            }/>
-        </Routes>
+        <BrowserRouter>
+            <Root/>
+        </BrowserRouter>
     );
 }
 

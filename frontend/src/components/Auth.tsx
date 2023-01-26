@@ -1,33 +1,30 @@
-import React, {useEffect, useState} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
-import axios from "axios";
+import React from "react";
+import {Navigate, useLocation} from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 export default function Auth (
     {
         children,
-    } : {
-        children: React.ReactNode,
+        shouldRedirect = true,
+    }: {
+        children: React.ReactNode
+        shouldRedirect?: boolean,
     }
 ) {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const navigate = useNavigate();
     const location = useLocation();
 
-    useEffect(() => {
-        (async () => {
-            try {
-                await axios.get("/api/users/me");
-                setIsAuthenticated(true);
-            } catch (e) {
-                setIsAuthenticated(false);
-                navigate("/login");
-            }
-        })();
-    }, [location.pathname, navigate]);
+    const {user, isReady} = useAuth();
 
-    return (
-        <>
-            {isAuthenticated && children}
-        </>
+    const navigate = (
+        <Navigate
+            to={isReady && !user
+                ? `/login?redirect=${encodeURIComponent(location.pathname + location.search)}`
+                : "/"}
+        />
     );
+
+    return !isReady
+        ? null
+        : (user ? <>{children}</>
+            : (shouldRedirect ? navigate : null));
 }
