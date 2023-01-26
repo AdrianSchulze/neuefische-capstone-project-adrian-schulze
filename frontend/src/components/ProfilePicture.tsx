@@ -56,8 +56,8 @@ export default function ProfilePicture({appUser}:{appUser: AppUser}) {
                 onClose={handleCloseUserMenu}
             >
                 {settings.map((setting) => (
-                    <Link to={"/"+setting.link}><MenuItem key={setting.key} onClick={handleCloseUserMenu}>
-                       <Typography textAlign="center">{setting.name}</Typography>
+                    <Link to={"/"+setting.link} key={setting.key}><MenuItem key={setting.key} onClick={handleCloseUserMenu}>
+                       <Typography textAlign="center" key={setting.key}>{setting.name}</Typography>
                     </MenuItem></Link>
 
                 ))}

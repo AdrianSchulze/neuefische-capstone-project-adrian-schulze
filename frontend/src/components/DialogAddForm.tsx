@@ -9,6 +9,7 @@ import {
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Channel from "../model/Channel";
+import {useState} from "react";
 
 
 export default function DialogAddForm(
@@ -16,13 +17,13 @@ export default function DialogAddForm(
         channel,
         open,
         onClose,
-        onChange,
+        onChannel,
         onSubmit
     }: {
         channel: Channel
         open: boolean,
         onClose: () => void,
-        onChange: (channel: Channel) => void,
+        onChannel: (channel: Channel) => void,
         onSubmit: (channel: Channel) => void
     }) {
 
@@ -49,18 +50,20 @@ export default function DialogAddForm(
     ]
 
     const handleInput = (e:  React.ChangeEvent<HTMLInputElement>) => {
-        onChange({
+        onChannel({
             ...channel,
             name: e.currentTarget.value
         });
     }
 
     const handleSelect = (e: SelectChangeEvent) => {
-        onChange({
+        onChannel({
             ...channel,
             channel: e.target.value
         });
     }
+
+
 
     return (
         <>
