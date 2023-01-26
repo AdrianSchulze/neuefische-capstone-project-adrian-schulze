@@ -9,12 +9,15 @@ import Box from "@mui/material/Box";
 import * as React from "react";
 import ChannelSideBar from "./ChannelSideBar";
 import Channel from "../model/Channel";
+import AppUser from "../model/AppUser";
+import {Link} from "react-router-dom";
 
-export default function SideBar  ({channels} : {channels: Channel[]}) {
+export default function SideBar  ({channels, appUser} : {channels: Channel[], appUser: AppUser}) {
 
     return (
         <Box sx={{overflow: 'auto'}}>
             <List>
+                <Link to={"/"}>
                 <ListItem disablePadding>
                     <ListItemButton>
                         <ListItemIcon>
@@ -22,11 +25,11 @@ export default function SideBar  ({channels} : {channels: Channel[]}) {
                         </ListItemIcon>
                         <ListItemText primary={"Home"}/>
                     </ListItemButton>
-                </ListItem>
+                </ListItem></Link>
             </List>
             <Divider/>
             <List>
-                <ChannelSideBar channels={channels}/>
+                <ChannelSideBar channels={channels} appUser={appUser}/>
             </List>
             <Divider/>
         </Box>

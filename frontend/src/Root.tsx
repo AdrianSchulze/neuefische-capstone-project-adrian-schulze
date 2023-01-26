@@ -18,7 +18,8 @@ export default function Root() {
         channel,
         channels,
         postChannel,
-        setChannel
+        setChannel,
+        appUser
     } = useChannel();
 
     const [open, setOpen] = React.useState(false);
@@ -51,7 +52,7 @@ export default function Root() {
 
             <Box sx={{display: 'flex'}}>
                 <CssBaseline/>
-                <NavBar/>
+                <NavBar appUser={appUser}/>
                 <Drawer
                     variant="permanent"
                     sx={{
@@ -62,7 +63,7 @@ export default function Root() {
                 >
                     <Toolbar/>
                     <Box sx={{overflow: 'auto'}}>
-                        <SideBar channels={channels}/>
+                        <SideBar channels={channels} appUser={appUser}/>
                         <Box textAlign='center'>
                             <Button variant="outlined" sx={{mt: 5}} onClick={handleClickOpen}>Add Channel</Button>
                         </Box>

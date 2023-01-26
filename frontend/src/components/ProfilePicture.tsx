@@ -2,10 +2,24 @@ import {Avatar, IconButton, Menu, MenuItem, Tooltip} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import * as React from "react";
+import AppUser from "../model/AppUser";
+import {Link} from "react-router-dom";
+import Logout from "./Logout";
 
-const settings = ['Home', 'Profile', 'Logout'];
+const settings = [
+    {
+        key: 1,
+        name: "Home",
+        link: ""
+    },
+    {
+        key: 2,
+        name: "Profile",
+        link: "profile"
+    },
+];
 
-export default function ProfilePicture() {
+export default function ProfilePicture({appUser}:{appUser: AppUser}) {
 
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -19,6 +33,7 @@ export default function ProfilePicture() {
 
     return (
         <Box sx={{ flexGrow: 0 }}>
+            <span className={"username-navbar"}>{appUser.username}</span>
             <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar alt="Profile Picture" src="" />
@@ -41,10 +56,14 @@ export default function ProfilePicture() {
                 onClose={handleCloseUserMenu}
             >
                 {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                        <Typography textAlign="center">{setting}</Typography>
-                    </MenuItem>
+                    <Link to={"/"+setting.link}><MenuItem key={setting.key} onClick={handleCloseUserMenu}>
+                       <Typography textAlign="center">{setting.name}</Typography>
+                    </MenuItem></Link>
+
                 ))}
+                <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center"><Logout/></Typography>
+                </MenuItem>
             </Menu>
         </Box>
     );

@@ -55,7 +55,8 @@ export default function useChannel() {
             channel,
             channels,
             postChannel,
-            setChannel
+            setChannel,
+            appUser
         }
     );
 }
