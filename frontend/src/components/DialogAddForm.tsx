@@ -13,13 +13,11 @@ import Channel from "../model/Channel";
 export default function DialogAddForm(
     {
         channel,
-        open,
         onClose,
         onChannel,
         onSubmit
     }: {
         channel: Channel
-        open: boolean,
         onClose: () => void,
         onChannel: (channel: Channel) => void,
         onSubmit: (channel: Channel) => void
@@ -77,6 +75,7 @@ export default function DialogAddForm(
                             label="Channel"
                             fullWidth
                             required
+                            value={channel.channel}
                             onChange={handleSelect}
                         >
                             {options.map(option =>

@@ -3,7 +3,7 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import Logout from "./components/Logout";
 import Auth from "./components/Auth";
-import HomePage from "./components/HomePage";
+import HomePage from "./pages/HomePage";
 import React from "react";
 
 export default function Root() {

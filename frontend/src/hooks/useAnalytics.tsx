@@ -2,6 +2,7 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import Channel from "../model/Channel";
 import AppUser from "../model/AppUser";
+import Metric from "../model/Metric";
 
 
 type ChannelWithoutId = {
@@ -10,23 +11,36 @@ type ChannelWithoutId = {
     createdBy: string;
 }
 
-export default function useChannel() {
+const channelWithoutId: ChannelWithoutId = {
+    channel: "",
+    name: "",
+    createdBy: ""
+}
 
-    const initialAppUser: AppUser = {
-        id: "", username: "", password: ""
-    }
+export default function useAnalytics() {
 
-    const initialChannel: Channel = {
-        channel: "", name: "", createdBy: "", id: ""
-    }
+    const [appUser, setAppUser] = useState<AppUser>(
+        {
+            id: "",
+            username: "",
+            password: ""
+        }
+    );
 
-    const channelWithoutId : ChannelWithoutId = {
-        channel: "", name:"", createdBy:""
-    }
+    const [channel, setChannel] = useState<Channel>(
+        {
+            channel: "",
+            name: "",
+            createdBy: "",
+            id: ""
+        }
+    );
 
-    const [appUser, setAppUser] = useState<AppUser>(initialAppUser);
-    const [channel, setChannel] = useState<Channel>(initialChannel);
     const [channels, setChannels] = useState<Channel[]>([]);
+
+    const [metric, setMetric] = useState<Metric>();
+    const [metrics, setMetrics] = useState<Metric[]>([]);
+
 
     useEffect(() => {
         (async () => {
@@ -38,7 +52,18 @@ export default function useChannel() {
             const res = await axios.get(`/api/channels`);
             setChannels(res.data);
         })();
+
+        (async () => {
+            const res = await axios.get(`/api/metrics`);
+            setMetrics(res.data);
+        })();
     }, []);
+
+    // if(!appUser)
+    // {
+    //     return <Navigate to={"/logout"}/>;
+    // }
+
 
     const postChannel = async (channel: Channel) => {
         channelWithoutId.createdBy = appUser.id;
@@ -48,7 +73,12 @@ export default function useChannel() {
         const res = await axios.post("/api/channels", channelWithoutId);
         console.log(res.data);
         setChannels([...channels, res.data]);
-        setChannel(initialChannel);
+        setChannel({
+            channel: "",
+            name: "",
+            createdBy: "",
+            id: ""
+        });
     };
 
     const deleteChannel = async (id: string) => {
@@ -64,7 +94,8 @@ export default function useChannel() {
             postChannel,
             setChannel,
             appUser,
-            deleteChannel
+            deleteChannel,
+            metrics
         }
     );
 }
