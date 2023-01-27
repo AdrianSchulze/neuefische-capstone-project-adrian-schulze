@@ -4,11 +4,12 @@ import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import {Button, Dialog} from "@mui/material";
-import DialogAddForm from "./DialogAddForm";
-import NavBar from './NavBar';
-import SideBar from './SideBar';
-import useChannel from "../hooks/useChannel";
-import ChannelTables from './ChannelTables';
+import DialogAddForm from "../components/DialogAddForm";
+import NavBar from '../components/NavBar';
+import SideBar from '../components/SideBar';
+import useAnalytics from "../hooks/useAnalytics";
+import ChannelTables from '../components/ChannelTables';
+import {useState} from "react";
 
 const drawerWidth = 240;
 
@@ -20,10 +21,10 @@ export default function Root() {
         postChannel,
         setChannel,
         appUser,
-        deleteChannel
-    } = useChannel();
+        deleteChannel,
+    } = useAnalytics();
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -43,7 +44,6 @@ export default function Root() {
                 >
                     <DialogAddForm
                         channel={channel}
-                        open={open}
                         onClose={handleClose}
                         onChannel={setChannel}
                         onSubmit={postChannel}
