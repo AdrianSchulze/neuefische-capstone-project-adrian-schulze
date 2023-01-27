@@ -33,7 +33,7 @@ export default function ChannelSideBar(
                             {/*    {channel.channel}*/}
                             {/*</ListItemIcon>*/}
                             <ListItemText primary={channel.name}/>
-                            <button className={"delete-button-sidebar"} onClick={e => deleteHandler(channel.id)}>x</button>
+                            <button className={"delete-button-sidebar"} onClick={() => deleteHandler(channel.id)}>x</button>
                         </ListItemButton>
                     </ListItem>
                 )) :
