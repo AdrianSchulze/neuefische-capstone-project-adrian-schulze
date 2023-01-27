@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -14,9 +13,9 @@ public class Metric {
     @Id
     private String id;
     private String channelId;
-    private Date date;
+    private String date;
     private int impressions;
     private int clicks;
     private double cost;
-    private double conversions;
+    private int conversions;
 }

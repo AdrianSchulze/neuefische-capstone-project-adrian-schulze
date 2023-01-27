@@ -12,7 +12,16 @@ import Channel from "../model/Channel";
 import AppUser from "../model/AppUser";
 import {Link} from "react-router-dom";
 
-export default function SideBar  ({channels, appUser} : {channels: Channel[], appUser: AppUser}) {
+export default function SideBar  (
+    {
+        channels,
+        appUser,
+        deleteChannel
+    } : {
+        channels: Channel[],
+        appUser: AppUser,
+        deleteChannel: (id:string) => void
+    }) {
 
     return (
         <Box sx={{overflow: 'auto'}}>
@@ -29,7 +38,7 @@ export default function SideBar  ({channels, appUser} : {channels: Channel[], ap
             </List>
             <Divider/>
             <List>
-                <ChannelSideBar channels={channels} appUser={appUser}/>
+                <ChannelSideBar channels={channels} appUser={appUser} deleteChannel={deleteChannel}/>
             </List>
             <Divider/>
         </Box>

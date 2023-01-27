@@ -30,9 +30,8 @@ const rows = [
 export default function ChannelTables() {
     return (
         <>
-            <Box style={{width: '100%', display: "flex", justifyContent: 'space-between', marginBottom: 10}}>
-                <Button variant="outlined" >Add metrics</Button>
-                <Button variant="outlined" >Delete channel</Button>
+            <Box style={{width: '100%', display: "flex", marginBottom: 10}}>
+                <Button variant="outlined">Add metrics</Button>
             </Box>
             <div style={{height: "80vh", width: '100%'}}>
                 <DataGrid
