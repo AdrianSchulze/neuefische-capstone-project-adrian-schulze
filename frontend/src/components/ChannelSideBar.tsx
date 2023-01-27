@@ -8,26 +8,36 @@ import AppUser from "../model/AppUser";
 export default function ChannelSideBar(
     {
         appUser,
-        channels
+        channels,
+        deleteChannel
     }: {
         appUser: AppUser,
-        channels: Channel[]
+        channels: Channel[],
+        deleteChannel: (id:string) => void
     }) {
+
+    const deleteHandler = (id: string|null) => {
+        if (id === undefined || id === null){
+            return null;
+        }
+        return deleteChannel(id);
+    }
 
     return (
         <>
-            {channels ? channels.filter(c => c.createdBy === appUser.id).map((channel) => (
-                    <ListItem key={channel.name} disablePadding>
+            {channels.length ? channels.filter(c => c.createdBy === appUser.id).map((channel) => (
+                    <ListItem key={channel.name} disablePadding sx={{justifyContent: "space-between"}}>
                         <ListItemButton>
                             {/*ICON LOGIC NEEDS TO BE IMPLEMENTED*/}
                             {/*<ListItemIcon>*/}
                             {/*    {channel.channel}*/}
                             {/*</ListItemIcon>*/}
                             <ListItemText primary={channel.name}/>
+                            <button className={"delete-button-sidebar"} onClick={e => deleteHandler(channel.id)}>x</button>
                         </ListItemButton>
                     </ListItem>
                 )) :
-                (<p>No channels</p>)}
+                (<p className={"no-channels"}>No channels</p>)}
         </>
     );
 }

@@ -19,7 +19,8 @@ export default function Root() {
         channels,
         postChannel,
         setChannel,
-        appUser
+        appUser,
+        deleteChannel
     } = useChannel();
 
     const [open, setOpen] = React.useState(false);
@@ -63,7 +64,7 @@ export default function Root() {
                 >
                     <Toolbar/>
                     <Box sx={{overflow: 'auto'}}>
-                        <SideBar channels={channels} appUser={appUser}/>
+                        <SideBar channels={channels} appUser={appUser} deleteChannel={deleteChannel}/>
                         <Box textAlign='center'>
                             <Button variant="outlined" sx={{mt: 5}} onClick={handleClickOpen}>Add Channel</Button>
                         </Box>

@@ -18,4 +18,8 @@ public class ChannelService {
     public List<Channel> getAllChannels() {
         return channelRepository.findAll();
     }
+
+    public void delete(String id) {
+        channelRepository.deleteById(id);
+    }
 }

@@ -17,3 +17,13 @@ html, body {
   font-weight: bold;
   margin-right: 1rem;
 }
+
+.delete-button-sidebar {
+  all:unset;
+  color: lightgrey;
+  cursor: pointer;
+}
+
+.no-channels {
+  text-align:center;
+}

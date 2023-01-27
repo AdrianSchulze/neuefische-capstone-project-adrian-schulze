@@ -9,8 +9,6 @@ import {
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Channel from "../model/Channel";
-import {useState} from "react";
-
 
 export default function DialogAddForm(
     {
@@ -63,8 +61,6 @@ export default function DialogAddForm(
         });
     }
 
-
-
     return (
         <>
             <Box component="form" noValidate sx={{width: '400px'}} onSubmit={e => {
@@ -83,7 +79,10 @@ export default function DialogAddForm(
                             required
                             onChange={handleSelect}
                         >
-                            {options.map(option => <MenuItem key={option.name} value={option.name}>{option.label}</MenuItem>)}
+                            {options.map(option =>
+                                <MenuItem key={option.key} value={option.name}>
+                                    {option.label}
+                                </MenuItem>)}
                         </Select>
                     </FormControl>
                     <TextField
