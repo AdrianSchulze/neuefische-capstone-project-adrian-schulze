@@ -26,13 +26,13 @@ export default function SideBar  (
     return (
         <Box sx={{overflow: 'auto'}}>
             <List>
-                <Link to={"/"}>
+                <Link to={"/"} className={"unset-links"}>
                 <ListItem disablePadding>
                     <ListItemButton>
                         <ListItemIcon>
                             <HomeIcon/>
                         </ListItemIcon>
-                        <ListItemText primary={"Home"}/>
+                        <ListItemText primary={"Dashboard"}/>
                     </ListItemButton>
                 </ListItem></Link>
             </List>

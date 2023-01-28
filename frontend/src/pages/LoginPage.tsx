@@ -15,14 +15,10 @@ export default function LoginPage() {
     const [username, setUsername] = useState<String>("");
     const [password, setPassword] = useState<String>("")
 
-    //const [error, setError] = useState("");
-
     const navigate = useNavigate();
 
     const login = useCallback(async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        // setError("");
 
         try {
             await axios.post("/api/users/login", null, {
@@ -34,7 +30,6 @@ export default function LoginPage() {
             });
             navigate("/");
         } catch (e) {
-            // setError("Invalid username or password");
             console.log(e);
         }
     }, [navigate, password, username]);

@@ -9,29 +9,31 @@ import {
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Channel from "../model/Channel";
+import {BsFacebook, FaTiktok, FcGoogle} from "react-icons/all";
+
 
 const options = [
     {
         key: 1,
         label: "Google Ads",
         name: "google",
-        image: "/google-ads.svg"
+        icon: <FcGoogle/>
     },
     {
         key: 2,
         label: "Facebook Ads",
         name: "facebook",
-        image: "/facebook.svg"
+        icon: <BsFacebook/>
     },
     {
         key: 3,
         label: "TikTok Ads",
         name: "tiktok",
-        image: "/tiktok.svg"
+        icon: <FaTiktok/>
     },
 ]
 
-export default function DialogAddForm(
+export default function ProfileDialog(
     {
         channel,
         onClose,
@@ -43,10 +45,6 @@ export default function DialogAddForm(
         onChannel: (channel: Channel) => void,
         onSubmit: (channel: Channel) => void
     }) {
-
-    // <FcGoogle/>{'\u00A0'} - {'\u00A0'}
-    // <BsFacebook/>{'\u00A0'} - {'\u00A0'}
-    // <FaTiktok/>{'\u00A0'} - {'\u00A0'}
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChannel({
@@ -81,10 +79,9 @@ export default function DialogAddForm(
                             value={channel.channel}
                             onChange={handleSelect}
                         >
-                            {options.map(option =>
+                            {options.map((option) =>
                                 <MenuItem key={option.key} value={option.name}>
-
-                                    <img src={option.image} alt={""} style={{width: "15px"}} />{'\u00A0'}{'\u00A0'}{option.label}
+                                    {option.label}
                                 </MenuItem>)}
                         </Select>
                     </FormControl>

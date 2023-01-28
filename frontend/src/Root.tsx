@@ -5,12 +5,14 @@ import Logout from "./components/Logout";
 import Auth from "./components/Auth";
 import HomePage from "./pages/HomePage";
 import React from "react";
+import NotFound from "./pages/NotFound";
 
 export default function Root() {
 
 
     return (
         <Routes>
+            <Route path={"*"} element={<NotFound/>}/>
             <Route path={"/login"} element={<LoginPage/>}/>
             <Route path={"/signup"} element={<SignUpPage/>}/>
             <Route path={"/logout"} element={<Logout/>}/>

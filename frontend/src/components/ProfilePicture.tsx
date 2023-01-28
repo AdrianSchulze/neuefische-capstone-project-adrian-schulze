@@ -5,6 +5,7 @@ import * as React from "react";
 import AppUser from "../model/AppUser";
 import {Link} from "react-router-dom";
 import Logout from "./Logout";
+import {useState} from "react";
 
 const settings = [
     {
@@ -21,7 +22,7 @@ const settings = [
 
 export default function ProfilePicture({appUser}:{appUser: AppUser}) {
 
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
@@ -56,7 +57,7 @@ export default function ProfilePicture({appUser}:{appUser: AppUser}) {
                 onClose={handleCloseUserMenu}
             >
                 {settings.map((setting) => (
-                    <Link to={"/"+setting.link} key={setting.key}><MenuItem key={setting.key} onClick={handleCloseUserMenu}>
+                    <Link to={"/"+setting.link} key={setting.key} className={"unset-links"}><MenuItem key={setting.key} onClick={handleCloseUserMenu}>
                        <Typography textAlign="center" key={setting.key}>{setting.name}</Typography>
                     </MenuItem></Link>
 

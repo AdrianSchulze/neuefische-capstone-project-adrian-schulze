@@ -27,3 +27,9 @@ html, body {
 .no-channels {
   text-align:center;
 }
+
+.unset-links {
+  all:unset;
+  color: #000;
+  cursor: pointer;
+}
