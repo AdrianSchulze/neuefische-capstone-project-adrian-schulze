@@ -20,8 +20,10 @@ html, body {
 
 .delete-button-sidebar {
   all:unset;
+  display: flex;
   color: lightgrey;
   cursor: pointer;
+  align-items: center;
 }
 
 .no-channels {

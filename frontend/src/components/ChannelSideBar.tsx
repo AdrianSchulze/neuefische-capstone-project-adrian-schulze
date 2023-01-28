@@ -5,6 +5,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import AppUser from "../model/AppUser";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import {AiFillCloseCircle} from "react-icons/ai";
 
 export default function ChannelSideBar(
     {
@@ -37,7 +38,7 @@ export default function ChannelSideBar(
                                     <ListItemIcon sx={{minWidth: "35px"}}><img src={"/tiktok.svg"} alt={""} style={{width: "15px"}} /></ListItemIcon> : null
                         }
                     <ListItemText primary={channel.name}/>
-                    <button className={"delete-button-sidebar"} onClick={() => deleteHandler(channel.id)}>x</button>
+                    <button className={"delete-button-sidebar"} onClick={() => deleteHandler(channel.id)}><AiFillCloseCircle/></button>
                 </ListItemButton>
                 </ListItem>
                 )) :

@@ -2,6 +2,7 @@ import * as React from 'react';
 import {DataGrid, GridColDef, GridValueGetterParams} from '@mui/x-data-grid';
 import Box from "@mui/material/Box";
 import {Button} from "@mui/material";
+import CheckBoxes from './CheckBoxes';
 
 const columns: GridColDef[] = [
     {field: 'date', headerName: 'Date', width: 70},
@@ -30,7 +31,13 @@ const rows = [
 export default function ChannelTables() {
     return (
         <>
-            <Box style={{width: '100%', display: "flex", marginBottom: 10}}>
+            <Box style={{
+                        width: '100%',
+                        display: "flex",
+                        marginBottom: 10,
+                        justifyContent: "space-between"}}
+            >
+                <CheckBoxes/>
                 <Button variant="outlined">Add metrics</Button>
             </Box>
             <div style={{height: "80vh", width: '100%'}}>
