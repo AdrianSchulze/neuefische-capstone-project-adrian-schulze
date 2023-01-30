@@ -11,36 +11,86 @@ import ChannelSideBar from "./ChannelSideBar";
 import Channel from "../model/Channel";
 import AppUser from "../model/AppUser";
 import {Link} from "react-router-dom";
+import Toolbar from "@mui/material/Toolbar";
+import {Button, Dialog} from "@mui/material";
+import {useState} from "react";
+import Drawer from "@mui/material/Drawer";
+import DialogAddForm from "./DialogAddForm";
 
-export default function SideBar  (
+const drawerWidth = 240;
+
+export default function SideBar(
     {
+        channel,
         channels,
+        setChannel,
+        postChannel,
         appUser,
         deleteChannel
-    } : {
+    }: {
+        channel: Channel,
         channels: Channel[],
+        setChannel: (channel: Channel) => void,
+        postChannel: (channel: Channel) => void,
         appUser: AppUser,
-        deleteChannel: (id:string) => void
+        deleteChannel: (id: string) => void
     }) {
 
+    const [open, setOpen] = useState(false);
+
+    const handleAddFormClose = () => {
+        setOpen(false);
+    };
+
     return (
-        <Box sx={{overflow: 'auto'}}>
-            <List>
-                <Link to={"/"} className={"unset-links"}>
-                <ListItem disablePadding>
-                    <ListItemButton>
-                        <ListItemIcon>
-                            <HomeIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary={"Dashboard"}/>
-                    </ListItemButton>
-                </ListItem></Link>
-            </List>
-            <Divider/>
-            <List>
-                <ChannelSideBar channels={channels} appUser={appUser} deleteChannel={deleteChannel}/>
-            </List>
-            <Divider/>
-        </Box>
+        <div>
+            <div>
+                <Dialog
+                    open={open}
+                    onClose={handleAddFormClose}
+                >
+                    <DialogAddForm
+                        channel={channel}
+                        onClose={handleAddFormClose}
+                        setChannel={setChannel}
+                        postChannel={postChannel}
+                    />
+                </Dialog>
+            </div>
+            <Drawer
+                variant="permanent"
+                sx={{
+                    width: drawerWidth,
+                    flexShrink: 0,
+                    [`& .MuiDrawer-paper`]: {width: drawerWidth, boxSizing: 'border-box'},
+                }}
+            >
+                <Toolbar/>
+                <Box sx={{overflow: 'auto'}}>
+                    <Box sx={{overflow: 'auto'}}>
+                        <List>
+                            <Link to={"/"} className={"unset-links"}>
+                                <ListItem disablePadding>
+                                    <ListItemButton>
+                                        <ListItemIcon>
+                                            <HomeIcon/>
+                                        </ListItemIcon>
+                                        <ListItemText primary={"Dashboard"}/>
+                                    </ListItemButton>
+                                </ListItem></Link>
+                        </List>
+                        <Divider/>
+                        <List>
+                            <ChannelSideBar channels={channels} appUser={appUser} deleteChannel={deleteChannel}/>
+                        </List>
+                        <Divider/>
+                    </Box>
+                    <Box textAlign='center'>
+                        <Button variant="outlined" sx={{mt: 2.5}} onClick={() => setOpen(!open)}>Add
+                            Channel</Button>
+                    </Box>
+                </Box>
+            </Drawer>
+        </div>
     );
 }
