@@ -28,14 +28,14 @@ const rows = [
     {id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65},
 ];
 
-export default function ChannelTables() {
+export default function HomeTables() {
     return (
         <>
             <Box style={{
-                        width: '100%',
-                        display: "flex",
-                        marginBottom: 10,
-                        justifyContent: "space-between"}}
+                width: '100%',
+                display: "flex",
+                marginBottom: 10,
+                justifyContent: "space-between"}}
             >
                 <CheckBoxes/>
                 <Button variant="outlined">Add metrics</Button>

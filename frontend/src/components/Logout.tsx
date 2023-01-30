@@ -12,6 +12,6 @@ export default function Logout () {
     }, [navigate]);
 
     return (
-        <button onClick={logout}>Logout</button>
+        <button onClick={logout} className={"unset-links"}>Logout</button>
     )
 }

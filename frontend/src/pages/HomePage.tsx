@@ -22,29 +22,26 @@ export default function Root() {
         setChannel,
         appUser,
         deleteChannel,
+        metrics
     } = useAnalytics();
 
     const [open, setOpen] = useState(false);
+    const [openMain, openSetMain] = useState(true);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
+    const handleAddFormClose = () => {
         setOpen(false);
     };
 
     return (
         <>
-
             <div>
                 <Dialog
                     open={open}
-                    onClose={handleClose}
+                    onClose={handleAddFormClose}
                 >
                     <DialogAddForm
                         channel={channel}
-                        onClose={handleClose}
+                        onClose={handleAddFormClose}
                         onChannel={setChannel}
                         onSubmit={postChannel}
                     />
@@ -66,14 +63,16 @@ export default function Root() {
                     <Box sx={{overflow: 'auto'}}>
                         <SideBar channels={channels} appUser={appUser} deleteChannel={deleteChannel}/>
                         <Box textAlign='center'>
-                            <Button variant="outlined" sx={{mt: 5}} onClick={handleClickOpen}>Add Channel</Button>
+                            <Button variant="outlined" sx={{mt: 2.5}} onClick={() => setOpen(!open)}>Add
+                                Channel</Button>
                         </Box>
                     </Box>
                 </Drawer>
                 {/*MAIN CONTENT*/}
+
                 <Box component="main" sx={{flexGrow: 1, p: 3}}>
                     <Toolbar/>
-                    <ChannelTables/>
+                    {openMain ? <ChannelTables/> : "No content here. Click on one of the channels"}
                 </Box>
             </Box>
         </>

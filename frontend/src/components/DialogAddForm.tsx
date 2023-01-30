@@ -10,6 +10,27 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Channel from "../model/Channel";
 
+const options = [
+    {
+        key: 1,
+        label: "Google Ads",
+        name: "google",
+        image: "/google-ads.svg"
+    },
+    {
+        key: 2,
+        label: "Facebook Ads",
+        name: "facebook",
+        image: "/facebook.svg"
+    },
+    {
+        key: 3,
+        label: "TikTok Ads",
+        name: "tiktok",
+        image: "/tiktok.svg"
+    },
+]
+
 export default function DialogAddForm(
     {
         channel,
@@ -23,29 +44,7 @@ export default function DialogAddForm(
         onSubmit: (channel: Channel) => void
     }) {
 
-    // <FcGoogle/>{'\u00A0'} - {'\u00A0'}
-    // <BsFacebook/>{'\u00A0'} - {'\u00A0'}
-    // <FaTiktok/>{'\u00A0'} - {'\u00A0'}
-
-    const options = [
-        {
-            key: 1,
-            label: "Google Ads",
-            name: "google"
-        },
-        {
-            key: 2,
-            label: "Facebook Ads",
-            name: "facebook"
-        },
-        {
-            key: 3,
-            label: "TikTok Ads",
-            name: "tiktok"
-        },
-    ]
-
-    const handleInput = (e:  React.ChangeEvent<HTMLInputElement>) => {
+    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChannel({
             ...channel,
             name: e.currentTarget.value
@@ -80,7 +79,8 @@ export default function DialogAddForm(
                         >
                             {options.map(option =>
                                 <MenuItem key={option.key} value={option.name}>
-                                    {option.label}
+
+                                    <img src={option.image} alt={""} style={{width: "15px"}} />{'\u00A0'}{'\u00A0'}{option.label}
                                 </MenuItem>)}
                         </Select>
                     </FormControl>
@@ -88,7 +88,7 @@ export default function DialogAddForm(
                         margin="normal"
                         required
                         fullWidth
-                        id="username"
+                        id="channelname"
                         label="Channel name"
                         name="channelname"
                         autoFocus

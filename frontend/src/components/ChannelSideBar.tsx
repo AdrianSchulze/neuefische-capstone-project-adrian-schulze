@@ -4,6 +4,9 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import AppUser from "../model/AppUser";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import {AiFillCloseCircle} from "react-icons/ai";
+import {Link} from "react-router-dom";
 
 export default function ChannelSideBar(
     {
@@ -13,11 +16,11 @@ export default function ChannelSideBar(
     }: {
         appUser: AppUser,
         channels: Channel[],
-        deleteChannel: (id:string) => void
+        deleteChannel: (id: string) => void
     }) {
 
-    const deleteHandler = (id: string|null) => {
-        if (id === undefined || id === null){
+    const deleteHandler = (id: string | null) => {
+        if (id === undefined || id === null) {
             return null;
         }
         return deleteChannel(id);
@@ -26,16 +29,36 @@ export default function ChannelSideBar(
     return (
         <>
             {channels.length ? channels.filter(c => c.createdBy === appUser.id).map((channel) => (
-                    <ListItem key={channel.name} disablePadding sx={{justifyContent: "space-between"}}>
-                        <ListItemButton>
-                            {/*ICON LOGIC NEEDS TO BE IMPLEMENTED*/}
-                            {/*<ListItemIcon>*/}
-                            {/*    {channel.channel}*/}
-                            {/*</ListItemIcon>*/}
-                            <ListItemText primary={channel.name}/>
-                            <button className={"delete-button-sidebar"} onClick={() => deleteHandler(channel.id)}>x</button>
-                        </ListItemButton>
-                    </ListItem>
+                    <Link to={"/channel/" + channel.id} className={"unset-links"} key={channel.id}>
+                        <ListItem key={channel.name} disablePadding sx={{justifyContent: "space-between"}}>
+                            <ListItemButton>
+                                {channel.channel === 'google' ?
+                                    <ListItemIcon sx={{minWidth: "35px"}}>
+                                        <img
+                                            src={"/google-ads.svg"}
+                                            alt={""}
+                                            style={{width: "15px"}}
+                                        />
+                                    </ListItemIcon> : channel.channel === 'facebook' ?
+                                        <ListItemIcon sx={{minWidth: "35px"}}>
+                                            <img
+                                                src={"/facebook.svg"}
+                                                alt={""}
+                                                style={{width: "15px"}}
+                                            /></ListItemIcon> : channel.channel === 'tiktok' ?
+                                            <ListItemIcon sx={{minWidth: "35px"}}>
+                                                <img
+                                                    src={"/tiktok.svg"}
+                                                    alt={""}
+                                                    style={{width: "15px"}}
+                                                /></ListItemIcon> : null
+                                }
+                                <ListItemText primary={channel.name}/>
+                                <button className={"delete-button-sidebar"} onClick={() => deleteHandler(channel.id)}>
+                                    <AiFillCloseCircle/></button>
+                            </ListItemButton>
+                        </ListItem>
+                    </Link>
                 )) :
                 (<p className={"no-channels"}>No channels</p>)}
         </>

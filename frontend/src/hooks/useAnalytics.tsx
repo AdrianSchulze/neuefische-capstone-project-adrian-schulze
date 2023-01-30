@@ -59,11 +59,6 @@ export default function useAnalytics() {
         })();
     }, []);
 
-    // if(!appUser)
-    // {
-    //     return <Navigate to={"/logout"}/>;
-    // }
-
 
     const postChannel = async (channel: Channel) => {
         channelWithoutId.createdBy = appUser.id;

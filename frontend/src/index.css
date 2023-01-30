@@ -20,10 +20,18 @@ html, body {
 
 .delete-button-sidebar {
   all:unset;
+  display: flex;
   color: lightgrey;
   cursor: pointer;
+  align-items: center;
 }
 
 .no-channels {
   text-align:center;
+}
+
+.unset-links {
+  all:unset;
+  color: #000;
+  cursor: pointer;
 }
