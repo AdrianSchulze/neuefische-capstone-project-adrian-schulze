@@ -28,10 +28,6 @@ export default function Root() {
     const [open, setOpen] = useState(false);
     const [openMain, openSetMain] = useState(true);
 
-    const handleAddFormOpen = () => {
-        setOpen(true);
-    };
-
     const handleAddFormClose = () => {
         setOpen(false);
     };
@@ -67,11 +63,13 @@ export default function Root() {
                     <Box sx={{overflow: 'auto'}}>
                         <SideBar channels={channels} appUser={appUser} deleteChannel={deleteChannel}/>
                         <Box textAlign='center'>
-                            <Button variant="outlined" sx={{mt: 2.5}} onClick={handleAddFormOpen}>Add Channel</Button>
+                            <Button variant="outlined" sx={{mt: 2.5}} onClick={() => setOpen(!open)}>Add
+                                Channel</Button>
                         </Box>
                     </Box>
                 </Drawer>
                 {/*MAIN CONTENT*/}
+
                 <Box component="main" sx={{flexGrow: 1, p: 3}}>
                     <Toolbar/>
                     {openMain ? <ChannelTables/> : "No content here. Click on one of the channels"}

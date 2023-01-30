@@ -44,10 +44,6 @@ export default function DialogAddForm(
         onSubmit: (channel: Channel) => void
     }) {
 
-    // <FcGoogle/>{'\u00A0'} - {'\u00A0'}
-    // <BsFacebook/>{'\u00A0'} - {'\u00A0'}
-    // <FaTiktok/>{'\u00A0'} - {'\u00A0'}
-
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChannel({
             ...channel,
@@ -92,7 +88,7 @@ export default function DialogAddForm(
                         margin="normal"
                         required
                         fullWidth
-                        id="username"
+                        id="channelname"
                         label="Channel name"
                         name="channelname"
                         autoFocus

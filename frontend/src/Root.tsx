@@ -9,19 +9,19 @@ import NotFound from "./pages/NotFound";
 
 export default function Root() {
 
-
     return (
-        <Routes>
-            <Route path={"*"} element={<NotFound/>}/>
-            <Route path={"/login"} element={<LoginPage/>}/>
-            <Route path={"/signup"} element={<SignUpPage/>}/>
-            <Route path={"/logout"} element={<Logout/>}/>
-            <Route path={"/profile/:id"}/>
-            <Route path={"/"} element={
-                <Auth>
-                    <HomePage/>
-                </Auth>
-            }/>
-        </Routes>
+        <>
+            <Routes>
+                <Route path={"*"} element={<NotFound/>}/>
+                <Route path={"/login"} element={<LoginPage/>}/>
+                <Route path={"/signup"} element={<SignUpPage/>}/>
+                <Route path={"/logout"} element={<Logout/>}/>
+                <Route path={"/"} element={
+                    <Auth>
+                        <HomePage/>
+                    </Auth>
+                }/>
+            </Routes>
+        </>
     );
 }

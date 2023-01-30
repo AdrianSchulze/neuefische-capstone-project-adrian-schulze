@@ -3,103 +3,50 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    FormControl, InputLabel, MenuItem, Select, SelectChangeEvent,
-    TextField
+    IconButton
 } from "@mui/material";
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Channel from "../model/Channel";
-import {BsFacebook, FaTiktok, FcGoogle} from "react-icons/all";
-
-
-const options = [
-    {
-        key: 1,
-        label: "Google Ads",
-        name: "google",
-        icon: <FcGoogle/>
-    },
-    {
-        key: 2,
-        label: "Facebook Ads",
-        name: "facebook",
-        icon: <BsFacebook/>
-    },
-    {
-        key: 3,
-        label: "TikTok Ads",
-        name: "tiktok",
-        icon: <FaTiktok/>
-    },
-]
+import AppUser from "../model/AppUser";
+import {PhotoCamera} from "@mui/icons-material";
 
 export default function ProfileDialog(
     {
-        channel,
+        appUser,
         onClose,
-        onChannel,
-        onSubmit
+        // onSubmit
     }: {
-        channel: Channel
+        appUser: AppUser
         onClose: () => void,
-        onChannel: (channel: Channel) => void,
-        onSubmit: (channel: Channel) => void
+        // onSubmit: (appUser: AppUser) => void
     }) {
 
-    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        onChannel({
-            ...channel,
-            name: e.currentTarget.value
-        });
-    }
-
-    const handleSelect = (e: SelectChangeEvent) => {
-        onChannel({
-            ...channel,
-            channel: e.target.value
-        });
-    }
+    // const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     onChannel({
+    //         ...appUser,
+    //         password: e.currentTarget.value
+    //     });
+    // }
 
     return (
         <>
             <Box component="form" noValidate sx={{width: '400px'}} onSubmit={e => {
                 e.preventDefault();
-                onSubmit(channel);
+                // onSubmit(appUser);
             }}>
-                <DialogTitle>Add a new channel</DialogTitle>
-                <DialogContent>
-                    <FormControl sx={{mt: 1, width: 1}}>
-                        <InputLabel id="demo-simple-select-helper-label">Channel</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-helper-label"
-                            id="demo-simple-select-helper"
-                            label="Channel"
-                            fullWidth
-                            required
-                            value={channel.channel}
-                            onChange={handleSelect}
-                        >
-                            {options.map((option) =>
-                                <MenuItem key={option.key} value={option.name}>
-                                    {option.label}
-                                </MenuItem>)}
-                        </Select>
-                    </FormControl>
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="username"
-                        label="Channel name"
-                        name="channelname"
-                        autoFocus
-                        value={channel.name}
-                        onChange={handleInput}
-                        sx={{mb: 0}}
-                    />
+                <DialogTitle>Upload an image</DialogTitle>
+                <DialogContent >
+                    <Button variant="contained" component="label">
+                        Upload
+                        <input hidden accept="image/*" multiple type="file" />
+                    </Button>
+                    <IconButton color="primary" aria-label="upload picture" component="label">
+                        <input hidden accept="image/*" type="file" />
+                        <PhotoCamera />
+                    </IconButton>
                 </DialogContent>
                 <DialogActions>
-                    <Button type="submit" onClick={onClose}>Create</Button>
+                    <Button type="submit" onClick={onClose}>Save</Button>
                 </DialogActions>
             </Box>
         </>

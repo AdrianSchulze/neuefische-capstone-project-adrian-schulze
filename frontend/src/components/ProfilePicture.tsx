@@ -1,4 +1,4 @@
-import {Avatar, IconButton, Menu, MenuItem, Tooltip} from "@mui/material";
+import {Avatar, Dialog, IconButton, Menu, MenuItem, Tooltip} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import * as React from "react";
@@ -6,21 +6,11 @@ import AppUser from "../model/AppUser";
 import {Link} from "react-router-dom";
 import Logout from "./Logout";
 import {useState} from "react";
+import ProfileDialog from "./ProfileDialog";
 
-const settings = [
-    {
-        key: 1,
-        name: "Home",
-        link: ""
-    },
-    {
-        key: 2,
-        name: "Profile",
-        link: "profile"
-    },
-];
+export default function ProfilePicture({appUser}: { appUser: AppUser }) {
 
-export default function ProfilePicture({appUser}:{appUser: AppUser}) {
+    const [open, setOpen] = useState(false)
 
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -32,40 +22,68 @@ export default function ProfilePicture({appUser}:{appUser: AppUser}) {
         setAnchorElUser(null);
     };
 
-    return (
-        <Box sx={{ flexGrow: 0 }}>
-            <span className={"username-navbar"}>{appUser.username}</span>
-            <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Profile Picture" src="" />
-                </IconButton>
-            </Tooltip>
-            <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-            >
-                {settings.map((setting) => (
-                    <Link to={"/"+setting.link} key={setting.key} className={"unset-links"}><MenuItem key={setting.key} onClick={handleCloseUserMenu}>
-                       <Typography textAlign="center" key={setting.key}>{setting.name}</Typography>
-                    </MenuItem></Link>
+    const handleProfileFormClose = () => {
+        setOpen(false);
+    };
 
-                ))}
-                <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center"><Logout/></Typography>
-                </MenuItem>
-            </Menu>
-        </Box>
+    const onClick = () => {
+        setAnchorElUser(null);
+        setOpen(true);
+    }
+
+    return (
+        <>
+            <div>
+                <Dialog
+                    open={open}
+                    onClose={handleProfileFormClose}
+                >
+                    <ProfileDialog
+                        appUser={appUser}
+                        onClose={handleProfileFormClose}
+                        /*onSubmit={putUser}*/
+                    />
+                </Dialog>
+            </div>
+            <Box sx={{flexGrow: 0}}>
+                <span className={"username-navbar"}>{appUser.username}</span>
+                <Tooltip title="Open settings">
+                    <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                        <Avatar alt="Profile Picture" src=""/>
+                    </IconButton>
+                </Tooltip>
+                <Menu
+                    sx={{mt: '45px'}}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                >
+
+                    <Link to={"/"} className={"unset-links"}>
+                        <MenuItem onClick={handleCloseUserMenu}>
+                            <Typography textAlign="center">Home</Typography>
+                        </MenuItem>
+                    </Link>
+
+                    <MenuItem onClick={onClick} className={"unset-links"}>
+                        <Typography textAlign="center">Profile</Typography>
+                    </MenuItem>
+
+                    <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography textAlign="center"><Logout/></Typography>
+                    </MenuItem>
+                </Menu>
+            </Box>
+        </>
     );
 }
