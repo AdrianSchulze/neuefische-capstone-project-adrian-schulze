@@ -7,7 +7,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import * as React from "react";
-import ChannelSideBar from "./ChannelSideBar";
+import ChannelsInSideBar from "./ChannelsInSideBar";
 import Channel from "../model/Channel";
 import AppUser from "../model/AppUser";
 import {Link} from "react-router-dom";
@@ -15,7 +15,7 @@ import Toolbar from "@mui/material/Toolbar";
 import {Button, Dialog} from "@mui/material";
 import {useState} from "react";
 import Drawer from "@mui/material/Drawer";
-import DialogAddForm from "./DialogAddForm";
+import DialogAddChannelForm from "../dialogs/DialogAddChannel";
 
 const drawerWidth = 240;
 
@@ -49,7 +49,7 @@ export default function SideBar(
                     open={open}
                     onClose={handleAddFormClose}
                 >
-                    <DialogAddForm
+                    <DialogAddChannelForm
                         channel={channel}
                         onClose={handleAddFormClose}
                         setChannel={setChannel}
@@ -81,7 +81,11 @@ export default function SideBar(
                         </List>
                         <Divider/>
                         <List>
-                            <ChannelSideBar channels={channels} appUser={appUser} deleteChannel={deleteChannel}/>
+                            <ChannelsInSideBar
+                                channels={channels}
+                                appUser={appUser}
+                                deleteChannel={deleteChannel}
+                            />
                         </List>
                         <Divider/>
                     </Box>

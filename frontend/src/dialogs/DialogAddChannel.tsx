@@ -31,7 +31,7 @@ const options = [
     },
 ]
 
-export default function DialogAddForm(
+export default function DialogAddChannelForm(
     {
         channel,
         onClose,

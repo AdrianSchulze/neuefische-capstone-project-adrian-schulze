@@ -22,10 +22,11 @@ public class MetricController {
         return metricService.addMetricRep(metric);
     }
 
-//    @GetMapping
-//    public List<Metric> getAllMetricsByUserId() {
-//       // return metricService.getAllMetricsByUserId();
-//    }
+    @GetMapping("/{id}")
+    public List<Metric> getAllFilteredAndCalculatedMetricsByChannelId (@PathVariable String id) {
+        return metricService.getAllFilteredAndCalculatedMetricsByChannelId(id);
+    }
+
 
 
 }

@@ -6,11 +6,14 @@ import Auth from "./components/Auth";
 import HomePage from "./pages/HomePage";
 import React from "react";
 import NotFound from "./pages/NotFound";
+import ChannelTables from "./components/ChannelTables";
+import Box from "@mui/material/Box";
 
 export default function Root() {
 
     return (
         <>
+        <Box sx={{display: 'flex'}}>
             <Routes>
                 <Route path={"*"} element={<NotFound/>}/>
                 <Route path={"/login"} element={<LoginPage/>}/>
@@ -21,7 +24,9 @@ export default function Root() {
                         <HomePage/>
                     </Auth>
                 }/>
+                <Route path={"/channel/:id"} element={<ChannelTables/>}/>
             </Routes>
+        </Box>
         </>
     );
 }

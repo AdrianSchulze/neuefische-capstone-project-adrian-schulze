@@ -38,7 +38,6 @@ export default function useAnalytics() {
 
     const [channels, setChannels] = useState<Channel[]>([]);
 
-    const [metric, setMetric] = useState<Metric>();
     const [metrics, setMetrics] = useState<Metric[]>([]);
 
 
@@ -90,7 +89,7 @@ export default function useAnalytics() {
             setChannel,
             appUser,
             deleteChannel,
-            metrics
+            setMetrics
         }
     );
 }
