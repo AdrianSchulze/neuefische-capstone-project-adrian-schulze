@@ -31,28 +31,28 @@ const options = [
     },
 ]
 
-export default function DialogAddForm(
+export default function DialogAddChannelForm(
     {
         channel,
         onClose,
-        onChannel,
-        onSubmit
+        setChannel,
+        postChannel
     }: {
         channel: Channel
         onClose: () => void,
-        onChannel: (channel: Channel) => void,
-        onSubmit: (channel: Channel) => void
+        setChannel: (channel: Channel) => void,
+        postChannel: (channel: Channel) => void
     }) {
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        onChannel({
+        setChannel({
             ...channel,
             name: e.currentTarget.value
         });
     }
 
     const handleSelect = (e: SelectChangeEvent) => {
-        onChannel({
+        setChannel({
             ...channel,
             channel: e.target.value
         });
@@ -62,7 +62,7 @@ export default function DialogAddForm(
         <>
             <Box component="form" noValidate sx={{width: '400px'}} onSubmit={e => {
                 e.preventDefault();
-                onSubmit(channel);
+                postChannel(channel);
             }}>
                 <DialogTitle>Add a new channel</DialogTitle>
                 <DialogContent>

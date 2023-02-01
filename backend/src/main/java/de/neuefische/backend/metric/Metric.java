@@ -14,8 +14,10 @@ public class Metric {
     private String id;
     private String channelId;
     private String date;
-    private int impressions;
-    private int clicks;
+    private double impressions;
+    private double clicks;
     private double cost;
     private int conversions;
+    private double cpa;
+    private double ctr;
 }

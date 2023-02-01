@@ -3,10 +3,9 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import * as React from "react";
 import AppUser from "../model/AppUser";
-import {Link} from "react-router-dom";
 import Logout from "./Logout";
 import {useState} from "react";
-import ProfileDialog from "./ProfileDialog";
+import DialogProfile from "../dialogs/DialogProfile";
 
 export default function ProfilePicture({appUser}: { appUser: AppUser }) {
 
@@ -38,10 +37,8 @@ export default function ProfilePicture({appUser}: { appUser: AppUser }) {
                     open={open}
                     onClose={handleProfileFormClose}
                 >
-                    <ProfileDialog
-                        appUser={appUser}
+                    <DialogProfile
                         onClose={handleProfileFormClose}
-                        /*onSubmit={putUser}*/
                     />
                 </Dialog>
             </div>
@@ -68,13 +65,6 @@ export default function ProfilePicture({appUser}: { appUser: AppUser }) {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                 >
-
-                    <Link to={"/"} className={"unset-links"}>
-                        <MenuItem onClick={handleCloseUserMenu}>
-                            <Typography textAlign="center">Home</Typography>
-                        </MenuItem>
-                    </Link>
-
                     <MenuItem onClick={onClick} className={"unset-links"}>
                         <Typography textAlign="center">Profile</Typography>
                     </MenuItem>

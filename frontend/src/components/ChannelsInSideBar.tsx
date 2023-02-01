@@ -8,7 +8,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import {AiFillCloseCircle} from "react-icons/ai";
 import {Link} from "react-router-dom";
 
-export default function ChannelSideBar(
+export default function ChannelsInSideBar(
     {
         appUser,
         channels,
