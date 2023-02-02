@@ -37,7 +37,7 @@ const initialMetric: Metric = {
     conversions: 0
 }
 
-type metricWithoutId = {
+type metricsInit = {
     channelId?: string,
     date: string,
     ctr: number,
@@ -48,7 +48,7 @@ type metricWithoutId = {
     conversions: number
 }
 
-const metricWithoutId: metricWithoutId = {
+const metricWithoutId: metricsInit = {
     channelId: "",
     date: "",
     ctr: 0,
