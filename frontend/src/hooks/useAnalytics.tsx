@@ -2,8 +2,6 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import Channel from "../model/Channel";
 import AppUser from "../model/AppUser";
-import Metric from "../model/Metric";
-
 
 type ChannelWithoutId = {
     channel: string;
@@ -38,9 +36,6 @@ export default function useAnalytics() {
 
     const [channels, setChannels] = useState<Channel[]>([]);
 
-    const [metrics, setMetrics] = useState<Metric[]>([]);
-
-
     useEffect(() => {
         (async () => {
             const res = await axios.get(`/api/users/me`);
@@ -50,11 +45,6 @@ export default function useAnalytics() {
         (async () => {
             const res = await axios.get(`/api/channels`);
             setChannels(res.data);
-        })();
-
-        (async () => {
-            const res = await axios.get(`/api/metrics`);
-            setMetrics(res.data);
         })();
     }, []);
 
@@ -88,8 +78,7 @@ export default function useAnalytics() {
             postChannel,
             setChannel,
             appUser,
-            deleteChannel,
-            setMetrics
+            deleteChannel
         }
     );
 }

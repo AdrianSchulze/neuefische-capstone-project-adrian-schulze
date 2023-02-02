@@ -15,7 +15,7 @@ public class MetricService {
         return metricRepository.findAll();
     }
 
-    public Metric addMetricRep(Metric metric) {
+    public Metric addMetric(Metric metric) {
         return metricRepository.save(metric);
     }
 
@@ -25,8 +25,8 @@ public class MetricService {
 
         for (Metric metric : allMetrics) {
             if (metric.getChannelId().equals(channelId)) {
-                metric.setCpa((metric.getClicks() / metric.getCost()) * 100);
-                metric.setCtr(metric.getImpressions() / metric.getClicks());
+                metric.setCpa((metric.getClicks() / metric.getCost()));
+                metric.setCtr((metric.getImpressions() / metric.getClicks()) * 100);
                 allMetricsByChannelId.add(metric);
             }
         }

@@ -12,8 +12,8 @@ import axios from "axios";
 
 export default function LoginPage() {
 
-    const [username, setUsername] = useState<String>("");
-    const [password, setPassword] = useState<String>("")
+    const [username, setUsername] = useState<string>("");
+    const [password, setPassword] = useState<string>("")
 
     const navigate = useNavigate();
 

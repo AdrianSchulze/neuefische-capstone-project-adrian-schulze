@@ -19,7 +19,7 @@ public class MetricController {
 
     @PostMapping
     public Metric addMetrics(@RequestBody Metric metric) {
-        return metricService.addMetricRep(metric);
+        return metricService.addMetric(metric);
     }
 
     @GetMapping("/{id}")
