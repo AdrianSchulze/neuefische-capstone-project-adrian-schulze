@@ -5,6 +5,7 @@ import de.neuefische.backend.appuser.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,11 +25,18 @@ public class SecurityConfig {
 
         return http
                 .csrf().disable()
-                .httpBasic().and    ()
+                .httpBasic().and()
                 .authorizeHttpRequests()
-                .antMatchers().permitAll()
+                .antMatchers(HttpMethod.POST, "/api/users/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/users/signup").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/metrics").hasRole("BASIC")
+                .antMatchers(HttpMethod.POST, "/api/channels").hasRole("BASIC")
+                .antMatchers(HttpMethod.DELETE, "/api/metrics").hasRole("BASIC")
+                .antMatchers(HttpMethod.DELETE, "/api/channels").hasRole("BASIC")
+                .antMatchers(HttpMethod.GET, "/api/metrics").hasRole("BASIC")
+                .antMatchers(HttpMethod.GET, "/api/channels").hasRole("BASIC")
                 .anyRequest()
-                .permitAll()
+                .authenticated()
                 .and()
                 .build();
     }
