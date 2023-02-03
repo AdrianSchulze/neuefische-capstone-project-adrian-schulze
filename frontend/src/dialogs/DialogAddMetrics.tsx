@@ -8,6 +8,9 @@ import {
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Metric from "../model/Metric";
+import {DesktopDatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {Dayjs} from "dayjs";
 
 export default function DialogAddMetrics(
     {
@@ -22,6 +25,8 @@ export default function DialogAddMetrics(
         setMetric: (metric: Metric) => void
     }) {
 
+    const [dateValue, setDateValue] = React.useState<Dayjs | null>(null);
+
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name,value} = e.target;
@@ -29,6 +34,10 @@ export default function DialogAddMetrics(
             ...metric, [name]: value
         })
     }
+
+    const handleDateChange = (newValue: Dayjs | null) => {
+        setDateValue(newValue);
+    };
 
     return (
         <>
@@ -38,6 +47,15 @@ export default function DialogAddMetrics(
             }}>
                 <DialogTitle>Add new metrics</DialogTitle>
                 <DialogContent>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DesktopDatePicker
+                                label="Date"
+                                inputFormat="DD/MM/YYYY"
+                                value={dateValue}
+                                onChange={handleDateChange}
+                                renderInput={(params) => <TextField {...params} />}
+                            />
+                    </LocalizationProvider>
                     <TextField
                         margin="normal"
                         required

@@ -42,9 +42,7 @@ public class AppUserService {
         ) {
             appUser.setRole("BASIC");
         }
-
         appUserRepository.save(appUser);
-
         appUser.setPassword("");
 
         return appUser;
@@ -58,13 +56,5 @@ public class AppUserService {
         Optional<AppUser> appUser = appUserRepository.findByUsername(username);
         appUser.ifPresent(user -> user.setPassword(""));
         return appUser;
-    }
-
-    public AppUser getAuthenticatedUser () {
-        return findByUsernameWithoutPassword(
-                SecurityContextHolder.getContext().getAuthentication().getName()
-        ).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.FORBIDDEN)
-        );
     }
 }

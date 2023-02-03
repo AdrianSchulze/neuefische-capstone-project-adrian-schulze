@@ -5,6 +5,7 @@ import de.neuefische.backend.appuser.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,14 +22,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
-
         return http
                 .csrf().disable()
-                .httpBasic().and    ()
+                .httpBasic().and()
                 .authorizeHttpRequests()
-                .antMatchers().permitAll()
+                .antMatchers(HttpMethod.POST, "/api/users/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/users/signup").permitAll()
+                .antMatchers( "/api/metrics").hasRole("BASIC")
+                .antMatchers( "/api/channels").hasRole("BASIC")
                 .anyRequest()
-                .permitAll()
+                .authenticated()
                 .and()
                 .build();
     }

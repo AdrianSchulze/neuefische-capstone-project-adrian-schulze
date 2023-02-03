@@ -19,7 +19,7 @@ public class ChannelService {
         return channelRepository.findAll();
     }
 
-    public void delete(String id) {
+    public void deleteByChannelId(String id) {
         channelRepository.deleteById(id);
     }
 }

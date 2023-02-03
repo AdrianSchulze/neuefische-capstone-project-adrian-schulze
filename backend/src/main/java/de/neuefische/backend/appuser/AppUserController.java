@@ -14,7 +14,7 @@ public class AppUserController {
 
     private final AppUserService appUserService;
 
-    @PostMapping
+    @PostMapping("/signup")
     public AppUser create(@RequestBody AppUser appUser) {
         return appUserService.create(appUser);
     }

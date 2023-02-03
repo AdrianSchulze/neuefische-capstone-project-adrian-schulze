@@ -31,7 +31,7 @@ const options = [
     },
 ]
 
-export default function DialogAddChannelForm(
+export default function DialogAddChannel(
     {
         channel,
         onClose,
@@ -79,7 +79,6 @@ export default function DialogAddChannelForm(
                         >
                             {options.map(option =>
                                 <MenuItem key={option.key} value={option.name}>
-
                                     <img src={option.image} alt={""} style={{width: "15px"}} />{'\u00A0'}{'\u00A0'}{option.label}
                                 </MenuItem>)}
                         </Select>
