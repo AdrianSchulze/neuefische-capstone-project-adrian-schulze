@@ -22,19 +22,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
-        String basic = "BASIC";
         return http
                 .csrf().disable()
                 .httpBasic().and()
                 .authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, "/api/users/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/users/signup").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/metrics").hasRole(basic)
-                .antMatchers(HttpMethod.POST, "/api/channels").hasRole(basic)
-                .antMatchers(HttpMethod.DELETE, "/api/metrics").hasRole(basic)
-                .antMatchers(HttpMethod.DELETE, "/api/channels").hasRole(basic)
-                .antMatchers(HttpMethod.GET, "/api/metrics").hasRole(basic)
-                .antMatchers(HttpMethod.GET, "/api/channels").hasRole(basic)
+                .antMatchers( "/api/metrics").hasRole("BASIC")
+                .antMatchers( "/api/channels").hasRole("BASIC")
                 .anyRequest()
                 .authenticated()
                 .and()
