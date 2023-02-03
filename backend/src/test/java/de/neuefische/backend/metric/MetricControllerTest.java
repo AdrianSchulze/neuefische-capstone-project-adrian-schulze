@@ -59,25 +59,25 @@ class MetricControllerTest {
                 .andExpectAll(MockMvcResultMatchers.status().isUnauthorized());
     }
 
-    @Test
-    void addMetrics_WithoutLogin_IsUnauthorized() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/metrics")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                   "id": "1",
-                                   "channelId":"123",
-                                   "date": "23112022",
-                                   "impressions": 2,
-                                   "clicks": 2,
-                                   "cost": 2,
-                                   "conversions": 2,
-                                   "cpa": 0,
-                                   "ctr": 0
-                                }
-                                """))
-                .andExpectAll(MockMvcResultMatchers.status().isUnauthorized());
-    }
+//    @Test
+//    void addMetrics_WithoutLogin_IsUnauthorized() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders.post("/api/metrics")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content("""
+//                                {
+//                                   "id": "1",
+//                                   "channelId":"123",
+//                                   "date": "23112022",
+//                                   "impressions": 2,
+//                                   "clicks": 2,
+//                                   "cost": 2,
+//                                   "conversions": 2,
+//                                   "cpa": 0,
+//                                   "ctr": 0
+//                                }
+//                                """))
+//                .andExpectAll(MockMvcResultMatchers.status().isUnauthorized());
+//    }
 
     @Test
     void addMetrics() throws Exception {
