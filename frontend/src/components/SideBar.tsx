@@ -15,7 +15,8 @@ import Toolbar from "@mui/material/Toolbar";
 import {Button, Dialog} from "@mui/material";
 import {useState} from "react";
 import Drawer from "@mui/material/Drawer";
-import DialogAddChannelForm from "../dialogs/DialogAddChannel";
+import DialogAddChannel from "../dialogs/DialogAddChannel";
+
 
 const drawerWidth = 240;
 
@@ -49,7 +50,7 @@ export default function SideBar(
                     open={open}
                     onClose={handleAddFormClose}
                 >
-                    <DialogAddChannelForm
+                    <DialogAddChannel
                         channel={channel}
                         onClose={handleAddFormClose}
                         setChannel={setChannel}

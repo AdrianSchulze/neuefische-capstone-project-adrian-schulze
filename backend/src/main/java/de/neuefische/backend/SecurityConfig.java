@@ -5,7 +5,6 @@ import de.neuefische.backend.appuser.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,10 +26,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .httpBasic().and    ()
                 .authorizeHttpRequests()
-                .antMatchers(HttpMethod.POST, "/api/users/signup")
-                .permitAll()
-                .antMatchers("/api/**")
-                .hasRole("BASIC")
+                .antMatchers().permitAll()
                 .anyRequest()
                 .permitAll()
                 .and()

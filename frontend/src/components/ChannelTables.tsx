@@ -13,6 +13,10 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import DialogAddMetrics from "../dialogs/DialogAddMetrics";
 import Metric from "../model/Metric";
+import {toast, ToastContainer} from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const columns: GridColDef[] = [
     {field: 'date', headerName: 'Date', width: 150},
@@ -91,13 +95,15 @@ export default function ChannelTables() {
         metricWithoutId.cost = metric.cost;
         metricWithoutId.date = metric.date;
         metricWithoutId.conversions = metric.conversions;
-        const res = await axios.post("/api/metrics", metricWithoutId);
-        console.log(res.data);
-        setFilteredMetrics([...filteredMetrics, res.data]);
-        setMetric(initialMetric);
+        try {
+            const res = await axios.post("/api/metrics", metricWithoutId);
+            setFilteredMetrics([...filteredMetrics, res.data]);
+            setMetric(initialMetric);
+            toast.success("Metrics were successfully added", {position: "bottom-right",});
+        } catch {
+            toast.error("Error: Could not add metrics")
+        }
     };
-
-    console.log("Filtered Metrics: " + filteredMetrics)
 
     const handleAddFormClose = () => {
         setOpen(false);
@@ -105,6 +111,7 @@ export default function ChannelTables() {
 
     return (
         <>
+            <ToastContainer/>
             <NavBar appUser={appUser}/>
             <SideBar
                 channel={channel}
@@ -128,24 +135,24 @@ export default function ChannelTables() {
                             />
                         </Dialog>
                     </div>
-                <Toolbar/>
-                <Box style={{
-                    width: '100%',
-                    display: "flex",
-                    marginBottom: 10,
-                    justifyContent: "space-between"
-                }}
-                >
-                    <CheckBoxes/>
-                    <Button variant="outlined" onClick={() => setOpen(!open)}>Add metrics</Button>
-                </Box>
-                <div style={{height: "80vh", width: '100%'}}>
-                    <DataGrid
-                        rows={filteredMetrics}
-                        columns={columns}
-                    />
-                </div>
-            </Box> :
+                    <Toolbar/>
+                    <Box style={{
+                        width: '100%',
+                        display: "flex",
+                        marginBottom: 10,
+                        justifyContent: "space-between"
+                    }}
+                    >
+                        <CheckBoxes/>
+                        <Button variant="outlined" onClick={() => setOpen(!open)}>Add metrics</Button>
+                    </Box>
+                    <div style={{height: "80vh", width: '100%'}}>
+                        <DataGrid
+                            rows={filteredMetrics}
+                            columns={columns}
+                        />
+                    </div>
+                </Box> :
                 <HomeTables/>}
         </>
     );

@@ -9,6 +9,8 @@ import {
 import {Link, useNavigate} from "react-router-dom";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import axios from "axios";
+import {toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function LoginPage() {
 
@@ -30,7 +32,7 @@ export default function LoginPage() {
             });
             navigate("/");
         } catch (e) {
-            console.log(e);
+            toast.error("Could not login");
         }
     }, [navigate, password, username]);
 

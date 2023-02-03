@@ -2,6 +2,8 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import Channel from "../model/Channel";
 import AppUser from "../model/AppUser";
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type ChannelWithoutId = {
     channel: string;
@@ -55,20 +57,27 @@ export default function useAnalytics() {
         channelWithoutId.channel = channel.channel;
 
         const res = await axios.post("/api/channels", channelWithoutId);
-        console.log(res.data);
-        setChannels([...channels, res.data]);
-        setChannel({
-            channel: "",
-            name: "",
-            createdBy: "",
-            id: ""
-        });
+
+        try {
+            setChannels([...channels, res.data]);
+            setChannel({
+                channel: "",
+                name: "",
+                createdBy: "",
+                id: ""
+            });
+            toast.success("Channel " + res.data.name + " was added", {position: "bottom-right"});
+        } catch {
+            toast.error("Error", {position: "bottom-right"})
+        }
     };
 
     const deleteChannel = async (id: string) => {
         axios.delete("/api/channels/" + id)
-            .then(response => response.data);
+            .then(response => response.data)
+            .catch(e => toast.error("Error" + e, {position: "bottom-right"}));
         setChannels(channels.filter(e => e.id !== id));
+        toast.success("Channel was deleted", {position: "bottom-right"});
     }
 
     return (
