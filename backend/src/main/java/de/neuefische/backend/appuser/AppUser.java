@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
+import javax.validation.constraints.NotBlank;
+
 
 @Data
 @AllArgsConstructor
@@ -12,7 +14,10 @@ import org.springframework.data.annotation.Id;
 public class AppUser {
     @Id
     private String id;
+    @NotBlank
     private String username;
+    @NotBlank
     private String password;
     private String role;
+    private String imageId;
 }

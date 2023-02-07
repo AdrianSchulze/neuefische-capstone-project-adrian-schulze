@@ -23,22 +23,23 @@ export default function useAnalytics() {
         {
             id: "",
             username: "",
-            password: ""
+            password: "",
+            imageId: ""
         }
     );
 
     const [channel, setChannel] = useState<Channel>(
         {
+            id: "",
             channel: "",
             name: "",
-            createdBy: "",
-            id: ""
+            createdBy: ""
         }
     );
-
     const [channels, setChannels] = useState<Channel[]>([]);
 
     useEffect(() => {
+
         (async () => {
             const res = await axios.get(`/api/users/me`);
             setAppUser(res.data);
@@ -61,10 +62,10 @@ export default function useAnalytics() {
         try {
             setChannels([...channels, res.data]);
             setChannel({
+                id: "",
                 channel: "",
                 name: "",
-                createdBy: "",
-                id: ""
+                createdBy: ""
             });
             toast.success("Channel " + res.data.name + " was added", {position: "bottom-right"});
         } catch {
@@ -87,7 +88,7 @@ export default function useAnalytics() {
             postChannel,
             setChannel,
             appUser,
-            deleteChannel
+            deleteChannel,
         }
     );
 }

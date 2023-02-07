@@ -1,80 +1,135 @@
-import {useState} from "react";
+import React, {FormEvent, useCallback, useState} from "react";
 import {
+    Avatar,
     Button,
-    FormControl,
-    Grid,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    Paper,
-    TextField
+    Container, CssBaseline, FormControl,
+    Grid, IconButton, InputAdornment, InputLabel, OutlinedInput,
+    TextField, Typography
 } from "@mui/material";
+import {Link, useLocation, useNavigate} from "react-router-dom";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import axios from "axios";
+import {toast} from "react-toastify";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 export default function SignUpPage() {
 
-    // const [name, setName] = useState<String>("");
-    // const [password, setPassword] = useState<String>("")
-
     const [showPassword, setShowPassword] = useState(false);
+    const [credentials, setCredentials] = useState({
+        username: "",
+        password: ""
+    });
+
+    const handleChange = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            const {name, value} = event.target;
+            setCredentials({...credentials, [name]: value});
+        },
+        [credentials, setCredentials]
+    );
+
+    const navigate = useNavigate();
+
+    const location = useLocation();
+
+    const signUp = useCallback(
+        async (e: FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
+
+            try {
+                await axios.post("/api/users/signup", credentials);
+                navigate("/login" + location.search);
+            } catch (e) {
+                toast.error("Invalid user data: " + e);
+            }
+        },
+        [credentials, navigate, location]
+    );
+
     const handleClickShowPassword = () => setShowPassword((show) => !show);
+
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
 
     return (
-        <div>
-            <Grid>
-                <Paper
-                    elevation={5}
-                    className={"login-container"}
-                >
-                    <Grid
-                        container
-                        spacing={0}
-                        direction="column"
-                        alignItems="center"
-                        justifyContent="center"
-                        sx={{my: 'auto'}}
-                    >
-                        <h2>Sign Up</h2>
-                        <TextField sx={{width: '25ch'}}
-                                   label="Username"
-                                   id="outlined-size-small"
-                                   size="small"
-                        />
-                        <FormControl sx={{mt: 1, mx: 'auto', width: '25ch'}} variant="outlined">
-                            <InputLabel
-                                htmlFor="outlined-adornment-password"
-                                size={"small"}
-                            >
-                                Password
-                            </InputLabel>
-                            <OutlinedInput
-                                id="outlined-adornment-password"
-                                type={showPassword ? 'text' : 'password'}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                            edge="end"
-                                        >
-                                            {showPassword ? <VisibilityOff/> : <Visibility/>}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                                label="Password"
-                                size="small"
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box
+                sx={{
+                    marginTop: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                <Avatar sx={{ m: 1, background: '#2E3B55' }}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Sign Up
+                </Typography>
+                <Box component="form" noValidate onSubmit={signUp} sx={{ mt: 3 }}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <TextField
+                                required
+                                fullWidth
+                                autoFocus
+                                id="username"
+                                label="Username"
+                                name="username"
+                                value={credentials.username}
+                                onChange={handleChange}
+                                autoComplete="username"
                             />
-                        </FormControl>
-                        <Button sx={{mt: 2, width: '28.5ch'}} variant="contained" color="success">Sign Up</Button>
-                        <Button sx={{mt: 1, mb: 2}} href="/login" size="small">Back</Button>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormControl variant="outlined" fullWidth required>
+                                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                <OutlinedInput
+                                    id="outlined-adornment-password"
+                                    name="password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                                edge="end"
+                                            >
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                    label="Password"
+                                    value={credentials.password}
+                                    onChange={handleChange}
+                                    autoComplete="new-password"
+                                />
+                            </FormControl>
+                        </Grid>
                     </Grid>
-                </Paper>
-            </Grid>
-        </div>
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="success"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                        Sign Up
+                    </Button>
+                    <Grid container justifyContent="flex-end">
+                        <Grid item sx={{m:"auto"}}>
+                            <Link to={"/login"}>
+                                Already have an account? Sign in
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </Box>
+            </Box>
+        </Container>
     );
 }

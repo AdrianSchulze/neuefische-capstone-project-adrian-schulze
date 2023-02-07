@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -15,7 +16,7 @@ public class AppUserController {
     private final AppUserService appUserService;
 
     @PostMapping("/signup")
-    public AppUser create(@RequestBody AppUser appUser) {
+    public AppUser create(@Valid @RequestBody AppUser appUser) {
         return appUserService.create(appUser);
     }
 

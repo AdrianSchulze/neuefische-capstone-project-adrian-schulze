@@ -1,13 +1,11 @@
 import * as React from 'react';
-import ChannelTables from '../components/ChannelTables';
+import MainArea from '../components/MainArea';
 
 export default function HomePage() {
 
-
-
     return (
         <>
-            <ChannelTables/>
+            <MainArea/>
         </>
     );
 }

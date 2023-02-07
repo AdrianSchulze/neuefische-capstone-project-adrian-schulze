@@ -7,6 +7,9 @@ import AppUser from "../model/AppUser";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import {AiFillCloseCircle} from "react-icons/ai";
 import {Link} from "react-router-dom";
+import DialogConfirmDelete from "../dialogs/DialogConfirmDelete";
+import {useState} from "react";
+import {Dialog} from "@mui/material";
 
 export default function ChannelsInSideBar(
     {
@@ -19,18 +22,25 @@ export default function ChannelsInSideBar(
         deleteChannel: (id: string) => void
     }) {
 
-    const deleteHandler = (id: string | null) => {
-        if (id === undefined || id === null) {
-            return null;
-        }
-        return deleteChannel(id);
-    }
+    const [confirmOpen, setConfirmOpen] = useState<string|null>(null);
+
+    const handleAddFormClose = () => {
+        setConfirmOpen(null);
+    };
 
     return (
         <>
-            {channels.length ? channels.filter(c => c.createdBy === appUser.id).map((channel) => (
-                    <Link to={"/channel/" + channel.id} className={"unset-links"} key={channel.id}>
-                        <ListItem key={channel.name} disablePadding sx={{justifyContent: "space-between"}}>
+            {channels.filter(c => c.createdBy === appUser.id).map((channel) => (
+                    <Link
+                        to={"/channel/" + channel.id}
+                        className={"unset-links"}
+                        key={channel.id}
+                    >
+                        <ListItem
+                            key={channel.name}
+                            disablePadding
+                            sx={{justifyContent: "space-between"}}
+                        >
                             <ListItemButton>
                                 {channel.channel === 'google' ?
                                     <ListItemIcon sx={{minWidth: "35px"}}>
@@ -54,13 +64,30 @@ export default function ChannelsInSideBar(
                                                 /></ListItemIcon> : null
                                 }
                                 <ListItemText primary={channel.name}/>
-                                <button className={"delete-button-sidebar"} onClick={() => deleteHandler(channel.id)}>
-                                    <AiFillCloseCircle/></button>
+                                <button
+                                    className={"delete-button-sidebar"}
+                                    onClick={() => setConfirmOpen(channel.id)}
+                                >
+                                    <AiFillCloseCircle/>
+                                </button>
+                                <Dialog
+                                    open={confirmOpen === channel.id}
+                                    onClose={handleAddFormClose}
+                                >
+                                    <DialogConfirmDelete
+                                        title={channel.name}
+                                        id={channel.id}
+                                        open={confirmOpen === channel.id}
+                                        setOpen={handleAddFormClose}
+                                        deleteChannel={deleteChannel}
+                                    >
+                                        Are you sure you want to delete this channel?
+                                    </DialogConfirmDelete>
+                                </Dialog>
                             </ListItemButton>
                         </ListItem>
                     </Link>
-                )) :
-                (<p className={"no-channels"}>No channels</p>)}
+                ))}
         </>
     );
 }

@@ -7,7 +7,7 @@ export default function Logout () {
 
     const logout = useCallback(async () => {
         await axios.get("/api/users/logout");
-        navigate("/login");
+        navigate("/logout");
         window.document.cookie = "";
     }, [navigate]);
 

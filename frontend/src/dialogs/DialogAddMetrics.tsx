@@ -2,7 +2,7 @@ import {
     Button,
     DialogActions,
     DialogContent,
-    DialogTitle,
+    DialogTitle, Stack,
     TextField
 } from "@mui/material";
 import * as React from "react";
@@ -10,7 +10,10 @@ import Box from "@mui/material/Box";
 import Metric from "../model/Metric";
 import {DesktopDatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {Dayjs} from "dayjs";
+import dayjs, {Dayjs} from "dayjs";
+import {ChangeEvent, useState} from "react";
+
+let dateTime = dayjs();
 
 export default function DialogAddMetrics(
     {
@@ -22,22 +25,18 @@ export default function DialogAddMetrics(
         metric: Metric,
         postMetric: (metric: Metric) => void,
         onClose: () => void,
-        setMetric: (metric: Metric) => void
+        setMetric: (metric: Metric) => void,
     }) {
 
-    const [dateValue, setDateValue] = React.useState<Dayjs | null>(null);
+    const [dateValue, setDateValue] = useState<Dayjs|null>(dateTime);
 
-
-    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
         const {name,value} = e.target;
+        metric.date = dateValue?.format('DD-MM-YYYY');
         setMetric({
             ...metric, [name]: value
         })
     }
-
-    const handleDateChange = (newValue: Dayjs | null) => {
-        setDateValue(newValue);
-    };
 
     return (
         <>
@@ -48,26 +47,16 @@ export default function DialogAddMetrics(
                 <DialogTitle>Add new metrics</DialogTitle>
                 <DialogContent>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <Stack spacing={3} marginTop={"16px"}>
                             <DesktopDatePicker
                                 label="Date"
                                 inputFormat="DD/MM/YYYY"
                                 value={dateValue}
-                                onChange={handleDateChange}
+                                onChange={setDateValue}
                                 renderInput={(params) => <TextField {...params} />}
                             />
+                        </Stack>
                     </LocalizationProvider>
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        type={"number"}
-                        id="channelname"
-                        label="Date"
-                        name="date"
-                        value={metric.date}
-                        onChange={handleInput}
-                        sx={{mb: 0}}
-                    />
                     <TextField
                         margin="normal"
                         required
@@ -76,6 +65,7 @@ export default function DialogAddMetrics(
                         id="channelname"
                         label="Impressions"
                         name="impressions"
+                        placeholder={"Impressions"}
                         value={metric.impressions}
                         onChange={handleInput}
                         sx={{mb: 0}}
@@ -118,6 +108,7 @@ export default function DialogAddMetrics(
                     />
                 </DialogContent>
                 <DialogActions>
+                    <Button onClick={onClose}>Cancel</Button>
                     <Button type="submit" onClick={onClose}>Create</Button>
                 </DialogActions>
             </Box>

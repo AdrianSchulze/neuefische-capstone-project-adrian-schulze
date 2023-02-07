@@ -6,6 +6,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.text.ParseException;
 import java.util.List;
 
 @SpringBootTest
@@ -75,7 +76,7 @@ class MetricServiceTest {
                         new Metric("1", "123", "23112022", 2, 2, 2, 2, 0, 0)
                 ));
 
-        List<Metric> actual = metricService.getAllFilteredAndCalculatedMetricsByChannelId("123");
+        List<Metric> actual = metricService.getAllFilteredMetricsByChannelId("123");
 
         Assertions.assertEquals(List.of(
                 new Metric("1", "123", "23112022", 2, 2, 2, 2, 1, 100),

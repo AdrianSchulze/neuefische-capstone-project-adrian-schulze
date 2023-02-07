@@ -1,4 +1,4 @@
-package de.neuefische.backend;
+package de.neuefische.backend.config;
 
 import de.neuefische.backend.appuser.AppUser;
 import de.neuefische.backend.appuser.AppUserService;
@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST, "/api/users/signup").permitAll()
                 .antMatchers( "/api/metrics").hasRole("BASIC")
                 .antMatchers( "/api/channels").hasRole("BASIC")
+                .antMatchers("/api/files").hasRole("BASIC")
                 .anyRequest()
                 .authenticated()
                 .and()
