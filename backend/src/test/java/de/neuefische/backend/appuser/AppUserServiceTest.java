@@ -22,23 +22,23 @@ class AppUserServiceTest {
     @Test
     void createNewUser() {
         //GIVEN
-        AppUser appUser = new AppUser("1","user1","password",null);
+        AppUser appUser = new AppUser("1","user1","password",null,"63e25bbb0d39f00e892a7c93");
 
         AppUserRepository appUserRepository = Mockito.mock(AppUserRepository.class);
         AppUserService appUserService = new AppUserService(appUserRepository, passwordEncoder);
         //WHEN
         Mockito.when(appUserRepository.save(appUser))
-                .thenReturn(new AppUser("1", "user1", "", "BASIC"));
+                .thenReturn(new AppUser(null, "user1", "", "BASIC","63e25bbb0d39f00e892a7c93"));
         AppUser actual = appUserService.create(appUser);
         //THEN
-        Assertions.assertEquals(new AppUser("1", "user1", "", "BASIC"), actual);
+        Assertions.assertEquals(new AppUser(null, "user1", "", "BASIC","63e25bbb0d39f00e892a7c93"), actual);
         Mockito.verify(appUserRepository).save(appUser);
     }
 
     @Test
     void whenCreateNewUserAndItAlreadyExistsException() {
         //GIVEN
-        AppUser appUser = new AppUser("1","user1","password","BASIC");
+        AppUser appUser = new AppUser("1","user1","password","BASIC","63e25bbb0d39f00e892a7c93");
 
         AppUserRepository appUserRepository = Mockito.mock(AppUserRepository.class);
         AppUserService appUserService = new AppUserService(appUserRepository, passwordEncoder);
@@ -55,7 +55,7 @@ class AppUserServiceTest {
     @Test
     void findByUsername() {
         //GIVEN
-        AppUser appUser = new AppUser("1","user1","password",null);
+        AppUser appUser = new AppUser("1","user1","password",null,"63e25bbb0d39f00e892a7c93");
 
         AppUserRepository appUserRepository = Mockito.mock(AppUserRepository.class);
         AppUserService appUserService = new AppUserService(appUserRepository, passwordEncoder);
@@ -88,7 +88,7 @@ class AppUserServiceTest {
     @Test
     void findByUsernameWithoutPassword() {
         //GIVEN
-        AppUser appUser = new AppUser("1","user1","",null);
+        AppUser appUser = new AppUser("1","user1","",null,"63e25bbb0d39f00e892a7c93");
 
         AppUserRepository appUserRepository = Mockito.mock(AppUserRepository.class);
         AppUserService appUserService = new AppUserService(appUserRepository, passwordEncoder);

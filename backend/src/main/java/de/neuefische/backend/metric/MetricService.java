@@ -3,8 +3,6 @@ package de.neuefische.backend.metric;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +17,9 @@ public class MetricService {
 
     public Metric addMetric(Metric metric) {
 
-        // Das kann eigentlich raus. Metriken werden im Frontend berechnet
-        metric.setCpa((metric.getClicks() / metric.getCost()));
-        metric.setCtr((metric.getClicks() / metric.getImpressions()) * 100);
+//        Das kann eigentlich raus. Metriken werden im Frontend berechnet
+//        metric.setCpa((metric.getClicks() / metric.getCost()));
+//        metric.setCtr((metric.getClicks() / metric.getImpressions()) * 100);
 
         return metricRepository.save(metric);
     }
