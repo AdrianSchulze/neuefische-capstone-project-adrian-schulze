@@ -27,22 +27,20 @@ class AppUserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                    "id": "1",
                                     "username": "user1",
-                                    "password": "password",
-                                    "role": ""
+                                    "password": "password"
                                 }
                                 """))
                 .andExpectAll(MockMvcResultMatchers.status().isOk(),
                         MockMvcResultMatchers.content()
                                 .json("""
                                           {
-                                            "id": "1",
                                             "username": "user1",
                                             "password": "",
-                                            "role": "BASIC"
+                                            "role": "BASIC",
+                                            "imageId": "63e25bbb0d39f00e892a7c93"
                                         }
-                                        """, true));
+                                        """, false));
     }
 
     @Test
@@ -65,7 +63,7 @@ class AppUserControllerTest {
     void login() throws Exception {
         createUser();
         mockMvc.perform(MockMvcRequestBuilders.post("/api/users/login")
-                .with(httpBasic("user1","password")))
+                        .with(httpBasic("user1", "password")))
                 .andExpectAll(
                         MockMvcResultMatchers.status().isOk()
                 );
@@ -75,7 +73,7 @@ class AppUserControllerTest {
     @Test
     void loginWithoutUser_Forbidden() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/users/login")
-                        .with(httpBasic("user1","password")))
+                        .with(httpBasic("user1", "password")))
                 .andExpectAll(
                         MockMvcResultMatchers.status().isUnauthorized()
                 );
@@ -86,7 +84,7 @@ class AppUserControllerTest {
     void me() throws Exception {
         createUser();
         mockMvc.perform(MockMvcRequestBuilders.get("/api/users/me")
-                        .with(httpBasic("user1","password")))
+                        .with(httpBasic("user1", "password")))
                 .andExpectAll(
                         MockMvcResultMatchers.status().isOk());
     }
@@ -94,7 +92,7 @@ class AppUserControllerTest {
     @Test
     void meWithoutLogin_Forbidden() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/users/me")
-                        .with(httpBasic("user1","password")))
+                        .with(httpBasic("user1", "password")))
                 .andExpectAll(
                         MockMvcResultMatchers.status().isUnauthorized()
                 );
@@ -104,7 +102,7 @@ class AppUserControllerTest {
     void logout() throws Exception {
         createUser();
         mockMvc.perform(MockMvcRequestBuilders.get("/api/users/logout")
-                        .with(httpBasic("user1","password")))
+                        .with(httpBasic("user1", "password")))
                 .andExpectAll(
                         MockMvcResultMatchers.status().isOk()
                 );
@@ -113,7 +111,7 @@ class AppUserControllerTest {
     @Test
     void logout_Unautorized() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/users/logout")
-                        .with(httpBasic("user1","password")))
+                        .with(httpBasic("user1", "password")))
                 .andExpectAll(
                         MockMvcResultMatchers.status().isUnauthorized()
                 );

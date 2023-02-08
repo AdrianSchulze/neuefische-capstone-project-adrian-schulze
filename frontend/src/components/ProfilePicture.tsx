@@ -6,11 +6,11 @@ import AppUser from "../model/AppUser";
 import Logout from "./Logout";
 import {useState} from "react";
 import DialogProfile from "../dialogs/DialogProfile";
+import {IMAGE_URL} from "../model/Application_property";
 
 export default function ProfilePicture({appUser}: { appUser: AppUser }) {
 
     const [open, setOpen] = useState(false)
-
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -46,7 +46,7 @@ export default function ProfilePicture({appUser}: { appUser: AppUser }) {
                 <span className={"username-navbar"}>{appUser.username}</span>
                 <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                        <Avatar alt="Profile Picture" src=""/>
+                        {appUser && <Avatar alt="Profile Picture" src={IMAGE_URL + appUser.imageId}/>}
                     </IconButton>
                 </Tooltip>
                 <Menu

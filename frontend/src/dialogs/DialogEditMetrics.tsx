@@ -12,29 +12,27 @@ import {DesktopDatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, {Dayjs} from "dayjs";
 import {ChangeEvent, useState} from "react";
+import 'dayjs/locale/de'
 
-let dateTime = dayjs();
-
-export default function DialogAddMetrics(
+export default function DialogEditMetrics(
     {
         metric,
-        postMetric,
+        putMetric,
         onClose,
-        setMetric,
     }: {
         metric: Metric,
-        postMetric: (metric: Metric) => void,
+        putMetric: (metric: Metric) => void,
         onClose: () => void,
-        setMetric: (metric: Metric) => void,
     }) {
 
-    const [dateValue, setDateValue] = useState<Dayjs|null>(dateTime);
+    const [dateValue, setDateValue] = useState<Dayjs | null>(dayjs(metric.date,"DD-MM-YYYY"));
+
+    const [editMetric, setEditMetric] = useState(metric);
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        const {name,value} = e.target;
-        metric.date = dateValue?.format('DD-MM-YYYY');
-        setMetric({
-            ...metric, [name]: value
+        const {name, value} = e.target;
+        setEditMetric({
+            ...editMetric, [name]: value
         })
     }
 
@@ -42,15 +40,15 @@ export default function DialogAddMetrics(
         <>
             <Box component="form" noValidate sx={{width: '400px'}} onSubmit={e => {
                 e.preventDefault();
-                postMetric(metric);
+                putMetric(editMetric);
             }}>
-                <DialogTitle>Add new metrics</DialogTitle>
+                <DialogTitle>Edit metrics</DialogTitle>
                 <DialogContent>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <Stack spacing={3} marginTop={"16px"}>
                             <DesktopDatePicker
                                 label="Date"
-                                inputFormat="DD/MM/YYYY"
+                                inputFormat="DD-MM-YYYY"
                                 value={dateValue}
                                 onChange={setDateValue}
                                 renderInput={(params) => <TextField {...params} />}
@@ -59,57 +57,53 @@ export default function DialogAddMetrics(
                     </LocalizationProvider>
                     <TextField
                         margin="normal"
-                        required
                         fullWidth
                         type={"number"}
                         id="channelname"
                         label="Impressions"
                         name="impressions"
                         placeholder={"Impressions"}
-                        value={metric.impressions}
+                        value={editMetric.impressions}
                         onChange={handleInput}
                         sx={{mb: 0}}
                     />
                     <TextField
                         margin="normal"
-                        required
                         fullWidth
                         type={"number"}
                         id="channelname"
                         label="Clicks"
                         name="clicks"
-                        value={metric.clicks}
+                        value={editMetric.clicks}
                         onChange={handleInput}
                         sx={{mb: 0}}
                     />
                     <TextField
                         margin="normal"
-                        required
                         fullWidth
                         type={"number"}
                         id="channelname"
                         label="Cost"
                         name="cost"
-                        value={metric.cost}
+                        value={editMetric.cost}
                         onChange={handleInput}
                         sx={{mb: 0}}
                     />
                     <TextField
                         margin="normal"
-                        required
                         fullWidth
                         type={"number"}
                         id="channelname"
                         label="Conversions"
                         name="conversions"
-                        value={metric.conversions}
+                        value={editMetric.conversions}
                         onChange={handleInput}
                         sx={{mb: 0}}
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={onClose}>Cancel</Button>
-                    <Button type="submit" onClick={onClose}>Create</Button>
+                    <Button type="submit" onClick={onClose}>Edit</Button>
                 </DialogActions>
             </Box>
         </>

@@ -26,22 +26,20 @@ class MetricControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                    "id": "1",
                                     "username": "user1",
-                                    "password": "password",
-                                    "role": ""
+                                    "password": "password"
                                 }
                                 """))
                 .andExpectAll(MockMvcResultMatchers.status().isOk(),
                         MockMvcResultMatchers.content()
                                 .json("""
                                           {
-                                            "id": "1",
                                             "username": "user1",
                                             "password": "",
-                                            "role": "BASIC"
+                                            "role": "BASIC",
+                                            "imageId": "63e25bbb0d39f00e892a7c93"
                                         }
-                                        """, true));
+                                        """, false));
     }
 
     @Test
@@ -96,7 +94,8 @@ class MetricControllerTest {
                                    "cost": 2,
                                    "conversions": 2,
                                    "cpa": 0,
-                                   "ctr": 0
+                                   "ctr": 0,
+                                   "cvr": 0
                                 }
                                 """))
                 .andExpectAll(MockMvcResultMatchers.status().isOk(),
@@ -111,7 +110,8 @@ class MetricControllerTest {
                                                   "cost": 2,
                                                   "conversions": 2,
                                                   "cpa": 0,
-                                                  "ctr": 0
+                                                  "ctr": 0,
+                                                  "cvr": 0
                                              }
                                              """, true));
     }

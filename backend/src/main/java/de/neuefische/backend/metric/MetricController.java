@@ -3,6 +3,8 @@ package de.neuefische.backend.metric;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -18,13 +20,18 @@ public class MetricController {
     }
 
     @PostMapping
-    public Metric addMetrics(@RequestBody Metric metric) {
+    public Metric addMetrics(@RequestBody @Valid Metric metric) {
         return metricService.addMetric(metric);
     }
 
     @GetMapping("/{id}")
     public List<Metric> getAllFilteredAndCalculatedMetricsByChannelId (@PathVariable String id) {
-        return metricService.getAllFilteredAndCalculatedMetricsByChannelId(id);
+        return metricService.getAllFilteredMetricsByChannelId(id);
+    }
+
+    @PutMapping("/{id}")
+    public Metric updateMetric (@PathVariable String id, @RequestBody Metric metric) {
+        return metricService.updateMetric(id, metric);
     }
 
 

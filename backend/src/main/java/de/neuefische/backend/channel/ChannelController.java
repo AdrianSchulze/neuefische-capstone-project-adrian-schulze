@@ -3,6 +3,7 @@ package de.neuefische.backend.channel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,7 +20,7 @@ public class ChannelController {
     }
 
     @PostMapping
-    public Channel create(@RequestBody Channel channel) {
+    public Channel create(@Valid @RequestBody Channel channel) {
         return channelService.create(channel);
     }
 

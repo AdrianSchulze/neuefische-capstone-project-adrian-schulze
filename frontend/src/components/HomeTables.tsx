@@ -1,73 +1,93 @@
 import * as React from 'react';
-import {DataGrid, GridColDef, GridValueGetterParams} from '@mui/x-data-grid';
-import Box from "@mui/material/Box";
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
-import CheckBoxes from './CheckBoxes';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 
-const columns: GridColDef[] = [
-    {field: 'date', headerName: 'Date', width: 70},
-    {field: 'impressions', headerName: 'Impressions', width: 130},
-    {field: 'clicks', headerName: 'Clicks', width: 130},
-    {field: 'ctr', headerName: 'CTR', type: 'number', width: 90},
-    {
-        field: 'cost', headerName: 'Cost', type: 'number',
-        valueGetter: (params: GridValueGetterParams) =>
-            `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-    },
-    {field: 'conversions', headerName: 'Conversions', type: 'number', width: 90},
-    {field: 'cpa', headerName: 'CPA', type: 'number', width: 90},
-];
+function createData(
+    id: string,
+    channel: string,
+    impressions: number,
+    clicks: number,
+    ctr: number,
+    cost: number,
+    conversions: number,
+    cvr: number,
+    cpa: number
+) {
+    return {
+        id,
+        channel,
+        impressions,
+        clicks,
+        ctr,
+        cost,
+        conversions,
+        cvr,
+        cpa
+    };
+}
 
 const rows = [
-    {id: 1, lastName: 'Snow', firstName: 'Jon', age: 35},
-    {id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42},
-    {id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45},
-    {id: 4, lastName: 'Stark', firstName: 'Arya', age: 16},
-    {id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null},
-    {id: 6, lastName: 'Melisandre', firstName: null, age: 150},
-    {id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44},
-    {id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36},
-    {id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65},
+    createData('Frozen yoghurt', "159", 6.0, 24, 4.0, 0, 0, 0,0),
+    createData('Ice cream sandwich', "237", 9.0, 37, 4.3, 0, 0, 0,0),
+    createData('Eclair', "262", 16.0, 24, 6.0, 0,0,0,0),
+    createData('Cupcake', "305", 3.7, 67, 4.3,0,0,0,0),
+    createData('Gingerbread', "356", 16.0, 49, 3.9,0,0,0,0),
 ];
 
-export default function HomeTables() {
+export default function BasicTable() {
     return (
-        <>
-
-            <Box component="main" sx={{flexGrow: 1, p: 3}}>
-                <Toolbar/>
-                <Box style={{
-                    width: '100%',
-                    display: "flex",
-                    marginBottom: 10,
-                    justifyContent: "space-between"
-                }}
+        <div>
+            <Toolbar/>
+            <TableContainer component={Paper}>
+                <Typography
+                    sx={{flex: '1 1 100%'}}
+                    variant="h6"
+                    id="tableTitle"
+                    component="div"
                 >
-                    <CheckBoxes/>
-                    <FormControl sx={{width: 250}}>
-                        <InputLabel id="demo-simple-select-helper-label">Compare</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-helper-label"
-                            id="demo-simple-select-helper"
-                            label="Compare"
-                            required
-                            // value={channel.channel}
-                            // onChange={handleSelect}
-                        >
-                            <MenuItem>Yesterday</MenuItem>
-                            <MenuItem>Last month</MenuItem>
-                            <MenuItem>Last year</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Box>
-                <div style={{height: "80vh", width: '100%'}}>
-                    <DataGrid
-                        rows={rows}
-                        columns={columns}
-                    />
-                </div>
-            </Box>
-        </>
+                    Overview
+                </Typography>
+                <Table sx={{minWidth: 650}} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell sx={{fontWeight: "bold"}}>Channel</TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>Impressions</TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>Clicks</TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>CTR (in %)</TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>Cost</TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>Conversions</TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>CVR</TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>CPA (in €)</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows.map((row) => (
+                            <TableRow
+                                key={row.id}
+                                sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                            >
+                                <TableCell component="th" scope="row">
+                                    {row.channel}
+                                </TableCell>
+                                <TableCell align="right">{row.impressions}</TableCell>
+                                <TableCell align="right">{row.clicks}</TableCell>
+                                <TableCell
+                                    align="right">{(row.clicks / row.impressions) * 100}%</TableCell>
+                                <TableCell align="right">{row.cost}€</TableCell>
+                                <TableCell align="right">{(row.cost / row.conversions)}€</TableCell>
+                                <TableCell align="right">{row.cost / row.conversions}€</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div>
     );
 }

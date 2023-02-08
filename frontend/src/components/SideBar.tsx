@@ -17,7 +17,6 @@ import {useState} from "react";
 import Drawer from "@mui/material/Drawer";
 import DialogAddChannel from "../dialogs/DialogAddChannel";
 
-
 const drawerWidth = 240;
 
 export default function SideBar(
@@ -45,19 +44,6 @@ export default function SideBar(
 
     return (
         <div>
-            <div>
-                <Dialog
-                    open={open}
-                    onClose={handleAddFormClose}
-                >
-                    <DialogAddChannel
-                        channel={channel}
-                        onClose={handleAddFormClose}
-                        setChannel={setChannel}
-                        postChannel={postChannel}
-                    />
-                </Dialog>
-            </div>
             <Drawer
                 variant="permanent"
                 sx={{
@@ -81,13 +67,14 @@ export default function SideBar(
                                 </ListItem></Link>
                         </List>
                         <Divider/>
-                        <List>
+                        {channels.length ? <List>
                             <ChannelsInSideBar
                                 channels={channels}
                                 appUser={appUser}
                                 deleteChannel={deleteChannel}
                             />
-                        </List>
+                        </List> :
+                        "No channels"}
                         <Divider/>
                     </Box>
                     <Box textAlign='center'>
@@ -96,6 +83,19 @@ export default function SideBar(
                     </Box>
                 </Box>
             </Drawer>
+            <div>
+                <Dialog
+                    open={open}
+                    onClose={handleAddFormClose}
+                >
+                    <DialogAddChannel
+                        channel={channel}
+                        onClose={handleAddFormClose}
+                        setChannel={setChannel}
+                        postChannel={postChannel}
+                    />
+                </Dialog>
+            </div>
         </div>
     );
 }

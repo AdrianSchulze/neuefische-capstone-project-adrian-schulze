@@ -2,20 +2,22 @@ import React, {FormEvent, useCallback, useState} from "react";
 import {
     Avatar,
     Box,
-    Button, Container, CssBaseline,
-    Grid,
+    Button, Container, CssBaseline, FormControl,
+    Grid, IconButton, InputAdornment, InputLabel, OutlinedInput,
     TextField, Typography
 } from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import axios from "axios";
-import {toast } from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 export default function LoginPage() {
 
     const [username, setUsername] = useState<string>("");
-    const [password, setPassword] = useState<string>("")
+    const [password, setPassword] = useState<string>("");
+    const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
 
@@ -31,13 +33,21 @@ export default function LoginPage() {
                 }
             });
             navigate("/");
+            toast.success("Successfully logged in!")
         } catch (e) {
-            toast.error("Could not login");
+            toast.error("Wrong username or password");
         }
     }, [navigate, password, username]);
 
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
+
     return (
         <Container component="main" maxWidth="xs">
+            <ToastContainer/>
             <CssBaseline />
             <Box
                 sx={{
@@ -51,7 +61,7 @@ export default function LoginPage() {
                     <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign in
+                    Login
                 </Typography>
                 <Box component="form" onSubmit={login} noValidate sx={{ mt: 1 }}>
                     <TextField
@@ -67,18 +77,30 @@ export default function LoginPage() {
                         onChange={e => setUsername(e.target.value)}
                         sx={{mb: 0}}
                     />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                    />
+                    <FormControl sx={{ mt: 1 }} variant="outlined" fullWidth required>
+                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                        <OutlinedInput
+                            id="outlined-adornment-password"
+                            name="password"
+                            type={showPassword ? 'text' : 'password'}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                            label="Password"
+                            autoComplete="current-password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                        />
+                    </FormControl>
                     <Button
                         type="submit"
                         fullWidth
@@ -86,12 +108,12 @@ export default function LoginPage() {
                         sx={{ mt: 3, mb: 2 }}
                         color="success"
                     >
-                        Sign In
+                        Login
                     </Button>
                     <Grid container>
                         <Grid item
                               sx={{m:"auto"}}>
-                            <Link to={"#"}>
+                            <Link to={"/signup"}>
                                 Don't have an account? Sign Up
                             </Link>
                         </Grid>

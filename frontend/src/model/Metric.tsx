@@ -1,13 +1,14 @@
 type Metric = {
-    id: string,
+    id?: string,
     channelId: string,
-    date: string,
+    date?: string,
     ctr: number,
     cpa: number,
     impressions: number,
     clicks: number,
     cost: number,
-    conversions: number
+    conversions: number,
+    cvr: number
 }
 
 export default Metric;

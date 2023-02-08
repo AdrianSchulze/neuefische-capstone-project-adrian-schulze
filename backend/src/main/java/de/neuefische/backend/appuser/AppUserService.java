@@ -42,6 +42,8 @@ public class AppUserService {
         ) {
             appUser.setRole("BASIC");
         }
+        appUser.setId(null);
+        appUser.setImageId("63e25bbb0d39f00e892a7c93");
         appUserRepository.save(appUser);
         appUser.setPassword("");
 
@@ -56,5 +58,22 @@ public class AppUserService {
         Optional<AppUser> appUser = appUserRepository.findByUsername(username);
         appUser.ifPresent(user -> user.setPassword(""));
         return appUser;
+    }
+
+    public AppUser getAuthenticatedUser () {
+        return findByUsernameWithoutPassword(
+                SecurityContextHolder.getContext().getAuthentication().getName()
+        ).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.FORBIDDEN)
+        );
+    }
+
+    public AppUser findUserById(String id) {
+        Optional<AppUser> appUser = appUserRepository.findAppUserById(id);
+        return appUser.orElse(null);
+    }
+
+    public AppUser update(AppUser appUser) {
+        return appUserRepository.save(appUser);
     }
 }

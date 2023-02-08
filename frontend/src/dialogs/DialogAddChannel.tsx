@@ -59,7 +59,7 @@ export default function DialogAddChannel(
     }
 
     return (
-        <>
+        <div>
             <Box component="form" noValidate sx={{width: '400px'}} onSubmit={e => {
                 e.preventDefault();
                 postChannel(channel);
@@ -97,9 +97,10 @@ export default function DialogAddChannel(
                     />
                 </DialogContent>
                 <DialogActions>
+                    <Button onClick={onClose}>Cancel</Button>
                     <Button type="submit" onClick={onClose}>Create</Button>
                 </DialogActions>
             </Box>
-        </>
+        </div>
     )
 }

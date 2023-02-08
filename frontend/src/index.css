@@ -35,3 +35,12 @@ html, body {
   color: #000;
   cursor: pointer;
 }
+
+.metricEdit {
+  text-align: center;
+  cursor: pointer;
+}
+
+.imgPreview {
+  width: 150px;
+}

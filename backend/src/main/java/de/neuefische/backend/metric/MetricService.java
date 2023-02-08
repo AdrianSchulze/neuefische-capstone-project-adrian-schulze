@@ -19,17 +19,20 @@ public class MetricService {
         return metricRepository.save(metric);
     }
 
-    public List<Metric> getAllFilteredAndCalculatedMetricsByChannelId(String channelId) {
+    public List<Metric> getAllFilteredMetricsByChannelId(String channelId) {
         List<Metric> allMetrics = metricRepository.findAll();
         List<Metric> allMetricsByChannelId = new ArrayList<>();
 
         for (Metric metric : allMetrics) {
             if (metric.getChannelId().equals(channelId)) {
-                metric.setCpa((metric.getClicks() / metric.getCost()));
-                metric.setCtr((metric.getImpressions() / metric.getClicks()) * 100);
                 allMetricsByChannelId.add(metric);
             }
         }
         return allMetricsByChannelId;
+    }
+
+    public Metric updateMetric(String id, Metric metric) {
+        metric.setId(id);
+        return metricRepository.save(metric);
     }
 }
