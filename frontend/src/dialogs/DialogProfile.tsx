@@ -27,8 +27,11 @@ export default function DialogProfile(
                     const formData = new FormData();
                     formData.append("file", file);
 
-                    const res = await axios.post("/api/files", formData);
-                    alert(JSON.stringify(res.data, null, 2))
+                    await axios.post("/api/files", formData);
+
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 500);
 
                 }
 

@@ -9,7 +9,7 @@ import {
 import {Link, useNavigate} from "react-router-dom";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import axios from "axios";
-import {toast } from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 
@@ -35,7 +35,7 @@ export default function LoginPage() {
             navigate("/");
             toast.success("Successfully logged in!")
         } catch (e) {
-            toast.error("Could not login");
+            toast.error("Wrong username or password");
         }
     }, [navigate, password, username]);
 
@@ -47,6 +47,7 @@ export default function LoginPage() {
 
     return (
         <Container component="main" maxWidth="xs">
+            <ToastContainer/>
             <CssBaseline />
             <Box
                 sx={{

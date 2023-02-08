@@ -20,7 +20,6 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
-import Checkbox from "@mui/material/Checkbox";
 import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
@@ -28,10 +27,6 @@ import TableHead from "@mui/material/TableHead";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import {visuallyHidden} from "@mui/utils";
 import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import EditIcon from '@mui/icons-material/Edit';
 import DialogEditMetrics from "../dialogs/DialogEditMetrics";
 
@@ -187,14 +182,14 @@ const headCells: readonly HeadCell[] = [
 interface EnhancedTableProps {
     numSelected: number;
     onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-    onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    // onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
     order: Order;
     orderBy: string;
     rowCount: number;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-    const {onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort} =
+    const {order, orderBy, numSelected, rowCount, onRequestSort} =
         props;
     const createSortHandler =
         (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
@@ -205,15 +200,15 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         <TableHead>
             <TableRow>
                 <TableCell padding="checkbox">
-                    <Checkbox
-                        color="primary"
-                        indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={onSelectAllClick}
-                        inputProps={{
-                            'aria-label': 'select all',
-                        }}
-                    />
+                    {/*<Checkbox*/}
+                    {/*    color="primary"*/}
+                    {/*    indeterminate={numSelected > 0 && numSelected < rowCount}*/}
+                    {/*    checked={rowCount > 0 && numSelected === rowCount}*/}
+                    {/*    // onChange={onSelectAllClick}*/}
+                    {/*    inputProps={{*/}
+                    {/*        'aria-label': 'select all',*/}
+                    {/*    }}*/}
+                    {/*/>*/}
                 </TableCell>
                 {headCells.map((headCell) => (
                     <TableCell
@@ -221,6 +216,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         align={headCell.numeric ? 'right' : 'left'}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
+                        sx={{fontWeight: "bold"}}
                     >
                         <TableSortLabel
                             active={orderBy === headCell.id}
@@ -257,16 +253,16 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                 ...(numSelected > 0 && {}),
             }}
         >
-            {numSelected > 0 ? (
-                <Typography
-                    sx={{flex: '1 1 100%'}}
-                    color="inherit"
-                    variant="subtitle1"
-                    component="div"
-                >
-                    {numSelected} selected
-                </Typography>
-            ) : (
+            {/*{numSelected > 0 ? (*/}
+            {/*    <Typography*/}
+            {/*        sx={{flex: '1 1 100%'}}*/}
+            {/*        color="inherit"*/}
+            {/*        variant="subtitle1"*/}
+            {/*        component="div"*/}
+            {/*    >*/}
+            {/*        {numSelected} selected*/}
+            {/*    </Typography>*/}
+            {/*) : (*/}
                 <Typography
                     sx={{flex: '1 1 100%'}}
                     variant="h6"
@@ -275,20 +271,20 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                 >
                     Channel Analysis
                 </Typography>
-            )}
-            {numSelected > 0 ? (
-                <Tooltip title="Delete">
-                    <IconButton>
-                        <DeleteIcon/>
-                    </IconButton>
-                </Tooltip>
-            ) : (
-                <Tooltip title="Filter list">
-                    <IconButton>
-                        <FilterListIcon/>
-                    </IconButton>
-                </Tooltip>
-            )}
+            {/*)}*/}
+            {/*{numSelected > 0 ? (*/}
+            {/*    <Tooltip title="Delete">*/}
+            {/*        <IconButton>*/}
+            {/*            <DeleteIcon/>*/}
+            {/*        </IconButton>*/}
+            {/*    </Tooltip>*/}
+            {/*) : (*/}
+            {/*    <Tooltip title="Filter list">*/}
+            {/*        <IconButton>*/}
+            {/*            <FilterListIcon/>*/}
+            {/*        </IconButton>*/}
+            {/*    </Tooltip>*/}
+            {/*)}*/}
         </Toolbar>
     );
 }
@@ -308,7 +304,7 @@ export default function MainArea() {
 
     // const [openBackdrop, setOpenBackdrop] = useState(false);
 
-    const [metric, setMetric] = useState<Metric>(initialMetric)
+    const [metric, setMetric] = useState<Metric>(initialMetric);
 
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof Data>('date');
@@ -357,7 +353,7 @@ export default function MainArea() {
             const res = await axios.put("/api/metrics/"+metric.id, metric);
             // setOpenBackdrop(true);
             // setTimeout(() => {
-                setFilteredMetrics([...filteredMetrics, res.data]);
+            setFilteredMetrics([...filteredMetrics.filter(f => f.id !== metric.id),res.data])
                 setMetric(initialMetric);
                 toast.success("Metrics were successfully edited", {position: "bottom-right",});
                 // setOpenBackdrop(false);
@@ -373,6 +369,7 @@ export default function MainArea() {
 
     const handleEditFormClose = () => {
         setOpenEdit(null);
+        setMetric(initialMetric);
     };
 
     const rows = filteredMetrics.map(f =>
@@ -398,34 +395,34 @@ export default function MainArea() {
         setOrderBy(property);
     };
 
-    const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.checked) {
-            const newSelected = rows.map((n) => n.date);
-            setSelected(newSelected);
-            return;
-        }
-        setSelected([]);
-    };
+    // const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     if (event.target.checked) {
+    //         const newSelected = rows.map((n) => n.date);
+    //         setSelected(newSelected);
+    //         return;
+    //     }
+    //     setSelected([]);
+    // };
 
-    const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-        const selectedIndex = selected.indexOf(name);
-        let newSelected: readonly string[] = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
-
-        setSelected(newSelected);
-    };
+    // const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+    //     const selectedIndex = selected.indexOf(name);
+    //     let newSelected: readonly string[] = [];
+    //
+    //     if (selectedIndex === -1) {
+    //         newSelected = newSelected.concat(selected, name);
+    //     } else if (selectedIndex === 0) {
+    //         newSelected = newSelected.concat(selected.slice(1));
+    //     } else if (selectedIndex === selected.length - 1) {
+    //         newSelected = newSelected.concat(selected.slice(0, -1));
+    //     } else if (selectedIndex > 0) {
+    //         newSelected = newSelected.concat(
+    //             selected.slice(0, selectedIndex),
+    //             selected.slice(selectedIndex + 1),
+    //         );
+    //     }
+    //
+    //     setSelected(newSelected);
+    // };
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -440,7 +437,7 @@ export default function MainArea() {
         setDense(event.target.checked);
     };
 
-    const isSelected = (name: string) => selected.indexOf(name) !== -1;
+    // const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
@@ -498,7 +495,7 @@ export default function MainArea() {
                                         numSelected={selected.length}
                                         order={order}
                                         orderBy={orderBy}
-                                        onSelectAllClick={handleSelectAllClick}
+                                        // onSelectAllClick={handleSelectAllClick}
                                         onRequestSort={handleRequestSort}
                                         rowCount={rows.length}
                                     />
@@ -506,27 +503,27 @@ export default function MainArea() {
                                         {stableSort(rows, getComparator(order, orderBy))
                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                             .map((row, index) => {
-                                                const isItemSelected = isSelected(row.date);
+                                                // const isItemSelected = isSelected(row.date);
                                                 const labelId = `enhanced-table-checkbox-${index}`;
 
                                                 return (
                                                     <TableRow
                                                         hover
-                                                        onClick={(event) => handleClick(event, row.date)}
+                                                        // onClick={(event) => handleClick(event, row.date)}
                                                         role="checkbox"
-                                                        aria-checked={isItemSelected}
+                                                        // aria-checked={isItemSelected}
                                                         tabIndex={-1}
                                                         key={row.id}
-                                                        selected={isItemSelected}
+                                                        // selected={isItemSelected}
                                                     >
                                                         <TableCell padding="checkbox">
-                                                            <Checkbox
-                                                                color="primary"
-                                                                checked={isItemSelected}
-                                                                inputProps={{
-                                                                    'aria-labelledby': labelId,
-                                                                }}
-                                                            />
+                                                            {/*<Checkbox*/}
+                                                            {/*    color="primary"*/}
+                                                            {/*    // checked={isItemSelected}*/}
+                                                            {/*    inputProps={{*/}
+                                                            {/*        'aria-labelledby': labelId,*/}
+                                                            {/*    }}*/}
+                                                            {/*/>*/}
                                                         </TableCell>
                                                         <TableCell
                                                             component="th"
@@ -575,9 +572,9 @@ export default function MainArea() {
                                                             onClose={handleEditFormClose}
                                                         >
                                                             <DialogEditMetrics
+                                                                onClose={handleEditFormClose}
                                                                 metric={row}
                                                                 putMetric={putMetric}
-                                                                setMetric={setMetric}
                                                             />
                                                         </Dialog>
                                                     </TableRow>
