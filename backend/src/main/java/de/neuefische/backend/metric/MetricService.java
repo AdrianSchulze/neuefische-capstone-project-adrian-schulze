@@ -16,11 +16,6 @@ public class MetricService {
     }
 
     public Metric addMetric(Metric metric) {
-
-//        Das kann eigentlich raus. Metriken werden im Frontend berechnet
-//        metric.setCpa((metric.getClicks() / metric.getCost()));
-//        metric.setCtr((metric.getClicks() / metric.getImpressions()) * 100);
-
         return metricRepository.save(metric);
     }
 

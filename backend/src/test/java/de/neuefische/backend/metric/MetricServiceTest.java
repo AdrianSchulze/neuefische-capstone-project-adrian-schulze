@@ -78,8 +78,8 @@ class MetricServiceTest {
         List<Metric> actual = metricService.getAllFilteredMetricsByChannelId("123");
 
         Assertions.assertEquals(List.of(
-                new Metric("1", "123", "23112022", 2, 2, 2, 2, 1, 100,0),
-                new Metric("1", "123", "23112022", 2, 2, 2, 2, 1, 100,0)), actual);
+                new Metric("1", "123", "23112022", 2, 2, 2, 2, 0, 0,0),
+                new Metric("1", "123", "23112022", 2, 2, 2, 2, 0, 0,0)), actual);
         Mockito.verify(metricRepository).findAll();
     }
 }

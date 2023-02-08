@@ -270,7 +270,6 @@ export default function MainArea() {
 
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof Data>('date');
-    const [selected, setSelected] = React.useState<readonly string[]>([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -413,7 +412,7 @@ export default function MainArea() {
 
                     <Box sx={{width: '100%'}}>
                         <Paper sx={{width: '100%', mb: 2}}>
-                            <EnhancedTableToolbar numSelected={selected.length}/>
+                            <EnhancedTableToolbar numSelected={0}/>
                             <TableContainer>
                                 <Table
                                     sx={{minWidth: 750}}
@@ -421,7 +420,7 @@ export default function MainArea() {
                                     size={dense ? 'small' : 'medium'}
                                 >
                                     <EnhancedTableHead
-                                        numSelected={selected.length}
+                                        numSelected={0}
                                         order={order}
                                         orderBy={orderBy}
                                         // onSelectAllClick={handleSelectAllClick}
