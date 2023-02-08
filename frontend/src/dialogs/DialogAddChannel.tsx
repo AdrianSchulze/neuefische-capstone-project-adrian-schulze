@@ -74,7 +74,7 @@ export default function DialogAddChannel(
                             label="Channel"
                             fullWidth
                             required
-                            value={channel!.channel}
+                            value={channel.channel}
                             onChange={handleSelect}
                         >
                             {options.map(option =>
@@ -91,7 +91,7 @@ export default function DialogAddChannel(
                         label="Channel name"
                         name="channelname"
                         autoFocus
-                        value={channel!.name}
+                        value={channel.name}
                         onChange={handleInput}
                         sx={{mb: 0}}
                     />

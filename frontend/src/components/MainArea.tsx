@@ -105,10 +105,6 @@ function getComparator<Key extends keyof any>(
         : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
 function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
     const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
     stabilizedThis.sort((a, b) => {
@@ -133,63 +129,62 @@ const headCells: readonly HeadCell[] = [
         id: 'date',
         numeric: false,
         disablePadding: true,
-        label: 'Date',
+        label: 'Date'
     },
     {
         id: 'impressions',
         numeric: true,
         disablePadding: false,
-        label: 'Impressions',
+        label: 'Impressions'
     },
     {
-        id: 'clicks',
+        id: "clicks",
         numeric: true,
-        disablePadding: false,
-        label: 'Clicks',
+        disablePadding:false,
+        label: "Clicks"
     },
     {
         id: 'ctr',
         numeric: true,
         disablePadding: false,
-        label: 'CTR',
+        label: 'CTR'
     },
     {
-        id: 'cost',
+        id: "cost",
         numeric: true,
-        disablePadding: false,
-        label: 'Cost',
+        disablePadding:false,
+        label: "Cost"
     },
     {
         id: 'conversions',
         numeric: true,
         disablePadding: false,
-        label: 'Conversions',
+        label: 'Conversions'
     },
     {
         id: 'cvr',
         numeric: true,
         disablePadding: false,
-        label: 'CVR',
+        label: 'CVR'
     },
     {
-        id: 'cpa',
-        numeric: true,
+        id: "cpa",
+        numeric:true,
         disablePadding: false,
-        label: 'CPA',
+        label: "CPA"
     }
 ];
 
 interface EnhancedTableProps {
     numSelected: number;
     onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-    // onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
     order: Order;
     orderBy: string;
     rowCount: number;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-    const {order, orderBy, numSelected, rowCount, onRequestSort} =
+    const {order, orderBy, onRequestSort} =
         props;
     const createSortHandler =
         (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
@@ -200,15 +195,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         <TableHead>
             <TableRow>
                 <TableCell padding="checkbox">
-                    {/*<Checkbox*/}
-                    {/*    color="primary"*/}
-                    {/*    indeterminate={numSelected > 0 && numSelected < rowCount}*/}
-                    {/*    checked={rowCount > 0 && numSelected === rowCount}*/}
-                    {/*    // onChange={onSelectAllClick}*/}
-                    {/*    inputProps={{*/}
-                    {/*        'aria-label': 'select all',*/}
-                    {/*    }}*/}
-                    {/*/>*/}
                 </TableCell>
                 {headCells.map((headCell) => (
                     <TableCell
@@ -253,16 +239,6 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                 ...(numSelected > 0 && {}),
             }}
         >
-            {/*{numSelected > 0 ? (*/}
-            {/*    <Typography*/}
-            {/*        sx={{flex: '1 1 100%'}}*/}
-            {/*        color="inherit"*/}
-            {/*        variant="subtitle1"*/}
-            {/*        component="div"*/}
-            {/*    >*/}
-            {/*        {numSelected} selected*/}
-            {/*    </Typography>*/}
-            {/*) : (*/}
                 <Typography
                     sx={{flex: '1 1 100%'}}
                     variant="h6"
@@ -271,20 +247,6 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                 >
                     Channel Analysis
                 </Typography>
-            {/*)}*/}
-            {/*{numSelected > 0 ? (*/}
-            {/*    <Tooltip title="Delete">*/}
-            {/*        <IconButton>*/}
-            {/*            <DeleteIcon/>*/}
-            {/*        </IconButton>*/}
-            {/*    </Tooltip>*/}
-            {/*) : (*/}
-            {/*    <Tooltip title="Filter list">*/}
-            {/*        <IconButton>*/}
-            {/*            <FilterListIcon/>*/}
-            {/*        </IconButton>*/}
-            {/*    </Tooltip>*/}
-            {/*)}*/}
         </Toolbar>
     );
 }
@@ -395,35 +357,6 @@ export default function MainArea() {
         setOrderBy(property);
     };
 
-    // const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     if (event.target.checked) {
-    //         const newSelected = rows.map((n) => n.date);
-    //         setSelected(newSelected);
-    //         return;
-    //     }
-    //     setSelected([]);
-    // };
-
-    // const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-    //     const selectedIndex = selected.indexOf(name);
-    //     let newSelected: readonly string[] = [];
-    //
-    //     if (selectedIndex === -1) {
-    //         newSelected = newSelected.concat(selected, name);
-    //     } else if (selectedIndex === 0) {
-    //         newSelected = newSelected.concat(selected.slice(1));
-    //     } else if (selectedIndex === selected.length - 1) {
-    //         newSelected = newSelected.concat(selected.slice(0, -1));
-    //     } else if (selectedIndex > 0) {
-    //         newSelected = newSelected.concat(
-    //             selected.slice(0, selectedIndex),
-    //             selected.slice(selectedIndex + 1),
-    //         );
-    //     }
-    //
-    //     setSelected(newSelected);
-    // };
-
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
@@ -437,9 +370,6 @@ export default function MainArea() {
         setDense(event.target.checked);
     };
 
-    // const isSelected = (name: string) => selected.indexOf(name) !== -1;
-
-    // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -457,7 +387,6 @@ export default function MainArea() {
                 deleteChannel={deleteChannel}
             />
             {id ? <Box component="main" sx={{flexGrow: 1, p: 3}}>
-                    {/*Dialog Add Metrics*/}
                     <div>
                         <Dialog
                             open={open}
@@ -503,28 +432,16 @@ export default function MainArea() {
                                         {stableSort(rows, getComparator(order, orderBy))
                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                             .map((row, index) => {
-                                                // const isItemSelected = isSelected(row.date);
                                                 const labelId = `enhanced-table-checkbox-${index}`;
 
                                                 return (
                                                     <TableRow
                                                         hover
-                                                        // onClick={(event) => handleClick(event, row.date)}
                                                         role="checkbox"
-                                                        // aria-checked={isItemSelected}
                                                         tabIndex={-1}
                                                         key={row.id}
-                                                        // selected={isItemSelected}
                                                     >
-                                                        <TableCell padding="checkbox">
-                                                            {/*<Checkbox*/}
-                                                            {/*    color="primary"*/}
-                                                            {/*    // checked={isItemSelected}*/}
-                                                            {/*    inputProps={{*/}
-                                                            {/*        'aria-labelledby': labelId,*/}
-                                                            {/*    }}*/}
-                                                            {/*/>*/}
-                                                        </TableCell>
+                                                        <TableCell padding="checkbox"></TableCell>
                                                         <TableCell
                                                             component="th"
                                                             id={labelId}
