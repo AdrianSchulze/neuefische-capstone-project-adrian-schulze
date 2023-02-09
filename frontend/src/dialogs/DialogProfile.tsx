@@ -51,7 +51,7 @@ export default function DialogProfile(
                     )}
                     <DialogTitle>Update your Profile Image</DialogTitle>
                     <DialogContent>
-                        <Button variant="contained" component="label">
+                        <Button variant="contained" component="label" color={"success"}>
                             Choose Image
                             <input
                                 type="file"
