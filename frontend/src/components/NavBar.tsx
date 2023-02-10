@@ -14,7 +14,7 @@ export default function Navbar({appUser}: { appUser: AppUser }) {
             <AppBar position="fixed" sx={{zIndex: (theme) => theme.zIndex.drawer + 1, background: '#2e7d32'}}>
                 <Toolbar sx={{justifyContent: "space-between"}}>
                     <Typography variant="h6" noWrap component="div">
-                        PPC Analytics Tool
+                        Channly
                     </Typography>
                     <ProfilePicture appUser={appUser}/>
                 </Toolbar>

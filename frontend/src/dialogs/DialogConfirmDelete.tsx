@@ -26,7 +26,6 @@ export default function DialogConfirmDelete (
         >
             <DialogTitle id="confirm-dialog">{title}</DialogTitle>
             <DialogContent>
-                {id}
                 {children}
             </DialogContent>
             <DialogActions>
