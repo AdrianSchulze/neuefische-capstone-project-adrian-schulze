@@ -78,7 +78,7 @@ export default function SideBar(
                         <Divider/>
                     </Box>
                     <Box textAlign='center'>
-                        <Button variant="outlined" sx={{mt: 2.5}} onClick={() => setOpen(!open)}>Add
+                        <Button variant="contained" color={"success"} sx={{mt: 2.5}} onClick={() => setOpen(!open)}>Add
                             Channel</Button>
                     </Box>
                 </Box>

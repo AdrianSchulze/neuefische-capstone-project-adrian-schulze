@@ -52,9 +52,11 @@ export default function LoginPage() {
             <Box
                 sx={{
                     marginTop: 8,
+                    padding: 5,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
+                    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
                 }}
             >
                 <Avatar sx={{ m: 1, background: '#2E3B55'}}>

@@ -240,12 +240,12 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             }}
         >
                 <Typography
-                    sx={{flex: '1 1 100%'}}
+                    sx={{flex: '1 1 100%', pl: "30px", fontWeight: "bold"}}
                     variant="h6"
                     id="tableTitle"
                     component="div"
                 >
-                    Channel Analysis
+                    Analysis
                 </Typography>
         </Toolbar>
     );
@@ -274,6 +274,8 @@ export default function MainArea() {
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [filteredMetrics, setFilteredMetrics] = useState<Data[]>([]);
+    const [allMetrics, setAllMetrics] = useState<Metric[]>([]);
+
 
     const {
         channel,
@@ -290,6 +292,13 @@ export default function MainArea() {
             setFilteredMetrics(res.data);
         })();
     }, [id]);
+
+    useEffect(() => {
+        (async () => {
+            const res = await axios.get(`/api/metrics`);
+            setAllMetrics(res.data);
+        })();
+    }, []);
 
     const postMetric = async (metric: Metric) => {
         if (id) {
@@ -404,26 +413,28 @@ export default function MainArea() {
                         width: '100%',
                         display: "flex",
                         marginBottom: 10,
+                        marginTop: 50,
                         justifyContent: "space-between"
                     }}
                     >
-                        <Button variant="outlined" onClick={() => setOpen(!open)}>Add metrics</Button>
+                        <div></div>
+                        <Button variant="contained" color={"success"} onClick={() => setOpen(!open)}>Add metrics</Button>
                     </Box>
 
                     <Box sx={{width: '100%'}}>
                         <Paper sx={{width: '100%', mb: 2}}>
                             <EnhancedTableToolbar numSelected={0}/>
-                            <TableContainer>
+                            <TableContainer sx={{ maxHeight: 450 }}>
                                 <Table
                                     sx={{minWidth: 750}}
-                                    aria-labelledby="tableTitle"
                                     size={dense ? 'small' : 'medium'}
+                                    stickyHeader
+                                    aria-label="sticky table"
                                 >
                                     <EnhancedTableHead
                                         numSelected={0}
                                         order={order}
                                         orderBy={orderBy}
-                                        // onSelectAllClick={handleSelectAllClick}
                                         onRequestSort={handleRequestSort}
                                         rowCount={rows.length}
                                     />
@@ -525,7 +536,7 @@ export default function MainArea() {
                     </Box>
                 </Box> :
                 <Box component="main" sx={{flexGrow: 1, p: 3}}>
-                    <HomeTables/>
+                    <HomeTables appUser={appUser} channels={channels} metrics={allMetrics}/>
                 </Box>}
         </>
     );
