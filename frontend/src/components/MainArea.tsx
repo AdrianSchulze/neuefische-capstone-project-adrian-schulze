@@ -240,12 +240,12 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             }}
         >
                 <Typography
-                    sx={{flex: '1 1 100%', pl: "30px"}}
+                    sx={{flex: '1 1 100%', pl: "30px", fontWeight: "bold"}}
                     variant="h6"
                     id="tableTitle"
                     component="div"
                 >
-                    Channel Analysis
+                    Analysis
                 </Typography>
         </Toolbar>
     );
@@ -413,7 +413,7 @@ export default function MainArea() {
                         width: '100%',
                         display: "flex",
                         marginBottom: 10,
-                        marginTop: 10,
+                        marginTop: 50,
                         justifyContent: "space-between"
                     }}
                     >
@@ -424,7 +424,7 @@ export default function MainArea() {
                     <Box sx={{width: '100%'}}>
                         <Paper sx={{width: '100%', mb: 2}}>
                             <EnhancedTableToolbar numSelected={0}/>
-                            <TableContainer sx={{ maxHeight: 380 }}>
+                            <TableContainer sx={{ maxHeight: 450 }}>
                                 <Table
                                     sx={{minWidth: 750}}
                                     size={dense ? 'small' : 'medium'}

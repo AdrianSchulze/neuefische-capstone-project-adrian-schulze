@@ -106,7 +106,7 @@ export default function HomeTables(
             <Toolbar/>
             <TableContainer component={Paper}>
                 <Typography
-                    sx={{flex: '1 1 100%'}}
+                    sx={{flex: '1 1 100%', fontWeight: "bold"}}
                     variant="h6"
                     id="tableTitle"
                     component="div"
