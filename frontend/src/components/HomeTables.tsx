@@ -70,7 +70,7 @@ export default function HomeTables(
                     component="div"
                     padding={"16px"}
                 >
-                    Summary
+                    Dashboard
                 </Typography>
                 <Table sx={{minWidth: 650}} aria-label="simple table">
                     <TableHead>

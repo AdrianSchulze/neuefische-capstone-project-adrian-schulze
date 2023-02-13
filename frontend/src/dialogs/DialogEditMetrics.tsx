@@ -34,6 +34,8 @@ export default function DialogEditMetrics(
         setEditMetric({
             ...editMetric, [name]: value
         })
+        editMetric.date = dateValue?.format('DD-MM-YYYY');
+
     }
 
     return (

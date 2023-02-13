@@ -24,7 +24,4 @@ public class Metric {
     private double clicks;
     private double cost;
     private int conversions;
-    private double cpa;
-    private double ctr;
-    private double cvr;
 }
