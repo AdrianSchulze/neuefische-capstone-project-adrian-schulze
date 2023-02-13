@@ -11,6 +11,7 @@ import DialogConfirmDelete from "../dialogs/DialogConfirmDelete";
 import {useState} from "react";
 import {Dialog} from "@mui/material";
 
+
 export default function ChannelsInSideBar(
     {
         appUser,
@@ -63,7 +64,7 @@ export default function ChannelsInSideBar(
                                                     style={{width: "15px"}}
                                                 /></ListItemIcon> : null
                                 }
-                                <ListItemText primary={channel.name}/>
+                                <ListItemText primary={channel.name} primaryTypographyProps={{fontSize: '0.8rem'}} />
                                 <button
                                     className={"delete-button-sidebar"}
                                     onClick={() => setConfirmOpen(channel.id)}

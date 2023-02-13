@@ -12,30 +12,6 @@ import Metric from "../model/Metric";
 import Channel from "../model/Channel";
 import appUser from "../model/AppUser";
 
-function createData(
-    id: string,
-    channel: string,
-    impressions: number,
-    clicks: number,
-    ctr: number,
-    cost: number,
-    conversions: number,
-    cvr: number,
-    cpa: number
-) {
-    return {
-        id,
-        channel,
-        impressions,
-        clicks,
-        ctr,
-        cost,
-        conversions,
-        cvr,
-        cpa
-    };
-}
-
 export default function HomeTables(
     {
         appUser,
@@ -52,54 +28,36 @@ export default function HomeTables(
         maximumFractionDigits: 2
     });
 
-    const rows =
-        channels.filter(f => f.createdBy === appUser.id).map((ch) =>
-            createData(
-                ch.id,
-                ch.name,
-                metrics
-                    .filter(f => f.channelId === ch.id)
-                    .map(a => a.impressions)
-                    .reduce(function (a, b) {
-                        return a + b;
-                    }, 0),
-                metrics
-                    .filter(f => f.channelId === ch.id)
-                    .map(a => a.clicks)
-                    .reduce(function (a, b) {
-                        return a + b;
-                    }, 0),
-                metrics
-                    .filter(f => f.channelId === ch.id)
-                    .map(a => a.ctr)
-                    .reduce(function (a, b) {
-                        return (a + b) / 2;
-                    }, 0),
-                metrics
-                    .filter(f => f.channelId === ch.id)
-                    .map(a => a.cost)
-                    .reduce(function (a, b) {
-                        return a + b;
-                    }, 0),
-                metrics
-                    .filter(f => f.channelId === ch.id)
-                    .map(a => a.conversions)
-                    .reduce(function (a, b) {
-                        return a + b;
-                    }, 0),
-                metrics
-                    .filter(f => f.channelId === ch.id)
-                    .map(a => a.conversions)
-                    .reduce(function (a, b) {
-                        return (a + b) / 2;
-                    }, 0),
-                metrics
-                    .filter(f => f.channelId === ch.id)
-                    .map(a => a.conversions)
-                    .reduce(function (a, b) {
-                        return (a + b) / 2;
-                    }, 0)
-            ));
+    const convertNumber = Intl.NumberFormat('de-DE');
+
+    const rows = channels.filter(f => f.createdBy === appUser.id).map((ch) => {
+        const channelMetrics = metrics.filter(f => f.channelId === ch.id)
+        const total = {
+            id: ch.id,
+            channel: ch.name,
+            ...channelMetrics.reduce((sum, x) => ({
+                impressions: sum.impressions + x.impressions,
+                clicks: sum.clicks + x.clicks,
+                ctr: sum.ctr + x.ctr,
+                cost: sum.cost + x.cost,
+                conversions: sum.conversions + x.conversions,
+                cvr: sum.cvr + x.cvr,
+                cpa: sum.cpa + x.cpa
+            }), {
+                impressions: 0,
+                clicks: 0,
+                ctr: 0,
+                cost: 0,
+                conversions: 0,
+                cvr: 0,
+                cpa: 0
+            })
+        };
+        total.ctr = total.ctr / channelMetrics.length;
+        total.cvr = total.cvr / channelMetrics.length;
+        total.cpa = total.cpa / channelMetrics.length;
+        return total;
+    });
 
     return (
         <div>
@@ -120,11 +78,11 @@ export default function HomeTables(
                             <TableCell sx={{fontWeight: "bold"}}>Channel</TableCell>
                             <TableCell align="right" sx={{fontWeight: "bold"}}>Impressions</TableCell>
                             <TableCell align="right" sx={{fontWeight: "bold"}}>Clicks</TableCell>
-                            <TableCell align="right" sx={{fontWeight: "bold"}}>CTR (in %)</TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>CTR</TableCell>
                             <TableCell align="right" sx={{fontWeight: "bold"}}>Cost</TableCell>
                             <TableCell align="right" sx={{fontWeight: "bold"}}>Conversions</TableCell>
                             <TableCell align="right" sx={{fontWeight: "bold"}}>CVR</TableCell>
-                            <TableCell align="right" sx={{fontWeight: "bold"}}>CPA (in €)</TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>CPA</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -134,8 +92,8 @@ export default function HomeTables(
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
                                 <TableCell component="th" scope="row">{row.channel}</TableCell>
-                                <TableCell align="right">{row.impressions}</TableCell>
-                                <TableCell align="right">{row.clicks}</TableCell>
+                                <TableCell align="right">{convertNumber.format(row.impressions)}</TableCell>
+                                <TableCell align="right">{convertNumber.format(row.clicks)}</TableCell>
                                 <TableCell align="right">
                                     {convert.format(
                                         (row.clicks / row.impressions) * 100
@@ -145,7 +103,7 @@ export default function HomeTables(
                                     {convert.format(row.cost)}€
                                 </TableCell>
                                 <TableCell align="right">
-                                    {row.conversions}
+                                    {convertNumber.format(row.conversions)}
                                 </TableCell>
                                 <TableCell align="right">
                                     {convert.format(

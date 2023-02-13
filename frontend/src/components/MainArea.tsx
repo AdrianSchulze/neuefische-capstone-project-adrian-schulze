@@ -13,7 +13,6 @@ import DialogAddMetrics from "../dialogs/DialogAddMetrics";
 import Metric from "../model/Metric";
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Backdrop from "./LoadingBackdrop";
 import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
@@ -255,10 +254,12 @@ export default function MainArea() {
 
     let {id} = useParams();
 
-    const convert = Intl.NumberFormat('de-DE', {
+    const convertAfterPoint = Intl.NumberFormat('de-DE', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     });
+
+    const convertNumber = Intl.NumberFormat('de-DE');
 
     const [open, setOpen] = useState(false);
 
@@ -306,13 +307,9 @@ export default function MainArea() {
         }
         try {
             const res = await axios.post("/api/metrics", metric);
-            // setOpenBackdrop(true);
-            // setTimeout(() => {
             setFilteredMetrics([...filteredMetrics, res.data]);
             setMetric(initialMetric);
             toast.success("Metrics were successfully added", {position: "bottom-right",});
-            //     setOpenBackdrop(false);
-            // }, 1000);
         } catch {
             toast.error("Error: Could not add metrics")
         }
@@ -321,13 +318,9 @@ export default function MainArea() {
     const putMetric = async (metric: Metric) => {
         try {
             const res = await axios.put("/api/metrics/"+metric.id, metric);
-            // setOpenBackdrop(true);
-            // setTimeout(() => {
             setFilteredMetrics([...filteredMetrics.filter(f => f.id !== metric.id),res.data])
                 setMetric(initialMetric);
                 toast.success("Metrics were successfully edited", {position: "bottom-right",});
-                // setOpenBackdrop(false);
-            // }, 2500);
         } catch {
             toast.error("Error: Could not update metrics")
         }
@@ -424,7 +417,7 @@ export default function MainArea() {
                     <Box sx={{width: '100%'}}>
                         <Paper sx={{width: '100%', mb: 2}}>
                             <EnhancedTableToolbar numSelected={0}/>
-                            <TableContainer sx={{ maxHeight: 450 }}>
+                            <TableContainer sx={{ maxHeight: 550 }}>
                                 <Table
                                     sx={{minWidth: 750}}
                                     size={dense ? 'small' : 'medium'}
@@ -461,29 +454,29 @@ export default function MainArea() {
                                                             {row.date}
                                                         </TableCell>
                                                         <TableCell align="right">
-                                                            {row.impressions}
+                                                            {convertNumber.format(row.impressions)}
                                                         </TableCell>
                                                         <TableCell align="right">
-                                                            {row.clicks}
+                                                            {convertNumber.format(row.clicks)}
                                                         </TableCell>
                                                         <TableCell align="right">
-                                                            {convert.format(
+                                                            {convertAfterPoint.format(
                                                                 (row.clicks / row.impressions) * 100
                                                             )}%
                                                         </TableCell>
                                                         <TableCell align="right">
-                                                            {convert.format(row.cost)}€
+                                                            {convertAfterPoint.format(row.cost)}€
                                                         </TableCell>
                                                         <TableCell align="right">
-                                                            {row.conversions}
+                                                            {convertNumber.format(row.conversions)}
                                                         </TableCell>
                                                         <TableCell align="right">
-                                                            {convert.format(
+                                                            {convertAfterPoint.format(
                                                                 (row.conversions / row.clicks) * 100
                                                             )}%
                                                         </TableCell>
                                                         <TableCell align="right">
-                                                            {convert.format(row.cost / row.conversions)}€
+                                                            {convertAfterPoint.format(row.cost / row.conversions)}€
                                                         </TableCell>
                                                         <TableCell
                                                             align={'right'}
