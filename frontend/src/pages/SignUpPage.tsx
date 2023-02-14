@@ -13,6 +13,7 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 
+
 export default function SignUpPage() {
 
     const [showPassword, setShowPassword] = useState(false);

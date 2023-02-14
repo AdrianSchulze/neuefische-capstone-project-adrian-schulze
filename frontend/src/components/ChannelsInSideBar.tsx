@@ -25,13 +25,21 @@ export default function ChannelsInSideBar(
 
     const [confirmOpen, setConfirmOpen] = useState<string|null>(null);
 
+    const [selectedIndex, setSelectedIndex] = useState(-1);
+
+    const buttonProps = (value:any) => ({
+        selected: selectedIndex === value,
+        onClick: () => setSelectedIndex(value),
+    });
+
     const handleAddFormClose = () => {
         setConfirmOpen(null);
     };
 
+
     return (
         <>
-            {channels.filter(c => c.createdBy === appUser.id).map((channel) => (
+            {channels.filter(c => c.createdBy === appUser.id).map((channel,index) => (
                     <Link
                         to={"/channel/" + channel.id}
                         className={"unset-links"}
@@ -42,7 +50,7 @@ export default function ChannelsInSideBar(
                             disablePadding
                             sx={{justifyContent: "space-between"}}
                         >
-                            <ListItemButton>
+                            <ListItemButton {...buttonProps(index)}>
                                 {channel.channel === 'google' ?
                                     <ListItemIcon sx={{minWidth: "35px"}}>
                                         <img

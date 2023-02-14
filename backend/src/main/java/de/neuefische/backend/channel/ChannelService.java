@@ -1,5 +1,6 @@
 package de.neuefische.backend.channel;
 
+import de.neuefische.backend.metric.MetricService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import java.util.List;
 public class ChannelService {
 
     private final ChannelRepository channelRepository;
+    private final MetricService metricService;
 
     public Channel create(Channel channel) {
         return channelRepository.save(channel);
@@ -21,5 +23,6 @@ public class ChannelService {
 
     public void deleteByChannelId(String id) {
         channelRepository.deleteById(id);
+        metricService.deleteAllMetrics(id);
     }
 }

@@ -104,8 +104,8 @@ export default function DialogEditMetrics(
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={onClose}>Cancel</Button>
-                    <Button type="submit" onClick={onClose}>Edit</Button>
+                    <Button variant="outlined" color={"success"} onClick={onClose}>Cancel</Button>
+                    <Button variant="contained" color={"success"} type="submit" onClick={onClose}>Edit</Button>
                 </DialogActions>
             </Box>
         </>

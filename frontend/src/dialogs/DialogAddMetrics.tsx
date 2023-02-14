@@ -38,6 +38,7 @@ export default function DialogAddMetrics(
         })
     }
 
+
     return (
         <>
             <Box component="form" noValidate sx={{width: '400px'}} onSubmit={e => {
@@ -108,8 +109,8 @@ export default function DialogAddMetrics(
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={onClose}>Cancel</Button>
-                    <Button type="submit" onClick={onClose}>Create</Button>
+                    <Button variant="outlined" color={"success"} onClick={onClose}>Cancel</Button>
+                    <Button variant="contained" color={"success"} type="submit" onClick={onClose}>Create</Button>
                 </DialogActions>
             </Box>
         </>

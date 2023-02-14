@@ -35,4 +35,12 @@ public class MetricService {
         metric.setId(id);
         return metricRepository.save(metric);
     }
+
+    public void deleteAllMetrics(String channelId) {
+        List<Metric> allFilteredMetrics = getAllFilteredMetricsByChannelId(channelId);
+
+        if(!allFilteredMetrics.isEmpty()) {
+            metricRepository.deleteAll(allFilteredMetrics);
+        }
+    }
 }

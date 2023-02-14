@@ -24,7 +24,10 @@ export default function Root() {
                         <HomePage/>
                     </Auth>
                 }/>
-                <Route path={"/channel/:id"} element={<MainArea/>}/>
+                <Route path={"/channel/:id"} element={
+                    <Auth>
+                        <MainArea/>
+                    </Auth>}/>
             </Routes>
         </Box>
         </>

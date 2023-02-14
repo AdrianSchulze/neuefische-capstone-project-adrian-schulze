@@ -43,4 +43,12 @@ html, body {
 
 .imgPreview {
   width: 150px;
+  margin-top:2rem;
+}
+
+.tooltip {
+  all:unset;
+  color: lightgrey;
+  cursor: pointer;
+  transform: scale(0.6);
 }

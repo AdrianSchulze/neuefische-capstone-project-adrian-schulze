@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from "@mui/material/Box";
-import {Button, Dialog} from "@mui/material";
+import {Button, Dialog, Tooltip} from "@mui/material";
 import SideBar from "./SideBar";
 import useAnalytics from "../hooks/useAnalytics";
 import NavBar from "./NavBar";
@@ -28,6 +28,7 @@ import {visuallyHidden} from "@mui/utils";
 import Typography from "@mui/material/Typography";
 import EditIcon from '@mui/icons-material/Edit';
 import DialogEditMetrics from "../dialogs/DialogEditMetrics";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 const initialMetric: Metric = {
     channelId: "",
@@ -121,6 +122,7 @@ interface HeadCell {
     id: keyof Data;
     label: string;
     numeric: boolean;
+    hoverToolTip: string;
 }
 
 const headCells: readonly HeadCell[] = [
@@ -128,49 +130,57 @@ const headCells: readonly HeadCell[] = [
         id: 'date',
         numeric: false,
         disablePadding: true,
-        label: 'Date'
+        label: 'Date',
+        hoverToolTip: 'Here you can sort the date (as- & descending)'
     },
     {
         id: 'impressions',
         numeric: true,
         disablePadding: false,
-        label: 'Impressions'
+        label: 'Impressions',
+        hoverToolTip: 'How many people have seen your Ad'
     },
     {
         id: "clicks",
         numeric: true,
-        disablePadding:false,
-        label: "Clicks"
+        disablePadding: false,
+        label: "Clicks",
+        hoverToolTip: 'How many people clicked on your Ad'
     },
     {
         id: 'ctr',
         numeric: true,
         disablePadding: false,
-        label: 'CTR'
+        label: 'CTR',
+        hoverToolTip: 'The Click-Through-Rate is a percentage that tells you if your channel is working or not. The higher the percentage the better.'
     },
     {
         id: "cost",
         numeric: true,
-        disablePadding:false,
-        label: "Cost"
+        disablePadding: false,
+        label: "Cost",
+        hoverToolTip: 'How much money did you spend on your Ads'
     },
     {
         id: 'conversions',
         numeric: true,
         disablePadding: false,
-        label: 'Conversions'
+        label: 'Conversions',
+        hoverToolTip: 'How many conversions came from your this channel.'
     },
     {
         id: 'cvr',
         numeric: true,
         disablePadding: false,
-        label: 'CVR'
+        label: 'CVR',
+        hoverToolTip: 'The Conversion-rate is a percentage that tells you how many people (out of the ones that clicked) converted.'
     },
     {
         id: "cpa",
-        numeric:true,
+        numeric: true,
         disablePadding: false,
-        label: "CPA"
+        label: "CPA",
+        hoverToolTip: 'The Cost-Per-Acquisition tells you how much your spent is on one conversion.'
     }
 ];
 
@@ -208,7 +218,12 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                             direction={orderBy === headCell.id ? order : 'asc'}
                             onClick={createSortHandler(headCell.id)}
                         >
-                            {headCell.label}
+                            <Tooltip title={headCell.hoverToolTip}>
+                                <div>
+                                    {headCell.label}
+                                    <InfoOutlinedIcon className={"tooltip"}/>
+                                </div>
+                            </Tooltip>
                             {orderBy === headCell.id ? (
                                 <Box component="span" sx={visuallyHidden}>
                                     {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
@@ -238,14 +253,14 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                 ...(numSelected > 0 && {}),
             }}
         >
-                <Typography
-                    sx={{flex: '1 1 100%', pl: "30px", fontWeight: "bold"}}
-                    variant="h6"
-                    id="tableTitle"
-                    component="div"
-                >
-                    Analysis
-                </Typography>
+            <Typography
+                sx={{flex: '1 1 100%', pl: "30px", fontWeight: "bold"}}
+                variant="h6"
+                id="tableTitle"
+                component="div"
+            >
+                Analysis
+            </Typography>
         </Toolbar>
     );
 }
@@ -317,10 +332,10 @@ export default function MainArea() {
 
     const putMetric = async (metric: Metric) => {
         try {
-            const res = await axios.put("/api/metrics/"+metric.id, metric);
-            setFilteredMetrics([...filteredMetrics.filter(f => f.id !== metric.id),res.data])
-                setMetric(initialMetric);
-                toast.success("Metrics were successfully edited", {position: "bottom-right",});
+            const res = await axios.put("/api/metrics/" + metric.id, metric);
+            setFilteredMetrics([...filteredMetrics.filter(f => f.id !== metric.id), res.data])
+            setMetric(initialMetric);
+            toast.success("Metrics were successfully edited", {position: "bottom-right",});
         } catch {
             toast.error("Error: Could not update metrics")
         }
@@ -406,7 +421,7 @@ export default function MainArea() {
                         width: '100%',
                         display: "flex",
                         marginBottom: 10,
-                        marginTop: 50,
+                        marginTop: 25,
                         justifyContent: "space-between"
                     }}
                     >
@@ -417,7 +432,7 @@ export default function MainArea() {
                     <Box sx={{width: '100%'}}>
                         <Paper sx={{width: '100%', mb: 2}}>
                             <EnhancedTableToolbar numSelected={0}/>
-                            <TableContainer sx={{ maxHeight: 550 }}>
+                            <TableContainer sx={{maxHeight: 550}}>
                                 <Table
                                     sx={{minWidth: 750}}
                                     size={dense ? 'small' : 'medium'}

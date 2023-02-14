@@ -11,6 +11,8 @@ import Typography from "@mui/material/Typography";
 import Metric from "../model/Metric";
 import Channel from "../model/Channel";
 import appUser from "../model/AppUser";
+import {Tooltip} from "@mui/material";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 export default function HomeTables(
     {
@@ -76,13 +78,62 @@ export default function HomeTables(
                     <TableHead>
                         <TableRow>
                             <TableCell sx={{fontWeight: "bold"}}>Channel</TableCell>
-                            <TableCell align="right" sx={{fontWeight: "bold"}}>Impressions</TableCell>
-                            <TableCell align="right" sx={{fontWeight: "bold"}}>Clicks</TableCell>
-                            <TableCell align="right" sx={{fontWeight: "bold"}}>CTR</TableCell>
-                            <TableCell align="right" sx={{fontWeight: "bold"}}>Cost</TableCell>
-                            <TableCell align="right" sx={{fontWeight: "bold"}}>Conversions</TableCell>
-                            <TableCell align="right" sx={{fontWeight: "bold"}}>CVR</TableCell>
-                            <TableCell align="right" sx={{fontWeight: "bold"}}>CPA</TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>
+                                <Tooltip title={"How many people have seen your Ad"}>
+                                    <div>
+                                        Impressions
+                                        <InfoOutlinedIcon className={"tooltip"}/>
+                                    </div>
+                                </Tooltip>
+                            </TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>
+                                <Tooltip title={"How many people clicked on your Ad"}>
+                                    <div>
+                                        Clicks
+                                        <InfoOutlinedIcon className={"tooltip"}/>
+                                    </div>
+                                </Tooltip>
+                            </TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>
+                                <Tooltip title={"The Click-Through-Rate is a percentage that tells you if your channel is working or not. The higher the percentage the better."}>
+                                    <div>
+                                        CTR
+                                        <InfoOutlinedIcon className={"tooltip"}/>
+                                    </div>
+                                </Tooltip>
+                            </TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>
+                                <Tooltip title={"How much money did you spend on your Ads"}>
+                                    <div>
+                                        Cost
+                                        <InfoOutlinedIcon className={"tooltip"}/>
+                                    </div>
+                                </Tooltip>
+                            </TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>
+                                <Tooltip title={"How many conversions came from your this channel."}>
+                                    <div>
+                                        Conversions
+                                        <InfoOutlinedIcon className={"tooltip"}/>
+                                    </div>
+                                </Tooltip>
+                            </TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>
+                                <Tooltip title={"The Conversion-rate is a percentage that tells you how many people (out of the ones that clicked) converted."}>
+                                    <div>
+                                        CVR
+                                        <InfoOutlinedIcon className={"tooltip"}/>
+                                    </div>
+                                </Tooltip>
+                            </TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>
+                                <Tooltip title={"The Cost-Per-Acquisition tells you how much your spent is on one conversion."}>
+                                    <div>
+                                        CPA
+                                        <InfoOutlinedIcon className={"tooltip"}/>
+                                    </div>
+                                </Tooltip>
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

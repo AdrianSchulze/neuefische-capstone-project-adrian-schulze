@@ -97,8 +97,8 @@ export default function DialogAddChannel(
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={onClose}>Cancel</Button>
-                    <Button type="submit" onClick={onClose}>Create</Button>
+                    <Button variant="outlined" color={"success"} onClick={onClose}>Cancel</Button>
+                    <Button variant="contained" color={"success"} type="submit" onClick={onClose}>Create</Button>
                 </DialogActions>
             </Box>
         </div>
