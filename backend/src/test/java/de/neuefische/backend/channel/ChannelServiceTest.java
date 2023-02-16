@@ -1,5 +1,6 @@
 package de.neuefische.backend.channel;
 
+import de.neuefische.backend.metric.MetricService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -18,7 +19,8 @@ class ChannelServiceTest {
         Channel channel = new Channel("1", "12345", "google", "GoogleAds");
 
         ChannelRepository channelRepository = Mockito.mock(ChannelRepository.class);
-        ChannelService channelService = new ChannelService(channelRepository);
+        MetricService metricService = Mockito.mock(MetricService.class);
+        ChannelService channelService = new ChannelService(channelRepository, metricService);
 
         Mockito.when(channelRepository.save(channel))
                 .thenReturn(new Channel("1", "12345", "google", "GoogleAds"));
@@ -32,7 +34,8 @@ class ChannelServiceTest {
     @Test
     void getAllChannels() {
         ChannelRepository channelRepository = Mockito.mock(ChannelRepository.class);
-        ChannelService channelService = new ChannelService(channelRepository);
+        MetricService metricService = Mockito.mock(MetricService.class);
+        ChannelService channelService = new ChannelService(channelRepository, metricService);
 
         Mockito.when(channelRepository.findAll())
                 .thenReturn(List.of(
@@ -52,7 +55,8 @@ class ChannelServiceTest {
     @Test
     void getAllChannels_whenEmpty_returnEmptyList() {
         ChannelRepository channelRepository = Mockito.mock(ChannelRepository.class);
-        ChannelService channelService = new ChannelService(channelRepository);
+        MetricService metricService = Mockito.mock(MetricService.class);
+        ChannelService channelService = new ChannelService(channelRepository, metricService);
 
         Mockito.when(channelRepository.findAll())
                 .thenReturn(null);
@@ -69,7 +73,8 @@ class ChannelServiceTest {
         List<Channel> emptyList = new ArrayList<>();
 
         ChannelRepository channelRepository = Mockito.mock(ChannelRepository.class);
-        ChannelService channelService = new ChannelService(channelRepository);
+        MetricService metricService = Mockito.mock(MetricService.class);
+        ChannelService channelService = new ChannelService(channelRepository, metricService);
 
         String id = "1";
 

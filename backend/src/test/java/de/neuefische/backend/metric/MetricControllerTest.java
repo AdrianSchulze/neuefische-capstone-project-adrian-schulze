@@ -69,9 +69,7 @@ class MetricControllerTest {
                                    "impressions": 2,
                                    "clicks": 2,
                                    "cost": 2,
-                                   "conversions": 2,
-                                   "cpa": 0,
-                                   "ctr": 0
+                                   "conversions": 2
                                 }
                                 """))
                 .andExpectAll(MockMvcResultMatchers.status().isUnauthorized());
@@ -92,10 +90,7 @@ class MetricControllerTest {
                                    "impressions": 2,
                                    "clicks": 2,
                                    "cost": 2,
-                                   "conversions": 2,
-                                   "cpa": 0,
-                                   "ctr": 0,
-                                   "cvr": 0
+                                   "conversions": 2
                                 }
                                 """))
                 .andExpectAll(MockMvcResultMatchers.status().isOk(),
@@ -108,10 +103,7 @@ class MetricControllerTest {
                                                   "impressions": 2,
                                                   "clicks": 2,
                                                   "cost": 2,
-                                                  "conversions": 2,
-                                                  "cpa": 0,
-                                                  "ctr": 0,
-                                                  "cvr": 0
+                                                  "conversions": 2
                                              }
                                              """, true));
     }
@@ -126,7 +118,62 @@ class MetricControllerTest {
 
     @Test
     void getAllFilteredAndCalculatedMetricsByChannelId_IfNotAuthorized_ThrowUnauthorized() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/metrics/1")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/metrics/1")
+                        .with(httpBasic("user1","password")))
+                .andExpectAll(MockMvcResultMatchers.status().isUnauthorized());
+    }
+
+    @Test
+    void deleteAllMetricsById_WhenLoggedIn_Ok() throws Exception {
+        addMetrics();
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/metrics/123")
+                        .with(httpBasic("user1","password")))
+                .andExpectAll(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    void deleteAllMetricsById_WhenNotLoggedIn_Unauthorized() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/metrics/123")
+                        .with(httpBasic("user1","password")))
+                .andExpectAll(MockMvcResultMatchers.status().isUnauthorized());
+    }
+
+    @Test
+    void updateMetricById_WhenLoggedIn_IsOk() throws Exception {
+        addMetrics();
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/metrics/1")
+                        .with(httpBasic("user1","password"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                   "id": "1",
+                                   "channelId":"123",
+                                   "date": "423423",
+                                   "impressions": 2,
+                                   "clicks": 2,
+                                   "cost": 2,
+                                   "conversions": 2
+                                }
+                                """))
+                .andExpectAll(MockMvcResultMatchers.status().isOk(),
+                MockMvcResultMatchers.content()
+                        .json("""
+                                               {
+                                                  "id": "1",
+                                                  "channelId":"123",
+                                                  "date": "423423",
+                                                  "impressions": 2,
+                                                  "clicks": 2,
+                                                  "cost": 2,
+                                                  "conversions": 2
+                                             }
+                                             """, true));
+    }
+    @Test
+    void updateMetricById_WhenNotLoggedIn_Unauthorized() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/metrics/123")
                         .with(httpBasic("user1","password")))
                 .andExpectAll(MockMvcResultMatchers.status().isUnauthorized());
     }
