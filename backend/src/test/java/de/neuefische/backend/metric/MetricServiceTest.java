@@ -134,6 +134,20 @@ class MetricServiceTest {
     }
 
     @Test
+    void deleteAllMetrics_WhenChannelIsDeleted_WithEmptyList_ReturnEmptyList() {
+        MetricRepository metricRepository = Mockito.mock(MetricRepository.class);
+        MetricService metricService = new MetricService(metricRepository);
+
+        List<Metric> emptyList = new ArrayList<>();
+
+        metricService.deleteAllMetrics("123");
+
+        List<Metric> actual = metricService.getAllMetrics();
+
+        Assertions.assertEquals(emptyList, actual);
+    }
+
+    @Test
     void updateMetric_ByMetric_AndId() {
         addMetric();
 
