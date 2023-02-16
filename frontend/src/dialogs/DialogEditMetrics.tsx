@@ -1,5 +1,5 @@
 import {
-    Button,
+    Button, Dialog,
     DialogActions,
     DialogContent,
     DialogTitle, Stack,
@@ -12,22 +12,28 @@ import {DesktopDatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, {Dayjs} from "dayjs";
 import {ChangeEvent, useState} from "react";
+import DeleteIcon from '@mui/icons-material/Delete';
 import 'dayjs/locale/de'
+import DialogConfirmDeleteMetric from "./DialogConfirmDeleteMetric";
 
 export default function DialogEditMetrics(
     {
         metric,
         putMetric,
         onClose,
+        deleteMetric
     }: {
         metric: Metric,
         putMetric: (metric: Metric) => void,
         onClose: () => void,
+        deleteMetric: (id: string) => void
     }) {
 
-    const [dateValue, setDateValue] = useState<Dayjs | null>(dayjs(metric.date,"DD-MM-YYYY"));
+    const [dateValue, setDateValue] = useState<Dayjs | null>(dayjs(metric.date, "DD-MM-YYYY"));
 
     const [editMetric, setEditMetric] = useState(metric);
+
+    const [openEdit, setOpenEdit] = useState<string | null | undefined>(null);
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
@@ -35,8 +41,11 @@ export default function DialogEditMetrics(
             ...editMetric, [name]: value
         })
         editMetric.date = dateValue?.format('DD-MM-YYYY');
-
     }
+
+    const handleMetricDeleteClose = () => {
+        setOpenEdit(null);
+    };
 
     return (
         <>
@@ -103,9 +112,32 @@ export default function DialogEditMetrics(
                         sx={{mb: 0}}
                     />
                 </DialogContent>
-                <DialogActions>
-                    <Button variant="outlined" color={"success"} onClick={onClose}>Cancel</Button>
-                    <Button variant="contained" color={"success"} type="submit" onClick={onClose}>Edit</Button>
+                <DialogActions sx={{display:"flex", justifyContent:"space-between", px:3, pb:3}}>
+                    <div>
+                        <Button
+                            variant="outlined"
+                            color={"success"}
+                            onClick={() => setOpenEdit(metric.id)}
+                        >
+                            <DeleteIcon/> Delete
+                        </Button>
+                        <Dialog
+                            open={openEdit === metric.id}
+                            onClose={handleMetricDeleteClose}
+                        >
+                            <DialogConfirmDeleteMetric
+                                open={openEdit === metric.id}
+                                id={metric.id}
+                                setOpen={handleMetricDeleteClose}
+                                deleteMetric={deleteMetric}
+                                onClose={onClose}
+                            />
+                        </Dialog>
+                    </div>
+                    <div>
+                        <Button variant="outlined" color={"success"} onClick={onClose} sx={{mr:0.5}}>Cancel</Button>
+                        <Button variant="contained" color={"success"} type="submit" onClick={onClose}>Edit</Button>
+                    </div>
                 </DialogActions>
             </Box>
         </>

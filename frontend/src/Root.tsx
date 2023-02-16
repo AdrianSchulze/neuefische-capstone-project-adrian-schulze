@@ -27,7 +27,8 @@ export default function Root() {
                 <Route path={"/channel/:id"} element={
                     <Auth>
                         <MainArea/>
-                    </Auth>}/>
+                    </Auth>
+                }/>
             </Routes>
         </Box>
         </>

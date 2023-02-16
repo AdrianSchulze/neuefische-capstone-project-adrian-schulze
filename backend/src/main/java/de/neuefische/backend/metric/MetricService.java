@@ -43,4 +43,8 @@ public class MetricService {
             metricRepository.deleteAll(allFilteredMetrics);
         }
     }
+
+    public void deleteMetricById(String id) {
+        metricRepository.deleteById(id);
+    }
 }

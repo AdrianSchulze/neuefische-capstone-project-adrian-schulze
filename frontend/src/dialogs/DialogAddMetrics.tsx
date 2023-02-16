@@ -51,7 +51,7 @@ export default function DialogAddMetrics(
                         <Stack spacing={3} marginTop={"16px"}>
                             <DesktopDatePicker
                                 label="Date"
-                                inputFormat="DD/MM/YYYY"
+                                inputFormat="DD-MM-YYYY"
                                 value={dateValue}
                                 onChange={setDateValue}
                                 renderInput={(params) => <TextField {...params} />}
@@ -109,8 +109,21 @@ export default function DialogAddMetrics(
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button variant="outlined" color={"success"} onClick={onClose}>Cancel</Button>
-                    <Button variant="contained" color={"success"} type="submit" onClick={onClose}>Create</Button>
+                    <Button
+                        variant="outlined"
+                        color={"success"}
+                        onClick={onClose}
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color={"success"}
+                        onClick={onClose}
+                    >
+                        Create
+                    </Button>
                 </DialogActions>
             </Box>
         </>

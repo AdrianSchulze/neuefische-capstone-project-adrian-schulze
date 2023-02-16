@@ -1,7 +1,7 @@
 import React, {ReactNode} from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 
-export default function DialogConfirmDelete(
+export default function DialogConfirmDeleteChannel(
     {
         title,
         id,

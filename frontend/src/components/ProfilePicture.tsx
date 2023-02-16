@@ -69,7 +69,7 @@ export default function ProfilePicture({appUser}: { appUser: AppUser }) {
                         <Typography textAlign="center">Profile</Typography>
                     </MenuItem>
 
-                    <MenuItem onClick={handleCloseUserMenu}>
+                    <MenuItem onClick={handleCloseUserMenu} className={"unset-links"}>
                         <Typography textAlign="center"><Logout/></Typography>
                     </MenuItem>
                 </Menu>
