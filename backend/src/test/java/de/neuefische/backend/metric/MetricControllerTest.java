@@ -69,9 +69,7 @@ class MetricControllerTest {
                                    "impressions": 2,
                                    "clicks": 2,
                                    "cost": 2,
-                                   "conversions": 2,
-                                   "cpa": 0,
-                                   "ctr": 0
+                                   "conversions": 2
                                 }
                                 """))
                 .andExpectAll(MockMvcResultMatchers.status().isUnauthorized());
@@ -92,10 +90,7 @@ class MetricControllerTest {
                                    "impressions": 2,
                                    "clicks": 2,
                                    "cost": 2,
-                                   "conversions": 2,
-                                   "cpa": 0,
-                                   "ctr": 0,
-                                   "cvr": 0
+                                   "conversions": 2
                                 }
                                 """))
                 .andExpectAll(MockMvcResultMatchers.status().isOk(),
@@ -108,10 +103,7 @@ class MetricControllerTest {
                                                   "impressions": 2,
                                                   "clicks": 2,
                                                   "cost": 2,
-                                                  "conversions": 2,
-                                                  "cpa": 0,
-                                                  "ctr": 0,
-                                                  "cvr": 0
+                                                  "conversions": 2
                                              }
                                              """, true));
     }

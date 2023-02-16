@@ -19,16 +19,16 @@ class MetricServiceTest {
 
         Mockito.when(metricRepository.findAll())
                 .thenReturn(List.of(
-                        new Metric("1", "123", "23112022", 123, 123, 123, 123, 123, 123,0),
-                        new Metric("1", "123", "23112022", 123, 123, 123, 123, 123, 123,0),
-                        new Metric("1", "123", "23112022", 123, 123, 123, 123, 123, 123,0)
+                        new Metric("1", "123", "23112022", 123, 123, 123, 123),
+                        new Metric("1", "123", "23112022", 123, 123, 123, 123),
+                        new Metric("1", "123", "23112022", 123, 123, 123, 123)
                 ));
         List<Metric> actual = metricService.getAllMetrics();
 
         Assertions.assertEquals(List.of(
-                new Metric("1", "123", "23112022", 123, 123, 123, 123, 123, 123,0),
-                new Metric("1", "123", "23112022", 123, 123, 123, 123, 123, 123,0),
-                new Metric("1", "123", "23112022", 123, 123, 123, 123, 123, 123,0)), actual);
+                new Metric("1", "123", "23112022", 123, 123, 123, 123),
+                new Metric("1", "123", "23112022", 123, 123, 123, 123),
+                new Metric("1", "123", "23112022", 123, 123, 123, 123)), actual);
                 Mockito.verify(metricRepository).findAll();
     }
 
@@ -48,14 +48,14 @@ class MetricServiceTest {
     @Test
     void addMetric() {
         Metric metric = new Metric("1", "123", "23112022",
-                123, 123, 123, 123, 123, 123,0);
+                123, 123, 123, 123);
 
         MetricRepository metricRepository = Mockito.mock(MetricRepository.class);
         MetricService metricService = new MetricService(metricRepository);
 
         Mockito.when(metricRepository.save(metric))
                 .thenReturn(new Metric("1", "123", "23112022",
-                        123, 123, 123, 123, 123, 123,0));
+                        123, 123, 123, 123));
 
         Metric actual = metricService.addMetric(metric);
 
@@ -70,16 +70,16 @@ class MetricServiceTest {
 
         Mockito.when(metricRepository.findAll())
                 .thenReturn(List.of(
-                        new Metric("1", "123", "23112022", 2, 2, 2, 2, 0, 0,0),
-                        new Metric("1", "234", "23112022", 123, 123, 123, 123, 123, 123,0),
-                        new Metric("1", "123", "23112022", 2, 2, 2, 2, 0, 0,0)
+                        new Metric("1", "123", "23112022", 2, 2, 2, 2),
+                        new Metric("1", "234", "23112022", 123, 123, 123, 123),
+                        new Metric("1", "123", "23112022", 2, 2, 2, 2)
                 ));
 
         List<Metric> actual = metricService.getAllFilteredMetricsByChannelId("123");
 
         Assertions.assertEquals(List.of(
-                new Metric("1", "123", "23112022", 2, 2, 2, 2, 0, 0,0),
-                new Metric("1", "123", "23112022", 2, 2, 2, 2, 0, 0,0)), actual);
+                new Metric("1", "123", "23112022", 2, 2, 2, 2),
+                new Metric("1", "123", "23112022", 2, 2, 2, 2)), actual);
         Mockito.verify(metricRepository).findAll();
     }
 }
