@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from "@mui/material/Box";
-import {Button, Dialog} from "@mui/material";
+import {Button, Dialog, Tooltip} from "@mui/material";
 import SideBar from "./SideBar";
 import useAnalytics from "../hooks/useAnalytics";
 import NavBar from "./NavBar";
@@ -28,6 +28,10 @@ import {visuallyHidden} from "@mui/utils";
 import Typography from "@mui/material/Typography";
 import EditIcon from '@mui/icons-material/Edit';
 import DialogEditMetrics from "../dialogs/DialogEditMetrics";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import dayjs from "dayjs";
+import 'dayjs/locale/de';
+
 
 const initialMetric: Metric = {
     channelId: "",
@@ -80,40 +84,36 @@ function createData(
     };
 }
 
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-    if (b[orderBy] < a[orderBy]) {
-        return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-        return 1;
-    }
-    return 0;
-}
-
 type Order = 'asc' | 'desc';
 
-function getComparator<Key extends keyof any>(
-    order: Order,
-    orderBy: Key,
-): (
-    a: { [key in Key]: number | string },
-    b: { [key in Key]: number | string },
-) => number {
-    return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
+function sortBy(list: any[], field: string) : any[] {
+
+    return [...list].sort(( a, b ) => {
+        if (dayjs(a[field],"DD-MM-YYYY").isValid()){
+            console.log("Field A: " + a[field]);
+            return dayjs(a[field],"DD-MM-YYYY").isAfter(dayjs(b[field],"DD-MM-YYYY")) ? 1 : -1;
+        }
+        if (!Object.hasOwn(a,field)) {
+            return 0;
+        }
+        if (typeof a[field] === 'string' || a[field] instanceof String) {
+            return (a[field] as string).localeCompare(b[field] as string);
+        }
+        if (a[field] < b[field]){
+            return -1;
+        }
+        if (a[field] > b[field]){
+            return 1;
+        }
+        return 0;
+    });
+
 }
 
-function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
-    const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) {
-            return order;
-        }
-        return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
+function sortByWithOrder(list: any[], field: string, order: Order) : any[] {
+    const orderedList = sortBy(list,field);
+
+    return order === 'desc' ? orderedList.reverse() : orderedList;
 }
 
 interface HeadCell {
@@ -121,6 +121,7 @@ interface HeadCell {
     id: keyof Data;
     label: string;
     numeric: boolean;
+    hoverToolTip: string;
 }
 
 const headCells: readonly HeadCell[] = [
@@ -128,49 +129,57 @@ const headCells: readonly HeadCell[] = [
         id: 'date',
         numeric: false,
         disablePadding: true,
-        label: 'Date'
+        label: 'Date',
+        hoverToolTip: 'Here you can sort the date (as- & descending)'
     },
     {
         id: 'impressions',
         numeric: true,
         disablePadding: false,
-        label: 'Impressions'
+        label: 'Impressions',
+        hoverToolTip: 'How many people have seen your Ad'
     },
     {
         id: "clicks",
         numeric: true,
-        disablePadding:false,
-        label: "Clicks"
+        disablePadding: false,
+        label: "Clicks",
+        hoverToolTip: 'How many people clicked on your Ad'
     },
     {
         id: 'ctr',
         numeric: true,
         disablePadding: false,
-        label: 'CTR'
+        label: 'CTR',
+        hoverToolTip: 'The Click-Through-Rate is a percentage that tells you if your channel is working or not. The higher the percentage the better.'
     },
     {
         id: "cost",
         numeric: true,
-        disablePadding:false,
-        label: "Cost"
+        disablePadding: false,
+        label: "Cost",
+        hoverToolTip: 'How much money did you spend on your Ads'
     },
     {
         id: 'conversions',
         numeric: true,
         disablePadding: false,
-        label: 'Conversions'
+        label: 'Conversions',
+        hoverToolTip: 'How many conversions came from your this channel.'
     },
     {
         id: 'cvr',
         numeric: true,
         disablePadding: false,
-        label: 'CVR'
+        label: 'CVR',
+        hoverToolTip: 'The Conversion-rate is a percentage that tells you how many people (out of the ones that clicked) converted.'
     },
     {
         id: "cpa",
-        numeric:true,
+        numeric: true,
         disablePadding: false,
-        label: "CPA"
+        label: "CPA",
+        hoverToolTip: 'The Cost-Per-Acquisition tells you how much your spent is on one conversion.'
     }
 ];
 
@@ -208,7 +217,12 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                             direction={orderBy === headCell.id ? order : 'asc'}
                             onClick={createSortHandler(headCell.id)}
                         >
-                            {headCell.label}
+                            <Tooltip title={headCell.hoverToolTip}>
+                                <div>
+                                    {headCell.label}
+                                    <InfoOutlinedIcon className={"tooltip"}/>
+                                </div>
+                            </Tooltip>
                             {orderBy === headCell.id ? (
                                 <Box component="span" sx={visuallyHidden}>
                                     {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
@@ -238,14 +252,14 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                 ...(numSelected > 0 && {}),
             }}
         >
-                <Typography
-                    sx={{flex: '1 1 100%', pl: "30px", fontWeight: "bold"}}
-                    variant="h6"
-                    id="tableTitle"
-                    component="div"
-                >
-                    Analysis
-                </Typography>
+            <Typography
+                sx={{flex: '1 1 100%', pl: "30px", fontWeight: "bold"}}
+                variant="h6"
+                id="tableTitle"
+                component="div"
+            >
+                Channel Analysis
+            </Typography>
         </Toolbar>
     );
 }
@@ -264,8 +278,6 @@ export default function MainArea() {
     const [open, setOpen] = useState(false);
 
     const [openEdit, setOpenEdit] = useState<string | null>(null);
-
-    // const [openBackdrop, setOpenBackdrop] = useState(false);
 
     const [metric, setMetric] = useState<Metric>(initialMetric);
 
@@ -317,12 +329,23 @@ export default function MainArea() {
 
     const putMetric = async (metric: Metric) => {
         try {
-            const res = await axios.put("/api/metrics/"+metric.id, metric);
-            setFilteredMetrics([...filteredMetrics.filter(f => f.id !== metric.id),res.data])
-                setMetric(initialMetric);
-                toast.success("Metrics were successfully edited", {position: "bottom-right",});
+            const res = await axios.put("/api/metrics/" + metric.id, metric);
+            setFilteredMetrics([...filteredMetrics.filter(f => f.id !== metric.id), res.data])
+            setMetric(initialMetric);
+            toast.success("Metrics were successfully edited", {position: "bottom-right",});
         } catch {
             toast.error("Error: Could not update metrics")
+        }
+    }
+
+    const deleteMetric = async (id: string) => {
+        try {
+        axios.delete("/api/metrics/" + id)
+            .then(response => response.data)
+        setFilteredMetrics(filteredMetrics.filter(e => e.id !== id));
+        toast.success("Metric was deleted", {position: "bottom-right"});
+        } catch (e) {
+            toast.error("Metric could not be deleted", {position: "bottom-right"});
         }
     }
 
@@ -342,12 +365,12 @@ export default function MainArea() {
             f.date,
             f.impressions,
             f.clicks,
-            f.ctr,
+            f.ctr = (Number.isNaN(f.clicks / f.impressions) ? 0 : (f.clicks / f.impressions)  * 100),
             f.cost,
             f.conversions,
-            f.cpa,
-            f.cvr
-        ),)
+            f.cvr = (Number.isNaN(f.conversions / f.clicks) ? 0 : (f.conversions / f.clicks) * 100),
+            f.cpa = (Number.isNaN(f.cost / f.conversions) ? 0 : (f.cost / f.conversions))
+        ));
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
@@ -377,7 +400,6 @@ export default function MainArea() {
     return (
         <>
             <ToastContainer/>
-            {/*<Backdrop openBackdrop={openBackdrop}/>*/}
             <NavBar appUser={appUser}/>
             <SideBar
                 channel={channel}
@@ -387,7 +409,7 @@ export default function MainArea() {
                 postChannel={postChannel}
                 deleteChannel={deleteChannel}
             />
-            {id ? <Box component="main" sx={{flexGrow: 1, p: 3}}>
+            {id ? <Box component="main" sx={{flexGrow: 1, p: 3, minHeight: "100%", height:"100vh"}} className={"background-mainarea"}>
                     <div>
                         <Dialog
                             open={open}
@@ -406,7 +428,7 @@ export default function MainArea() {
                         width: '100%',
                         display: "flex",
                         marginBottom: 10,
-                        marginTop: 50,
+                        marginTop: 10,
                         justifyContent: "space-between"
                     }}
                     >
@@ -417,12 +439,12 @@ export default function MainArea() {
                     <Box sx={{width: '100%'}}>
                         <Paper sx={{width: '100%', mb: 2}}>
                             <EnhancedTableToolbar numSelected={0}/>
-                            <TableContainer sx={{ maxHeight: 550 }}>
+                            <TableContainer sx={{maxHeight: 525}}>
                                 <Table
                                     sx={{minWidth: 750}}
                                     size={dense ? 'small' : 'medium'}
-                                    stickyHeader
                                     aria-label="sticky table"
+                                    stickyHeader
                                 >
                                     <EnhancedTableHead
                                         numSelected={0}
@@ -432,7 +454,7 @@ export default function MainArea() {
                                         rowCount={rows.length}
                                     />
                                     <TableBody>
-                                        {stableSort(rows, getComparator(order, orderBy))
+                                        {sortByWithOrder(rows,orderBy,order)
                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                             .map((row, index) => {
                                                 const labelId = `enhanced-table-checkbox-${index}`;
@@ -454,29 +476,39 @@ export default function MainArea() {
                                                             {row.date}
                                                         </TableCell>
                                                         <TableCell align="right">
-                                                            {convertNumber.format(row.impressions)}
+                                                            {convertNumber.format(
+                                                                row.impressions
+                                                            )}
                                                         </TableCell>
                                                         <TableCell align="right">
-                                                            {convertNumber.format(row.clicks)}
-                                                        </TableCell>
-                                                        <TableCell align="right">
-                                                            {convertAfterPoint.format(
-                                                                (row.clicks / row.impressions) * 100
-                                                            )}%
-                                                        </TableCell>
-                                                        <TableCell align="right">
-                                                            {convertAfterPoint.format(row.cost)}€
-                                                        </TableCell>
-                                                        <TableCell align="right">
-                                                            {convertNumber.format(row.conversions)}
+                                                            {convertNumber.format(
+                                                                row.clicks
+                                                            )}
                                                         </TableCell>
                                                         <TableCell align="right">
                                                             {convertAfterPoint.format(
-                                                                (row.conversions / row.clicks) * 100
+                                                                row.ctr
                                                             )}%
                                                         </TableCell>
                                                         <TableCell align="right">
-                                                            {convertAfterPoint.format(row.cost / row.conversions)}€
+                                                            {convertAfterPoint.format(
+                                                                row.cost
+                                                            )}€
+                                                        </TableCell>
+                                                        <TableCell align="right">
+                                                            {convertNumber.format(
+                                                                row.conversions
+                                                            )}
+                                                        </TableCell>
+                                                        <TableCell align="right">
+                                                            {convertAfterPoint.format(
+                                                                row.cvr
+                                                            )}%
+                                                        </TableCell>
+                                                        <TableCell align="right">
+                                                            {convertAfterPoint.format(
+                                                                row.cpa
+                                                            )}€
                                                         </TableCell>
                                                         <TableCell
                                                             align={'right'}
@@ -486,7 +518,6 @@ export default function MainArea() {
                                                         >
                                                             <EditIcon/>
                                                         </TableCell>
-                                                        {/*Dialog Edit Metrics*/}
                                                         <Dialog
                                                             open={openEdit === row.id}
                                                             onClose={handleEditFormClose}
@@ -495,6 +526,7 @@ export default function MainArea() {
                                                                 onClose={handleEditFormClose}
                                                                 metric={row}
                                                                 putMetric={putMetric}
+                                                                deleteMetric={deleteMetric}
                                                             />
                                                         </Dialog>
                                                     </TableRow>
@@ -528,7 +560,7 @@ export default function MainArea() {
                         />
                     </Box>
                 </Box> :
-                <Box component="main" sx={{flexGrow: 1, p: 3}}>
+                <Box component="main" sx={{flexGrow: 1, p: 3, minHeight: "100%", height:"100vh"}} className={"background-mainarea"}>
                     <HomeTables appUser={appUser} channels={channels} metrics={allMetrics}/>
                 </Box>}
         </>

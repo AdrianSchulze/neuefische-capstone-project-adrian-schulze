@@ -11,6 +11,8 @@ import Typography from "@mui/material/Typography";
 import Metric from "../model/Metric";
 import Channel from "../model/Channel";
 import appUser from "../model/AppUser";
+import {Tooltip} from "@mui/material";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 export default function HomeTables(
     {
@@ -32,17 +34,17 @@ export default function HomeTables(
 
     const rows = channels.filter(f => f.createdBy === appUser.id).map((ch) => {
         const channelMetrics = metrics.filter(f => f.channelId === ch.id)
-        const total = {
+        return {
             id: ch.id,
             channel: ch.name,
             ...channelMetrics.reduce((sum, x) => ({
                 impressions: sum.impressions + x.impressions,
                 clicks: sum.clicks + x.clicks,
-                ctr: sum.ctr + x.ctr,
+                ctr: sum.ctr + (x.clicks / x.impressions),
                 cost: sum.cost + x.cost,
                 conversions: sum.conversions + x.conversions,
-                cvr: sum.cvr + x.cvr,
-                cpa: sum.cpa + x.cpa
+                cvr: sum.cvr + (x.conversions / x.clicks),
+                cpa: sum.cpa + (x.cost / x.conversions)
             }), {
                 impressions: 0,
                 clicks: 0,
@@ -53,36 +55,95 @@ export default function HomeTables(
                 cpa: 0
             })
         };
-        total.ctr = total.ctr / channelMetrics.length;
-        total.cvr = total.cvr / channelMetrics.length;
-        total.cpa = total.cpa / channelMetrics.length;
-        return total;
     });
 
     return (
-        <div>
+        <>
             <Toolbar/>
             <TableContainer component={Paper}>
                 <Typography
-                    sx={{flex: '1 1 100%', fontWeight: "bold"}}
+                    sx={{flex: '1 1 100%', fontWeight: "bold", pl: "48px", pt: "16px", pb: "16px"}}
                     variant="h6"
                     id="tableTitle"
                     component="div"
-                    padding={"16px"}
                 >
-                    Summary
+                    Dashboard
                 </Typography>
                 <Table sx={{minWidth: 650}} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell sx={{fontWeight: "bold"}}>Channel</TableCell>
-                            <TableCell align="right" sx={{fontWeight: "bold"}}>Impressions</TableCell>
-                            <TableCell align="right" sx={{fontWeight: "bold"}}>Clicks</TableCell>
-                            <TableCell align="right" sx={{fontWeight: "bold"}}>CTR</TableCell>
-                            <TableCell align="right" sx={{fontWeight: "bold"}}>Cost</TableCell>
-                            <TableCell align="right" sx={{fontWeight: "bold"}}>Conversions</TableCell>
-                            <TableCell align="right" sx={{fontWeight: "bold"}}>CVR</TableCell>
-                            <TableCell align="right" sx={{fontWeight: "bold"}}>CPA</TableCell>
+                            <TableCell padding="checkbox"></TableCell>
+                            <TableCell
+                                sx={{fontWeight: "bold"}}
+                                padding="none"
+                            >
+                                <Tooltip
+                                    title={"Your added channels"}>
+                                    <div>
+                                        Channel
+                                        <InfoOutlinedIcon className={"tooltip"}/>
+                                    </div>
+                                </Tooltip>
+                            </TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>
+                                <Tooltip title={"How many people have seen your Ad"}>
+                                    <div>
+                                        Impressions
+                                        <InfoOutlinedIcon className={"tooltip"}/>
+                                    </div>
+                                </Tooltip>
+                            </TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>
+                                <Tooltip title={"How many people clicked on your Ad"}>
+                                    <div>
+                                        Clicks
+                                        <InfoOutlinedIcon className={"tooltip"}/>
+                                    </div>
+                                </Tooltip>
+                            </TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>
+                                <Tooltip
+                                    title={"The Click-Through-Rate is a percentage that tells you if your channel is working or not. The higher the percentage the better."}>
+                                    <div>
+                                        CTR
+                                        <InfoOutlinedIcon className={"tooltip"}/>
+                                    </div>
+                                </Tooltip>
+                            </TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>
+                                <Tooltip title={"How much money did you spend on your Ads"}>
+                                    <div>
+                                        Cost
+                                        <InfoOutlinedIcon className={"tooltip"}/>
+                                    </div>
+                                </Tooltip>
+                            </TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>
+                                <Tooltip title={"How many conversions came from your this channel."}>
+                                    <div>
+                                        Conversions
+                                        <InfoOutlinedIcon className={"tooltip"}/>
+                                    </div>
+                                </Tooltip>
+                            </TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>
+                                <Tooltip
+                                    title={"The Conversion-rate is a percentage that tells you how many people (out of the ones that clicked) converted."}>
+                                    <div>
+                                        CVR
+                                        <InfoOutlinedIcon className={"tooltip"}/>
+                                    </div>
+                                </Tooltip>
+                            </TableCell>
+                            <TableCell align="right" sx={{fontWeight: "bold"}}>
+                                <Tooltip
+                                    title={"The Cost-Per-Acquisition tells you how much your spent is on one conversion."}>
+                                    <div>
+                                        CPA
+                                        <InfoOutlinedIcon className={"tooltip"}/>
+                                    </div>
+                                </Tooltip>
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -91,33 +152,57 @@ export default function HomeTables(
                                 key={row.id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
-                                <TableCell component="th" scope="row">{row.channel}</TableCell>
-                                <TableCell align="right">{convertNumber.format(row.impressions)}</TableCell>
-                                <TableCell align="right">{convertNumber.format(row.clicks)}</TableCell>
+                                <TableCell padding="checkbox"></TableCell>
+                                <TableCell component="th" scope="row" padding="none">
+                                    {
+                                        row.channel
+                                    }
+                                </TableCell>
+                                <TableCell align="right">{
+                                    convertNumber.format(
+                                        row.impressions
+                                    )}
+                                </TableCell>
+                                <TableCell align="right">
+                                    {convertNumber.format(
+                                        row.clicks
+                                    )}
+                                </TableCell>
                                 <TableCell align="right">
                                     {convert.format(
-                                        (row.clicks / row.impressions) * 100
+                                        Number.isNaN((row.clicks / row.impressions) / rows.length) ? 0 :
+                                            (row.clicks / row.impressions) * 100
                                     )}%
                                 </TableCell>
                                 <TableCell align="right">
-                                    {convert.format(row.cost)}€
+                                    {convert.format(
+                                        row.cost
+                                    )}€
                                 </TableCell>
                                 <TableCell align="right">
-                                    {convertNumber.format(row.conversions)}
+                                    {convertNumber.format(
+                                        row.conversions
+                                    )}
                                 </TableCell>
                                 <TableCell align="right">
                                     {convert.format(
-                                        (row.conversions / row.clicks) * 100
+                                        Number.isNaN(
+                                            (row.conversions / row.clicks) / rows.length) ? 0 :
+                                            (row.conversions / row.clicks) * 100
                                     )}%
                                 </TableCell>
                                 <TableCell align="right">
-                                    {convert.format(row.cost / row.conversions)}€
+                                    {convert.format(
+                                        Number.isNaN(
+                                            (row.cost / row.conversions) / rows.length) ? 0 :
+                                            row.cost / row.conversions
+                                    )}€
                                 </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
-        </div>
+        </>
     );
 }

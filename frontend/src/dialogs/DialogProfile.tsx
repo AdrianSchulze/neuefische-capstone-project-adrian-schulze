@@ -29,17 +29,13 @@ export default function DialogProfile(
 
                     await axios.post("/api/files", formData);
 
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 500);
-
+                    window.location.reload();
                 }
 
             }}
                  display="flex"
                  justifyContent="center"
                  alignItems="center"
-                 minHeight="50vh"
             >
                 <Box textAlign={"center"}>
                     {imgPreview && (
@@ -80,9 +76,9 @@ export default function DialogProfile(
                             />
                         </Button>
                     </DialogContent>
-                    <DialogActions>
-                        <Button onClick={onClose}>Cancel</Button>
-                        <Button type="submit" onClick={onClose}>Save</Button>
+                    <DialogActions sx={{mt: "4.5rem", justifyContent: "center"}}>
+                        <Button variant="outlined" color={"success"} onClick={onClose}>Cancel</Button>
+                        <Button variant="contained" color={"success"} type="submit" onClick={onClose}>Save</Button>
                     </DialogActions>
                 </Box>
             </Box>

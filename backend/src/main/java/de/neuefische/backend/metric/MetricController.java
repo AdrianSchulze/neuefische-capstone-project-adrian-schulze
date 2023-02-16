@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -34,6 +33,8 @@ public class MetricController {
         return metricService.updateMetric(id, metric);
     }
 
-
-
+    @DeleteMapping("/{id}")
+    public void deleteMetricById (@PathVariable String id) {
+        metricService.deleteMetricById(id);
+    }
 }

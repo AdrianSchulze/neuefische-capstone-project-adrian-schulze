@@ -1,6 +1,11 @@
 html, body {
   margin: 0;
   font-family: "Roboto", "Arial", serif;
+  background-color: rgb(238,238,238);
+}
+
+.background-mainarea {
+  background-color: rgb(238,238,238);
 }
 
 .navbar {
@@ -11,6 +16,10 @@ html, body {
 .login-container {
   height:100vh;
   display:flex;
+  background-color: white;
+  /*justifyContent: center;*/
+  /*alignItems: center;*/
+  margin: auto;
 }
 
 .username-navbar {
@@ -19,11 +28,7 @@ html, body {
 }
 
 .delete-button-sidebar {
-  all:unset;
-  display: flex;
-  color: lightgrey;
-  cursor: pointer;
-  align-items: center;
+  transform: scale(0.7);
 }
 
 .no-channels {
@@ -31,7 +36,8 @@ html, body {
 }
 
 .unset-links {
-  all:unset;
+  all: unset;
+  width:100%;
   color: #000;
   cursor: pointer;
 }
@@ -43,4 +49,12 @@ html, body {
 
 .imgPreview {
   width: 150px;
+  margin-top:2rem;
+}
+
+.tooltip {
+  all:unset;
+  color: lightgrey;
+  cursor: pointer;
+  transform: scale(0.6);
 }

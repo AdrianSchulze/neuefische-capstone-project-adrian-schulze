@@ -46,82 +46,99 @@ export default function LoginPage() {
     };
 
     return (
-        <Container component="main" maxWidth="xs">
-            <ToastContainer/>
-            <CssBaseline />
-            <Box
+        <div className={"login-container"}>
+            <Container
+                component="main"
+                maxWidth="xs"
                 sx={{
-                    marginTop: 8,
-                    padding: 5,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+                    display: "flex",
+                    alignItems: "center",
                 }}
             >
-                <Avatar sx={{ m: 1, background: '#2E3B55'}}>
-                    <LockOutlinedIcon/>
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Welcome to Channly!
-                </Typography>
-                <Box component="form" onSubmit={login} noValidate sx={{ mt: 1 }}>
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="username"
-                        label="Username"
-                        name="username"
-                        autoComplete="username"
-                        autoFocus
-                        value={username}
-                        onChange={e => setUsername(e.target.value)}
-                        sx={{mb: 0}}
-                    />
-                    <FormControl sx={{ mt: 1 }} variant="outlined" fullWidth required>
-                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                        <OutlinedInput
-                            id="outlined-adornment-password"
-                            name="password"
-                            type={showPassword ? 'text' : 'password'}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge="end"
-                                    >
-                                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                            label="Password"
-                            autoComplete="current-password"
-                            value={password}
-                            onChange={e => setPassword(e.target.value)}
+                <ToastContainer/>
+                <CssBaseline/>
+                <Box
+                    sx={{
+                        padding: 5,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+                        borderRadius: "4px"
+                    }}
+                >
+                    <Avatar sx={{m: 1, background: '#2E3B55'}}>
+                        <LockOutlinedIcon/>
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Welcome to Channly!
+                    </Typography>
+                    <Box component="form" onSubmit={login} noValidate sx={{mt: 1}}>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="username"
+                            label="Username"
+                            name="username"
+                            autoComplete="username"
+                            autoFocus
+                            value={username}
+                            onChange={e => setUsername(e.target.value)}
+                            sx={{mb: 0}}
+                            color="success"
                         />
-                    </FormControl>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                        color="success"
-                    >
-                        Login
-                    </Button>
-                    <Grid container>
-                        <Grid item
-                              sx={{m:"auto"}}>
-                            <Link to={"/signup"}>
-                                Don't have an account? Sign Up
-                            </Link>
+                        <FormControl sx={{mt: 1}} variant="outlined" fullWidth required>
+                            <InputLabel
+                                htmlFor="outlined-adornment-password"
+                                color="success"
+                            >
+                                Password
+                            </InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-password"
+                                name="password"
+                                type={showPassword ? 'text' : 'password'}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                            color="success"
+                                        >
+                                            {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                                label="Password"
+                                autoComplete="current-password"
+                                value={password}
+                                color="success"
+                                onChange={e => setPassword(e.target.value)}
+                            />
+                        </FormControl>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{mt: 3, mb: 2}}
+                            color="success"
+                        >
+                            Login
+                        </Button>
+                        <Grid container>
+                            <Grid item
+                                  sx={{m: "auto"}}>
+                                <Link to={"/signup"}>
+                                    Don't have an account? Sign Up
+                                </Link>
+                            </Grid>
                         </Grid>
-                    </Grid>
+                    </Box>
                 </Box>
-            </Box>
-        </Container>
+            </Container>
+        </div>
     );
 }

@@ -13,6 +13,7 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 
+
 export default function SignUpPage() {
 
     const [showPassword, setShowPassword] = useState(false);
@@ -54,11 +55,18 @@ export default function SignUpPage() {
     };
 
     return (
-        <Container component="main" maxWidth="xs">
+        <div className={"login-container"}>
+        <Container
+            component="main"
+            maxWidth="xs"
+            sx={{
+                display: "flex",
+                alignItems: "center",
+            }}
+        >
             <CssBaseline />
             <Box
                 sx={{
-                    marginTop: 8,
                     padding: 5,
                     display: 'flex',
                     flexDirection: 'column',
@@ -85,11 +93,12 @@ export default function SignUpPage() {
                                 value={credentials.username}
                                 onChange={handleChange}
                                 autoComplete="username"
+                                color="success"
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <FormControl variant="outlined" fullWidth required>
-                                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                <InputLabel htmlFor="outlined-adornment-password" color="success">Password</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-password"
                                     name="password"
@@ -101,6 +110,7 @@ export default function SignUpPage() {
                                                 onClick={handleClickShowPassword}
                                                 onMouseDown={handleMouseDownPassword}
                                                 edge="end"
+                                                color="success"
                                             >
                                                 {showPassword ? <VisibilityOff /> : <Visibility />}
                                             </IconButton>
@@ -110,6 +120,7 @@ export default function SignUpPage() {
                                     value={credentials.password}
                                     onChange={handleChange}
                                     autoComplete="new-password"
+                                    color="success"
                                 />
                             </FormControl>
                         </Grid>
@@ -133,5 +144,6 @@ export default function SignUpPage() {
                 </Box>
             </Box>
         </Container>
+        </div>
     );
 }

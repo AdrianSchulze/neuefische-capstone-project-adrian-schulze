@@ -67,19 +67,25 @@ export default function SideBar(
                                 </ListItem></Link>
                         </List>
                         <Divider/>
-                        {channels.length ? <List>
-                            <ChannelsInSideBar
-                                channels={channels}
-                                appUser={appUser}
-                                deleteChannel={deleteChannel}
-                            />
-                        </List> :
-                        "No channels"}
+                        {channels.length ? <List sx={{pt: 0, pb: 0}}>
+                                <ChannelsInSideBar
+                                    channels={channels}
+                                    appUser={appUser}
+                                    deleteChannel={deleteChannel}
+                                />
+                            </List> :
+                            "No channels"}
                         <Divider/>
                     </Box>
                     <Box textAlign='center'>
-                        <Button variant="contained" color={"success"} sx={{mt: 2.5}} onClick={() => setOpen(!open)}>Add
-                            Channel</Button>
+                        <Button
+                            variant="contained"
+                            color={"success"}
+                            sx={{mt: 2.5}}
+                            onClick={() => setOpen(!open)}
+                        >
+                            Add Channel
+                        </Button>
                     </Box>
                 </Box>
             </Drawer>

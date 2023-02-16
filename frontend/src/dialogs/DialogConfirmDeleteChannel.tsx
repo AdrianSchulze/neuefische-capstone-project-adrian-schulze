@@ -1,7 +1,7 @@
 import React, {ReactNode} from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 
-export default function DialogConfirmDelete (
+export default function DialogConfirmDeleteChannel(
     {
         title,
         id,
@@ -9,7 +9,7 @@ export default function DialogConfirmDelete (
         open,
         setOpen,
         deleteChannel
-    }:{
+    }: {
         title: string,
         id: string,
         children: ReactNode,
@@ -31,19 +31,21 @@ export default function DialogConfirmDelete (
             <DialogActions>
                 <Button
                     variant="outlined"
+                    color={"success"}
                     onClick={() => setOpen(false)}
                 >
                     No
                 </Button>
-                <Button
-                    variant="contained"
-                    onClick={() => {
-                        deleteChannel(id);
-                        setOpen(false);
-                    }}
-                >
-                    Yes
-                </Button>
+                    <Button
+                        variant="contained" color={"success"}
+                        onClick={() => {
+                            deleteChannel(id);
+                            setOpen(false);
+                            window.location.href = '/';
+                        }}
+                    >
+                        Yes
+                    </Button>
             </DialogActions>
         </Dialog>
     );
