@@ -90,7 +90,6 @@ function sortBy(list: any[], field: string) : any[] {
 
     return [...list].sort(( a, b ) => {
         if (dayjs(a[field],"DD-MM-YYYY").isValid()){
-            console.log("Field A: " + a[field]);
             return dayjs(a[field],"DD-MM-YYYY").isAfter(dayjs(b[field],"DD-MM-YYYY")) ? 1 : -1;
         }
         if (!Object.hasOwn(a,field)) {
