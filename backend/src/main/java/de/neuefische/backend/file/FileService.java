@@ -26,6 +26,8 @@ public class FileService {
     private final GridFsTemplate gridFsTemplate;
     private final AppUserService appUserService;
 
+    String createdBy = "createdBy";
+
     public FileMetadata saveFile (MultipartFile multipartFile) throws IOException {
         if (multipartFile.isEmpty()) {
             throw new ResponseStatusException(
@@ -42,7 +44,7 @@ public class FileService {
                 multipartFile.getOriginalFilename(),
                 multipartFile.getContentType(),
                 BasicDBObjectBuilder.start()
-                        .add("createdBy", appUser.getUsername())
+                        .add(createdBy, appUser.getUsername())
                         .get()
         );
 
@@ -64,7 +66,7 @@ public class FileService {
                 .ofNullable(gridFSFile.getMetadata())
                 .orElse(new Document(Map.of(
                         "_contentType", "",
-                        "createdBy", ""
+                        createdBy, ""
                 )));
 
         return new FileMetadata(
@@ -72,7 +74,7 @@ public class FileService {
                 gridFSFile.getFilename(),
                 metadata.getString("_contentType"),
                 gridFSFile.getLength(),
-                metadata.getString("createdBy")
+                metadata.getString(createdBy)
         );
     }
 

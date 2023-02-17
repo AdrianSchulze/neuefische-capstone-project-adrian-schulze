@@ -6,10 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.Optional;
@@ -40,7 +40,7 @@ public class SecurityConfig {
         return username -> {
             Optional<AppUser> myUser  = appUserService.findByUsername(username);
             if(myUser.isEmpty()){
-                throw new UsernameNotFoundException(username);
+                throw new BadCredentialsException("Bad credentials");
             }
             AppUser appUser = myUser.get();
             return User.builder()
