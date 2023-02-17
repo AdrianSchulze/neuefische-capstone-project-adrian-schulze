@@ -46,7 +46,7 @@ export default function ProfilePicture({appUser}: { appUser: AppUser }) {
                 <span className={"username-navbar"}>{appUser.username}</span>
                 <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                        {appUser && <Avatar alt="Profile Picture" src={IMAGE_URL + appUser.imageId}/>}
+                        {appUser.imageId && <Avatar alt="Profile Picture" src={IMAGE_URL + appUser.imageId}/>}
                     </IconButton>
                 </Tooltip>
                 <Menu
