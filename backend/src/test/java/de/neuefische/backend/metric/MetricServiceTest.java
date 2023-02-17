@@ -85,7 +85,7 @@ class MetricServiceTest {
     }
 
     @Test
-    void deleteMetricByIdShouldReturnMetric() {
+    void deleteMetricByIdShouldReturnNothing() {
         addMetric();
         List<Metric> emptyList = new ArrayList<>();
 

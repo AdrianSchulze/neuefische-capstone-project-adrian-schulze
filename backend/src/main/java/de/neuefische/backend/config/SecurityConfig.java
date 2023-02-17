@@ -28,11 +28,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, "/api/users/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/users/signup").permitAll()
-                .antMatchers( "/api/metrics").hasRole("BASIC")
-                .antMatchers( "/api/channels").hasRole("BASIC")
-                .antMatchers("/api/files").hasRole("BASIC")
+                .antMatchers( "/api/**").authenticated()
                 .anyRequest()
-                .authenticated()
+                .permitAll()
                 .and()
                 .build();
     }
