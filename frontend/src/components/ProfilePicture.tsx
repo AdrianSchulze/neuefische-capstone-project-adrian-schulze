@@ -39,6 +39,7 @@ export default function ProfilePicture({appUser}: { appUser: AppUser }) {
                 >
                     <DialogProfile
                         onClose={handleProfileFormClose}
+                        appUser={appUser}
                     />
                 </Dialog>
             </div>

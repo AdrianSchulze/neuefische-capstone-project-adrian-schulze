@@ -2,21 +2,26 @@ import {
     Button,
     DialogActions,
     DialogContent,
-    DialogTitle
+    DialogTitle, IconButton
 } from "@mui/material";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import axios from "axios";
+import {PhotoCamera} from "@mui/icons-material";
+import {IMAGE_URL} from "../model/Application_property";
+import AppUser from "../model/AppUser";
 
 export default function DialogProfile(
     {
         onClose,
+        appUser
     }: {
         onClose: () => void,
+        appUser: AppUser
     }) {
 
     const [file, setFile] = React.useState<File | null>(null);
-    const [imgPreview, setImgPreview] = React.useState<string | null>(null);
+    const [imgPreview, setImgPreview] = React.useState<string | null>(IMAGE_URL + appUser.imageId);
 
     return (
         <>
@@ -47,8 +52,7 @@ export default function DialogProfile(
                     )}
                     <DialogTitle>Update your Profile Image</DialogTitle>
                     <DialogContent>
-                        <Button variant="contained" component="label" color={"success"}>
-                            Choose Image
+                        <IconButton color="success" aria-label="upload picture" component="label">
                             <input
                                 type="file"
                                 hidden
@@ -72,11 +76,11 @@ export default function DialogProfile(
                                     reader.readAsDataURL(e.target.files[0]);
 
                                 }}
-
                             />
-                        </Button>
+                            <PhotoCamera />
+                        </IconButton>
                     </DialogContent>
-                    <DialogActions sx={{mt: "4.5rem", justifyContent: "center"}}>
+                    <DialogActions sx={{mt: "1.5rem", justifyContent: "center", pb:3}}>
                         <Button variant="outlined" color={"success"} onClick={onClose}>Cancel</Button>
                         <Button variant="contained" color={"success"} type="submit" onClick={onClose}>Save</Button>
                     </DialogActions>

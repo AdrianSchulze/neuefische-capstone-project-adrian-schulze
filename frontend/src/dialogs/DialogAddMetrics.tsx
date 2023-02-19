@@ -108,7 +108,7 @@ export default function DialogAddMetrics(
                         sx={{mb: 0}}
                     />
                 </DialogContent>
-                <DialogActions>
+                <DialogActions sx={{display: "flex", justifyContent: "center", pb:3}}>
                     <Button
                         variant="outlined"
                         color={"success"}
