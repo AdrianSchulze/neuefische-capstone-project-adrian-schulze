@@ -13,8 +13,8 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, {Dayjs} from "dayjs";
 import {ChangeEvent, useState} from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
-import 'dayjs/locale/de'
 import DialogConfirmDeleteMetric from "./DialogConfirmDeleteMetric";
+import 'dayjs/locale/de';
 
 export default function DialogEditMetrics(
     {
@@ -30,9 +30,7 @@ export default function DialogEditMetrics(
     }) {
 
     const [dateValue, setDateValue] = useState<Dayjs | null>(dayjs(metric.date, "DD-MM-YYYY"));
-
     const [editMetric, setEditMetric] = useState(metric);
-
     const [openEdit, setOpenEdit] = useState<string | null | undefined>(null);
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +38,6 @@ export default function DialogEditMetrics(
         setEditMetric({
             ...editMetric, [name]: value
         })
-        editMetric.date = dateValue?.format('DD-MM-YYYY');
     }
 
     const handleMetricDeleteClose = () => {
@@ -51,6 +48,7 @@ export default function DialogEditMetrics(
         <>
             <Box component="form" noValidate sx={{width: '400px'}} onSubmit={e => {
                 e.preventDefault();
+                editMetric.date = dateValue?.format('DD-MM-YYYY');
                 putMetric(editMetric);
             }}>
                 <DialogTitle>Edit metrics</DialogTitle>
