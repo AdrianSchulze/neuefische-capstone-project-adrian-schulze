@@ -85,7 +85,7 @@ class MetricServiceTest {
     }
 
     @Test
-    void deleteMetricByIdShouldReturnNothing() {
+    void deleteMetricById_shouldReturnNothing() {
         addMetric();
         List<Metric> emptyList = new ArrayList<>();
 
@@ -104,25 +104,10 @@ class MetricServiceTest {
 
     @Test
     void deleteAllMetrics_WhenChannelIsDeleted() {
-        Metric metric1 = new Metric("1", "123", "23112022",
-                123, 123, 123, 123);
-        Metric metric2 = new Metric("2", "123", "4321234",
-                123, 123, 123, 123);
+        addMetric();
 
         MetricRepository metricRepository = Mockito.mock(MetricRepository.class);
         MetricService metricService = new MetricService(metricRepository);
-
-        Mockito.when(metricRepository.save(metric1))
-                .thenReturn(
-                        new Metric("1", "123", "23112022",
-                        123, 123, 123, 123));
-        Mockito.when(metricRepository.save(metric2))
-                .thenReturn(
-                        new Metric("2", "123", "4321234",
-                                123, 123, 123, 123));
-
-        metricService.addMetric(metric1);
-        metricService.addMetric(metric2);
 
         List<Metric> emptyList = new ArrayList<>();
 
