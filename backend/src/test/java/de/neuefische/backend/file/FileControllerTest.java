@@ -121,8 +121,8 @@ class FileControllerTest {
     }
 
     @Test
-    void getFileById_whenUserIsNotLoggedIn_returnUnauthorized() throws Exception {
+    void getFileById_whenFileNotExists_return404() throws Exception {
         this.mockMvc.perform(get("/api/files/1"))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isNotFound());
     }
 }
