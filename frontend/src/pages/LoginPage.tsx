@@ -1,4 +1,4 @@
-import React, {FormEvent, useCallback, useState} from "react";
+import React, {FormEvent, useState} from "react";
 import {
     Avatar,
     Box,
@@ -12,18 +12,20 @@ import axios from "axios";
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Visibility, VisibilityOff} from "@mui/icons-material";
+import SimpleBackdrop from "../components/LoadingBackdrop";
 
 export default function LoginPage() {
 
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [showPassword, setShowPassword] = useState(false);
+    const [open, setOpen] = React.useState(false);
 
     const navigate = useNavigate();
 
-    const login = useCallback(async (e: FormEvent<HTMLFormElement>) => {
+    const login = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        handleToggle();
         try {
             await axios.post("/api/users/login", null, {
                 headers: {
@@ -32,12 +34,15 @@ export default function LoginPage() {
                     )
                 }
             });
-            navigate("/");
-            toast.success("Successfully logged in!")
+            setTimeout(() => {
+                navigate("/");
+                handleToggle();
+                toast.success("Successfully logged in!")
+            }, 3000)
         } catch (e) {
             toast.error("Wrong username or password");
         }
-    }, [navigate, password, username]);
+    };
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -45,8 +50,13 @@ export default function LoginPage() {
         event.preventDefault();
     };
 
+    const handleToggle = () => {
+        setOpen(!open);
+    };
+
     return (
         <div className={"login-container"}>
+            <SimpleBackdrop openBackdrop={open}/>
             <Container
                 component="main"
                 maxWidth="xs"
