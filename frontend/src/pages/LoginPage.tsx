@@ -32,8 +32,6 @@ type FormData = yup.InferType<typeof schema>;
 
 export default function LoginPage() {
 
-    // const [username, setUsername] = useState<string>("");
-    // const [password, setPassword] = useState<string>("");
     const [showPassword, setShowPassword] = useState(false);
     const [open, setOpen] = React.useState(false);
 
