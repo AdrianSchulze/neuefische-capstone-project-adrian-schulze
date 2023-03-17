@@ -432,7 +432,7 @@ export default function MainArea() {
                     }}
                     >
                         <div></div>
-                        <Button variant="contained" color={"success"} onClick={() => setOpen(!open)}>Add metrics</Button>
+                        <Button variant="contained" onClick={() => setOpen(!open)}>Add metrics</Button>
                     </Box>
 
                     <Box sx={{width: '100%'}}>

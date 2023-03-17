@@ -31,13 +31,12 @@ export default function DialogConfirmDeleteChannel(
             <DialogActions>
                 <Button
                     variant="outlined"
-                    color={"success"}
                     onClick={() => setOpen(false)}
                 >
                     No
                 </Button>
                     <Button
-                        variant="contained" color={"success"}
+                        variant="contained"
                         onClick={() => {
                             deleteChannel(id);
                             setOpen(false);

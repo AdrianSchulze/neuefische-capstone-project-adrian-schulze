@@ -111,7 +111,6 @@ export default function DialogAddMetrics(
                 <DialogActions sx={{display: "flex", justifyContent: "center", pb:3}}>
                     <Button
                         variant="outlined"
-                        color={"success"}
                         onClick={onClose}
                     >
                         Cancel
@@ -119,7 +118,6 @@ export default function DialogAddMetrics(
                     <Button
                         type="submit"
                         variant="contained"
-                        color={"success"}
                         onClick={onClose}
                     >
                         Create

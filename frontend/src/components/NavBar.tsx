@@ -11,7 +11,7 @@ export default function Navbar({appUser}: { appUser: AppUser }) {
     return (
         <div>
             <CssBaseline/>
-            <AppBar position="fixed" sx={{zIndex: (theme) => theme.zIndex.drawer + 1, background: '#2e7d32'}}>
+            <AppBar position="fixed" sx={{zIndex: (theme) => theme.zIndex.drawer + 1}}>
                 <Toolbar sx={{justifyContent: "space-between"}}>
                     <Typography variant="h6" noWrap component="div" fontWeight={"bold"}>
                         Channly

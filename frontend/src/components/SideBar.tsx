@@ -80,7 +80,6 @@ export default function SideBar(
                     <Box textAlign='center'>
                         <Button
                             variant="contained"
-                            color={"success"}
                             sx={{mt: 2.5}}
                             onClick={() => setOpen(!open)}
                         >

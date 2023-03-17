@@ -2,8 +2,8 @@ import React, {FormEvent, useCallback, useState} from "react";
 import {
     Avatar,
     Box,
-    Button, Container, CssBaseline, FormControl,
-    Grid, IconButton, InputAdornment, InputLabel, OutlinedInput,
+    Button, Container, CssBaseline, FilledInput, FormControl,
+    Grid, IconButton, InputAdornment, InputLabel,
     TextField, Typography
 } from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";
@@ -76,6 +76,7 @@ export default function LoginPage() {
                     <Box component="form" onSubmit={login} noValidate sx={{mt: 1}}>
                         <TextField
                             margin="normal"
+                            variant="filled"
                             required
                             fullWidth
                             id="username"
@@ -86,16 +87,14 @@ export default function LoginPage() {
                             value={username}
                             onChange={e => setUsername(e.target.value)}
                             sx={{mb: 0}}
-                            color="success"
                         />
-                        <FormControl sx={{mt: 1}} variant="outlined" fullWidth required>
+                        <FormControl sx={{mt: 1}} variant="filled" fullWidth required>
                             <InputLabel
                                 htmlFor="outlined-adornment-password"
-                                color="success"
                             >
                                 Password
                             </InputLabel>
-                            <OutlinedInput
+                            <FilledInput
                                 id="outlined-adornment-password"
                                 name="password"
                                 type={showPassword ? 'text' : 'password'}
@@ -106,16 +105,13 @@ export default function LoginPage() {
                                             onClick={handleClickShowPassword}
                                             onMouseDown={handleMouseDownPassword}
                                             edge="end"
-                                            color="success"
                                         >
                                             {showPassword ? <VisibilityOff/> : <Visibility/>}
                                         </IconButton>
                                     </InputAdornment>
                                 }
-                                label="Password"
                                 autoComplete="current-password"
                                 value={password}
-                                color="success"
                                 onChange={e => setPassword(e.target.value)}
                             />
                         </FormControl>
@@ -124,14 +120,13 @@ export default function LoginPage() {
                             fullWidth
                             variant="contained"
                             sx={{mt: 3, mb: 2}}
-                            color="success"
                         >
                             Login
                         </Button>
                         <Grid container>
                             <Grid item
                                   sx={{m: "auto"}}>
-                                <Link to={"/signup"}>
+                                <Link to={"/signup"} className={"formBottomText"}>
                                     Don't have an account? Sign Up
                                 </Link>
                             </Grid>
