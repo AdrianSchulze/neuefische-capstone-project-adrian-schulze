@@ -58,3 +58,20 @@ html, body {
   cursor: pointer;
   transform: scale(0.6);
 }
+
+.formBottomText {
+  font-size: 0.8rem;
+}
+
+.errorUsername {
+  color:red;
+  margin-left: 17px;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.error {
+  color:red;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+}

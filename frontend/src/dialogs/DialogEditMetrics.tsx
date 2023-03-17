@@ -114,7 +114,6 @@ export default function DialogEditMetrics(
                     <div>
                         <Button
                             variant="outlined"
-                            color={"success"}
                             onClick={() => setOpenEdit(metric.id)}
                         >
                             <DeleteIcon/> Delete
@@ -133,8 +132,8 @@ export default function DialogEditMetrics(
                         </Dialog>
                     </div>
                     <div>
-                        <Button variant="outlined" color={"success"} onClick={onClose} sx={{mr:0.5}}>Cancel</Button>
-                        <Button variant="contained" color={"success"} type="submit" onClick={onClose}>Edit</Button>
+                        <Button variant="outlined" onClick={onClose} sx={{mr:0.5}}>Cancel</Button>
+                        <Button variant="contained" type="submit" onClick={onClose}>Edit</Button>
                     </div>
                 </DialogActions>
             </Box>

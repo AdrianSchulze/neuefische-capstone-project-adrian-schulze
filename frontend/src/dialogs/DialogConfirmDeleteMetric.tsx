@@ -29,13 +29,12 @@ export default function DialogConfirmDeleteMetric(
             <DialogActions>
                 <Button
                     variant="outlined"
-                    color={"success"}
                     onClick={() => setOpen(false)}
                 >
                     No
                 </Button>
                 <Button
-                    variant="contained" color={"success"}
+                    variant="contained"
                     onClick={() => {
                         if(id)
                         deleteMetric(id);

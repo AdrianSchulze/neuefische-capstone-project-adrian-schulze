@@ -52,7 +52,7 @@ export default function DialogProfile(
                     )}
                     <DialogTitle>Update your Profile Image</DialogTitle>
                     <DialogContent>
-                        <IconButton color="success" aria-label="upload picture" component="label">
+                        <IconButton aria-label="upload picture" component="label">
                             <input
                                 type="file"
                                 hidden
@@ -81,8 +81,8 @@ export default function DialogProfile(
                         </IconButton>
                     </DialogContent>
                     <DialogActions sx={{mt: "1.5rem", justifyContent: "center", pb:3}}>
-                        <Button variant="outlined" color={"success"} onClick={onClose}>Cancel</Button>
-                        <Button variant="contained" color={"success"} type="submit" onClick={onClose}>Save</Button>
+                        <Button variant="outlined" onClick={onClose}>Cancel</Button>
+                        <Button variant="contained" type="submit" onClick={onClose}>Save</Button>
                     </DialogActions>
                 </Box>
             </Box>
