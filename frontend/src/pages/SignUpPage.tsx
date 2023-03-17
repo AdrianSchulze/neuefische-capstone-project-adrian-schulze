@@ -115,7 +115,12 @@ export default function SignUpPage() {
                             </span>
                             <Grid item xs={12}>
                                 <FormControl fullWidth required variant="filled">
-                                    <InputLabel htmlFor="outlined-adornment-password" {...addErrorIntoField(errors["password"])}>Password</InputLabel>
+                                    <InputLabel
+                                        htmlFor="outlined-adornment-password"
+                                        {...addErrorIntoField(errors["password"])}
+                                    >
+                                        Password
+                                    </InputLabel>
                                     <FilledInput
                                         id="outlined-adornment-password"
                                         type={showPassword ? 'text' : 'password'}

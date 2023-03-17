@@ -1,4 +1,4 @@
-import React, {FormEvent, useState} from "react";
+import React, {useState} from "react";
 import {
     Avatar,
     Box,
@@ -13,24 +13,39 @@ import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import SimpleBackdrop from "../components/LoadingBackdrop";
+import * as yup from "yup";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {addErrorIntoField} from "../components/utils";
+
+const schema = yup.object({
+    username: yup
+        .string()
+        .required("Username is required"),
+    password: yup
+        .string()
+        .required("Password is required"),
+})
+    .required();
+
+type FormData = yup.InferType<typeof schema>;
 
 export default function LoginPage() {
 
-    const [username, setUsername] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
+    // const [username, setUsername] = useState<string>("");
+    // const [password, setPassword] = useState<string>("");
     const [showPassword, setShowPassword] = useState(false);
     const [open, setOpen] = React.useState(false);
 
     const navigate = useNavigate();
 
-    const login = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const login = async (dataLogin: FormData) => {
         handleToggle();
         try {
             await axios.post("/api/users/login", null, {
                 headers: {
                     "Authorization": "Basic " + window.btoa(
-                        username + ":" + password
+                        dataLogin.username + ":" + dataLogin.password
                     )
                 }
             });
@@ -53,6 +68,10 @@ export default function LoginPage() {
     const handleToggle = () => {
         setOpen(!open);
     };
+
+    const {register, handleSubmit, formState: {errors}} = useForm<FormData>({
+        resolver: yupResolver(schema)
+    });
 
     return (
         <div className={"login-container"}>
@@ -83,7 +102,7 @@ export default function LoginPage() {
                     <Typography component="h1" variant="h5">
                         Welcome to Channly!
                     </Typography>
-                    <Box component="form" onSubmit={login} noValidate sx={{mt: 1}}>
+                    <Box component="form" onSubmit={handleSubmit(login)} noValidate sx={{mt: 1}}>
                         <TextField
                             margin="normal"
                             variant="filled"
@@ -91,22 +110,26 @@ export default function LoginPage() {
                             fullWidth
                             id="username"
                             label="Username"
-                            name="username"
                             autoComplete="username"
                             autoFocus
-                            value={username}
-                            onChange={e => setUsername(e.target.value)}
                             sx={{mb: 0}}
+                            {...register("username")}
+                            {...addErrorIntoField(errors["username"])}
                         />
+                        <span className={"error"}
+                              style={{display: errors["username"] ? 'block' : 'none' }}
+                        >
+                                {errors.username?.message}
+                            </span>
                         <FormControl sx={{mt: 1}} variant="filled" fullWidth required>
                             <InputLabel
                                 htmlFor="outlined-adornment-password"
+                                {...addErrorIntoField(errors["password"])}
                             >
                                 Password
                             </InputLabel>
                             <FilledInput
                                 id="outlined-adornment-password"
-                                name="password"
                                 type={showPassword ? 'text' : 'password'}
                                 endAdornment={
                                     <InputAdornment position="end">
@@ -121,9 +144,14 @@ export default function LoginPage() {
                                     </InputAdornment>
                                 }
                                 autoComplete="current-password"
-                                value={password}
-                                onChange={e => setPassword(e.target.value)}
+                                {...register("password")}
+                                {...addErrorIntoField(errors["password"])}
                             />
+                            <span className={"error"}
+                                  style={{display: errors["password"] ? 'block' : 'none' }}
+                            >
+                                        {errors.password?.message}
+                                    </span>
                         </FormControl>
                         <Button
                             type="submit"
