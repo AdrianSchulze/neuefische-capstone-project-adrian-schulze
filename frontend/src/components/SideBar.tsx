@@ -23,14 +23,12 @@ export default function SideBar(
     {
         channel,
         channels,
-        setChannel,
         postChannel,
         appUser,
         deleteChannel
     }: {
         channel: Channel,
         channels: Channel[],
-        setChannel: (channel: Channel) => void,
         postChannel: (channel: Channel) => void,
         appUser: AppUser,
         deleteChannel: (id: string) => void
@@ -96,7 +94,6 @@ export default function SideBar(
                     <DialogAddChannel
                         channel={channel}
                         onClose={handleAddFormClose}
-                        setChannel={setChannel}
                         postChannel={postChannel}
                     />
                 </Dialog>

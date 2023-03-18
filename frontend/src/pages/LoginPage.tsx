@@ -28,7 +28,7 @@ const schema = yup.object({
 })
     .required();
 
-type FormData = yup.InferType<typeof schema>;
+export type FormData = yup.InferType<typeof schema>;
 
 export default function LoginPage() {
 
@@ -51,7 +51,7 @@ export default function LoginPage() {
                 navigate("/");
                 handleToggle();
                 toast.success("Successfully logged in!")
-            }, 3000)
+            }, 2000)
         } catch (e) {
             toast.error("Wrong username or password");
         }
@@ -115,7 +115,7 @@ export default function LoginPage() {
                             {...addErrorIntoField(errors["username"])}
                         />
                         <span className={"error"}
-                              style={{display: errors["username"] ? 'block' : 'none' }}
+                              style={{display: errors["username"] ? 'block' : 'none'}}
                         >
                                 {errors.username?.message}
                             </span>
@@ -145,11 +145,12 @@ export default function LoginPage() {
                                 {...register("password")}
                                 {...addErrorIntoField(errors["password"])}
                             />
-                            <span className={"error"}
-                                  style={{display: errors["password"] ? 'block' : 'none' }}
+                            <span
+                                className={"error"}
+                                style={{display: errors["password"] ? 'block' : 'none'}}
                             >
-                                        {errors.password?.message}
-                                    </span>
+                                {errors.password?.message}
+                            </span>
                         </FormControl>
                         <Button
                             type="submit"

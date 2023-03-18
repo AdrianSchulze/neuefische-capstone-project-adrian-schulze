@@ -3,12 +3,16 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    FormControl, InputLabel, MenuItem, Select, SelectChangeEvent,
+    FormControl, InputLabel, MenuItem, Select,
     TextField
 } from "@mui/material";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Channel from "../model/Channel";
+import * as yup from "yup";
+import {useForm, Controller} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {addErrorIntoField} from "../components/utils";
 
 const options = [
     {
@@ -31,74 +35,117 @@ const options = [
     },
 ]
 
+const schema = yup.object({
+    channel: yup.string()
+        .required()
+        .min(3, "Select a channel")
+        .label("Selected channel"),
+    channelName: yup
+        .string()
+        .required("Channel name is required"),
+})
+    .required();
+
+export type FormData = yup.InferType<typeof schema>;
+
 export default function DialogAddChannel(
     {
         channel,
         onClose,
-        setChannel,
         postChannel
     }: {
         channel: Channel
         onClose: () => void,
-        setChannel: (channel: Channel) => void,
         postChannel: (channel: Channel) => void
     }) {
 
-    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setChannel({
-            ...channel,
-            name: e.currentTarget.value
-        });
-    }
-
-    const handleSelect = (e: SelectChangeEvent) => {
-        setChannel({
-            ...channel,
-            channel: e.target.value
-        });
-    }
+    const {
+        register,
+        handleSubmit,
+        control,
+        formState: {errors}
+    } = useForm<FormData>({
+        resolver: yupResolver(schema)
+    });
 
     return (
         <div>
-            <Box component="form" noValidate sx={{width: '400px'}} onSubmit={e => {
-                e.preventDefault();
-                postChannel(channel);
-            }}>
+            <Box
+                component="form"
+                noValidate
+                sx={{width: '400px'}}
+                onSubmit={handleSubmit((data) => {
+                        channel.channel = data.channel;
+                        channel.name = data.channelName;
+                        console.log(channel);
+                        postChannel(channel);
+                        onClose();
+                    }
+                )}
+            >
                 <DialogTitle>Add a new channel</DialogTitle>
                 <DialogContent>
                     <FormControl sx={{mt: 1, width: 1}}>
-                        <InputLabel id="demo-simple-select-helper-label">Channel</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-helper-label"
-                            id="demo-simple-select-helper"
-                            label="Channel"
-                            fullWidth
-                            required
-                            value={channel.channel}
-                            onChange={handleSelect}
+                        <InputLabel
+                            id="demo-simple-select-helper-label"
+                            {...addErrorIntoField(errors["channel"])}
                         >
-                            {options.map(option =>
-                                <MenuItem key={option.key} value={option.name}>
-                                    <img src={option.image} alt={""} style={{width: "15px"}} />{'\u00A0'}{'\u00A0'}{option.label}
-                                </MenuItem>)}
-                        </Select>
+                            Channel
+                        </InputLabel>
+                        <Controller
+                            name="channel"
+                            control={control}
+                            render={({field: {onChange, value, onBlur}}) => (
+                                <Select
+                                    label="Channel"
+                                    fullWidth
+                                    required
+                                    name={"channel"}
+                                    value={value ? value : ""}
+                                    onChange={onChange} // send value to hook form
+                                    onBlur={onBlur} // notify when input is touched/blur
+                                    {...addErrorIntoField(errors["channel"])}
+                                >
+                                    {options.map(option =>
+                                        <MenuItem key={option.key} value={option.name}>
+                                            <img
+                                                src={option.image}
+                                                alt={""}
+                                                style={{width: "15px"}}
+                                            />
+                                            {'\u00A0'}{'\u00A0'}{option.label}
+                                        </MenuItem>)}
+                                </Select>
+                            )}
+                        />
                     </FormControl>
+                    <span
+                        className={"error"}
+                        style={{display: errors["channel"] ? 'block' : 'none'}}
+                    >
+                        {errors.channel?.message}
+                    </span>
                     <TextField
                         margin="normal"
                         required
                         fullWidth
                         id="channelname"
                         label="Channel name"
-                        name="channelname"
                         autoFocus
-                        value={channel.name}
-                        onChange={handleInput}
                         sx={{mb: 0}}
+                        {...register("channelName")}
+                        {...addErrorIntoField(errors["channelName"])}
                     />
+                    <span
+                        className={"error"}
+                        style={{display: errors["channelName"] ? 'block' : 'none'}}
+                    >
+                        {errors.channelName?.message}
+                    </span>
                 </DialogContent>
-                <DialogActions>
+                <DialogActions sx={{justifyContent: "center", pb: 3}}>
                     <Button variant="outlined" onClick={onClose}>Cancel</Button>
-                    <Button variant="contained" type="submit" onClick={onClose}>Create</Button>
+                    <Button variant="contained" type="submit">Create</Button>
                 </DialogActions>
             </Box>
         </div>
