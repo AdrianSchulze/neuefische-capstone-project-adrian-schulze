@@ -293,7 +293,6 @@ export default function MainArea() {
         channel,
         channels,
         postChannel,
-        setChannel,
         appUser,
         deleteChannel,
     } = useAnalytics();
@@ -404,7 +403,6 @@ export default function MainArea() {
                 channel={channel}
                 channels={channels}
                 appUser={appUser}
-                setChannel={setChannel}
                 postChannel={postChannel}
                 deleteChannel={deleteChannel}
             />

@@ -26,7 +26,7 @@ export default function DialogConfirmDeleteMetric(
             <DialogContent>
                 Do you really want to delete this metric?
             </DialogContent>
-            <DialogActions>
+            <DialogActions sx={{justifyContent: "center", pb: 3}}>
                 <Button
                     variant="outlined"
                     onClick={() => setOpen(false)}

@@ -28,7 +28,7 @@ export default function DialogConfirmDeleteChannel(
             <DialogContent>
                 {children}
             </DialogContent>
-            <DialogActions>
+            <DialogActions sx={{justifyContent: "center", pb: 3}}>
                 <Button
                     variant="outlined"
                     onClick={() => setOpen(false)}
