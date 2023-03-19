@@ -53,32 +53,33 @@ export default function SideBar(
                 <Toolbar/>
                 <Box sx={{overflow: 'auto'}}>
                     <Box sx={{overflow: 'auto'}}>
-                        <List>
+                        <List sx={{py: 0}}>
                             <Link to={"/"} className={"unset-links"}>
                                 <ListItem disablePadding>
                                     <ListItemButton>
                                         <ListItemIcon>
                                             <HomeIcon/>
                                         </ListItemIcon>
-                                        <ListItemText primary={"Dashboard"}/>
+                                        <ListItemText primary={"Dashboard"} sx={{py: "0.5rem"}}/>
                                     </ListItemButton>
                                 </ListItem></Link>
                         </List>
                         <Divider/>
-                        {channels.length ? <List sx={{pt: 0, pb: 0}}>
+                        {channels.filter(c => c.createdBy === appUser.id).length ?
+                            <List sx={{py: 0}}>
                                 <ChannelsInSideBar
                                     channels={channels}
                                     appUser={appUser}
                                     deleteChannel={deleteChannel}
                                 />
-                            </List> :
-                            "No channels"}
+                            </List> : <p className={"no-channels"}>Please add a channel</p>
+                        }
                         <Divider/>
                     </Box>
                     <Box textAlign='center'>
                         <Button
                             variant="contained"
-                            sx={{mt: 2.5}}
+                            sx={{mt: "0.8rem"}}
                             onClick={() => setOpen(!open)}
                         >
                             Add Channel

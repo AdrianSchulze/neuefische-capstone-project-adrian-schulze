@@ -86,22 +86,22 @@ function createData(
 
 type Order = 'asc' | 'desc';
 
-function sortBy(list: any[], field: string) : any[] {
+function sortBy(list: any[], field: string): any[] {
 
-    return [...list].sort(( a, b ) => {
-        if (dayjs(a[field],"DD-MM-YYYY").isValid()){
-            return dayjs(a[field],"DD-MM-YYYY").isAfter(dayjs(b[field],"DD-MM-YYYY")) ? 1 : -1;
+    return [...list].sort((a, b) => {
+        if (dayjs(a[field], "DD-MM-YYYY").isValid()) {
+            return dayjs(a[field], "DD-MM-YYYY").isAfter(dayjs(b[field], "DD-MM-YYYY")) ? 1 : -1;
         }
-        if (!Object.hasOwn(a,field)) {
+        if (!Object.hasOwn(a, field)) {
             return 0;
         }
         if (typeof a[field] === 'string' || a[field] instanceof String) {
             return (a[field] as string).localeCompare(b[field] as string);
         }
-        if (a[field] < b[field]){
+        if (a[field] < b[field]) {
             return -1;
         }
-        if (a[field] > b[field]){
+        if (a[field] > b[field]) {
             return 1;
         }
         return 0;
@@ -109,8 +109,8 @@ function sortBy(list: any[], field: string) : any[] {
 
 }
 
-function sortByWithOrder(list: any[], field: string, order: Order) : any[] {
-    const orderedList = sortBy(list,field);
+function sortByWithOrder(list: any[], field: string, order: Order): any[] {
+    const orderedList = sortBy(list, field);
 
     return order === 'desc' ? orderedList.reverse() : orderedList;
 }
@@ -338,10 +338,10 @@ export default function MainArea() {
 
     const deleteMetric = async (id: string) => {
         try {
-        axios.delete("/api/metrics/" + id)
-            .then(response => response.data)
-        setFilteredMetrics(filteredMetrics.filter(e => e.id !== id));
-        toast.success("Metric was deleted", {position: "bottom-right"});
+            axios.delete("/api/metrics/" + id)
+                .then(response => response.data)
+            setFilteredMetrics(filteredMetrics.filter(e => e.id !== id));
+            toast.success("Metric was deleted", {position: "bottom-right"});
         } catch (e) {
             toast.error("Metric could not be deleted", {position: "bottom-right"});
         }
@@ -363,7 +363,7 @@ export default function MainArea() {
             f.date,
             f.impressions,
             f.clicks,
-            f.ctr = (Number.isNaN(f.clicks / f.impressions) ? 0 : (f.clicks / f.impressions)  * 100),
+            f.ctr = (Number.isNaN(f.clicks / f.impressions) ? 0 : (f.clicks / f.impressions) * 100),
             f.cost,
             f.conversions,
             f.cvr = (Number.isNaN(f.conversions / f.clicks) ? 0 : (f.conversions / f.clicks) * 100),
@@ -406,159 +406,179 @@ export default function MainArea() {
                 postChannel={postChannel}
                 deleteChannel={deleteChannel}
             />
-            {id ? <Box component="main" sx={{flexGrow: 1, p: 3, minHeight: "100%", height:"100vh"}} className={"background-mainarea"}>
-                    <div>
-                        <Dialog
-                            open={open}
-                            onClose={handleAddFormClose}
-                        >
-                            <DialogAddMetrics
-                                metric={metric}
-                                postMetric={postMetric}
-                                setMetric={setMetric}
-                                onClose={handleAddFormClose}
-                            />
-                        </Dialog>
-                    </div>
-                    <Toolbar/>
-                    <Box style={{
-                        width: '100%',
-                        display: "flex",
-                        marginBottom: 10,
-                        marginTop: 10,
-                        justifyContent: "space-between"
-                    }}
+            {id ? (channels.filter(c => c.createdBy === appUser.id).length &&
+                    <Box
+                        component="main"
+                        sx={{flexGrow: 1, p: 3, minHeight: "100%", height: "100vh"}}
+                        className={"background-mainarea"}
                     >
-                        <div></div>
-                        <Button variant="contained" onClick={() => setOpen(!open)}>Add metrics</Button>
-                    </Box>
+                        <div>
+                            <Dialog
+                                open={open}
+                                onClose={handleAddFormClose}
+                            >
+                                <DialogAddMetrics
+                                    metric={metric}
+                                    postMetric={postMetric}
+                                    setMetric={setMetric}
+                                    onClose={handleAddFormClose}
+                                />
+                            </Dialog>
+                        </div>
+                        <Toolbar/>
+                        <Box style={{
+                            width: '100%',
+                            display: "flex",
+                            marginBottom: 10,
+                            marginTop: 10,
+                            justifyContent: "space-between"
+                        }}
+                        >
+                            <div></div>
+                            <Button variant="contained" onClick={() => setOpen(!open)}>Add metrics</Button>
+                        </Box>
 
-                    <Box sx={{width: '100%'}}>
-                        <Paper sx={{width: '100%', mb: 2}}>
-                            <EnhancedTableToolbar numSelected={0}/>
-                            <TableContainer sx={{maxHeight: 525}}>
-                                <Table
-                                    sx={{minWidth: 750}}
-                                    size={dense ? 'small' : 'medium'}
-                                    aria-label="sticky table"
-                                    stickyHeader
-                                >
-                                    <EnhancedTableHead
-                                        numSelected={0}
-                                        order={order}
-                                        orderBy={orderBy}
-                                        onRequestSort={handleRequestSort}
-                                        rowCount={rows.length}
-                                    />
-                                    <TableBody>
-                                        {sortByWithOrder(rows,orderBy,order)
-                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            .map((row, index) => {
-                                                const labelId = `enhanced-table-checkbox-${index}`;
+                        <Box sx={{width: '100%'}}>
+                            <Paper sx={{width: '100%', mb: 2}}>
+                                <EnhancedTableToolbar numSelected={0}/>
+                                <TableContainer sx={{maxHeight: 525}}>
+                                    <Table
+                                        sx={{minWidth: 750}}
+                                        size={dense ? 'small' : 'medium'}
+                                        aria-label="sticky table"
+                                        stickyHeader
+                                    >
+                                        <EnhancedTableHead
+                                            numSelected={0}
+                                            order={order}
+                                            orderBy={orderBy}
+                                            onRequestSort={handleRequestSort}
+                                            rowCount={rows.length}
+                                        />
+                                        <TableBody>
+                                            {sortByWithOrder(rows, orderBy, order)
+                                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                .map((row, index) => {
+                                                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                                                return (
-                                                    <TableRow
-                                                        hover
-                                                        role="checkbox"
-                                                        tabIndex={-1}
-                                                        key={row.id}
-                                                    >
-                                                        <TableCell padding="checkbox"></TableCell>
-                                                        <TableCell
-                                                            component="th"
-                                                            id={labelId}
-                                                            scope="row"
-                                                            padding="none"
+                                                    return (
+                                                        <TableRow
+                                                            hover
+                                                            role="checkbox"
+                                                            tabIndex={-1}
+                                                            key={row.id}
                                                         >
-                                                            {row.date}
-                                                        </TableCell>
-                                                        <TableCell align="right">
-                                                            {convertNumber.format(
-                                                                row.impressions
-                                                            )}
-                                                        </TableCell>
-                                                        <TableCell align="right">
-                                                            {convertNumber.format(
-                                                                row.clicks
-                                                            )}
-                                                        </TableCell>
-                                                        <TableCell align="right">
-                                                            {convertAfterPoint.format(
-                                                                row.ctr
-                                                            )}%
-                                                        </TableCell>
-                                                        <TableCell align="right">
-                                                            {convertAfterPoint.format(
-                                                                row.cost
-                                                            )}€
-                                                        </TableCell>
-                                                        <TableCell align="right">
-                                                            {convertNumber.format(
-                                                                row.conversions
-                                                            )}
-                                                        </TableCell>
-                                                        <TableCell align="right">
-                                                            {convertAfterPoint.format(
-                                                                row.cvr
-                                                            )}%
-                                                        </TableCell>
-                                                        <TableCell align="right">
-                                                            {convertAfterPoint.format(
-                                                                row.cpa
-                                                            )}€
-                                                        </TableCell>
-                                                        <TableCell
-                                                            align={'right'}
-                                                            className={"metricEdit"}
-                                                            onClick={() =>
-                                                                setOpenEdit(row.id)}
-                                                        >
-                                                            <EditIcon/>
-                                                        </TableCell>
-                                                        <Dialog
-                                                            open={openEdit === row.id}
-                                                            onClose={handleEditFormClose}
-                                                        >
-                                                            <DialogEditMetrics
+                                                            <TableCell padding="checkbox"></TableCell>
+                                                            <TableCell
+                                                                component="th"
+                                                                id={labelId}
+                                                                scope="row"
+                                                                padding="none"
+                                                            >
+                                                                {row.date}
+                                                            </TableCell>
+                                                            <TableCell align="right">
+                                                                {convertNumber.format(
+                                                                    row.impressions
+                                                                )}
+                                                            </TableCell>
+                                                            <TableCell align="right">
+                                                                {convertNumber.format(
+                                                                    row.clicks
+                                                                )}
+                                                            </TableCell>
+                                                            <TableCell align="right">
+                                                                {convertAfterPoint.format(
+                                                                    row.ctr
+                                                                )}%
+                                                            </TableCell>
+                                                            <TableCell align="right">
+                                                                {convertAfterPoint.format(
+                                                                    row.cost
+                                                                )}€
+                                                            </TableCell>
+                                                            <TableCell align="right">
+                                                                {convertNumber.format(
+                                                                    row.conversions
+                                                                )}
+                                                            </TableCell>
+                                                            <TableCell align="right">
+                                                                {convertAfterPoint.format(
+                                                                    row.cvr
+                                                                )}%
+                                                            </TableCell>
+                                                            <TableCell align="right">
+                                                                {convertAfterPoint.format(
+                                                                    row.cpa
+                                                                )}€
+                                                            </TableCell>
+                                                            <TableCell
+                                                                align={'right'}
+                                                                className={"metricEdit"}
+                                                                onClick={() =>
+                                                                    setOpenEdit(row.id)}
+                                                            >
+                                                                <EditIcon/>
+                                                            </TableCell>
+                                                            <Dialog
+                                                                open={openEdit === row.id}
                                                                 onClose={handleEditFormClose}
-                                                                metric={row}
-                                                                putMetric={putMetric}
-                                                                deleteMetric={deleteMetric}
-                                                            />
-                                                        </Dialog>
-                                                    </TableRow>
-                                                );
-                                            })}
-                                        {emptyRows > 0 && (
-                                            <TableRow
-                                                style={{
-                                                    height: (dense ? 33 : 53) * emptyRows,
-                                                }}
-                                            >
-                                                <TableCell colSpan={6}/>
-                                            </TableRow>
-                                        )}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                            <TablePagination
-                                rowsPerPageOptions={[10, 20, 30]}
-                                component="div"
-                                count={rows.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
+                                                            >
+                                                                <DialogEditMetrics
+                                                                    onClose={handleEditFormClose}
+                                                                    metric={row}
+                                                                    putMetric={putMetric}
+                                                                    deleteMetric={deleteMetric}
+                                                                />
+                                                            </Dialog>
+                                                        </TableRow>
+                                                    );
+                                                })}
+                                            {emptyRows > 0 && (
+                                                <TableRow
+                                                    style={{
+                                                        height: (dense ? 33 : 53) * emptyRows,
+                                                    }}
+                                                >
+                                                    <TableCell colSpan={6}/>
+                                                </TableRow>
+                                            )}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                                <TablePagination
+                                    rowsPerPageOptions={[10, 20, 30]}
+                                    component="div"
+                                    count={rows.length}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    onPageChange={handleChangePage}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                />
+                            </Paper>
+                            <FormControlLabel
+                                control={<Switch checked={dense} onChange={handleChangeDense}/>}
+                                label="Dense padding"
                             />
-                        </Paper>
-                        <FormControlLabel
-                            control={<Switch checked={dense} onChange={handleChangeDense}/>}
-                            label="Dense padding"
-                        />
-                    </Box>
-                </Box> :
-                <Box component="main" sx={{flexGrow: 1, p: 3, minHeight: "100%", height:"100vh"}} className={"background-mainarea"}>
-                    <HomeTables appUser={appUser} channels={channels} metrics={allMetrics}/>
+                        </Box>
+                    </Box>) :
+
+                <Box component="main" sx={{flexGrow: 1, p: 3, minHeight: "100%", height: "100vh"}}
+                     className={"background-mainarea"}>
+                    {(channels.filter(c => c.createdBy === appUser.id).length ?
+                            <HomeTables appUser={appUser} channels={channels} metrics={allMetrics}/> :
+                            <div>
+                                <Toolbar/>
+                                <div style={{textAlign: "center"}}>
+                                    <div>
+                                        Welcome to Channly!
+                                    </div>
+                                    <div>
+                                        Add a channel to access all features
+                                    </div>
+                                </div>
+                            </div>
+                    )}
                 </Box>}
         </>
     );
