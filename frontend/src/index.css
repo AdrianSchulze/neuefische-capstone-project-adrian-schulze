@@ -32,7 +32,9 @@ html, body {
 }
 
 .no-channels {
+  margin: 0.8rem 0 0.8rem 0;
   text-align:center;
+  font-size: 0.9rem;
 }
 
 .unset-links {

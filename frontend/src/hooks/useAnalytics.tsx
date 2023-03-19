@@ -39,7 +39,6 @@ export default function useAnalytics() {
     const [channels, setChannels] = useState<Channel[]>([]);
 
     useEffect(() => {
-
         (async () => {
             const res = await axios.get(`/api/users/me`);
             setAppUser(res.data);

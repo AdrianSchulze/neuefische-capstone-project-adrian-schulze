@@ -37,12 +37,10 @@ const options = [
 
 const schema = yup.object({
     channel: yup.string()
-        .required()
-        .min(3, "Select a channel")
-        .label("Selected channel"),
+        .required("Choose a channel"),
     channelName: yup
         .string()
-        .required("Channel name is required"),
+        .required("You have to set a channel name"),
 })
     .required();
 
